@@ -2071,32 +2071,26 @@ Componentes:
 Para identificar unívocamente a una relación, se utiliza el formato \texttt{<catalogo>.<esquema>.<relación>}
 
 \section{DDL}
-\begin{description}
-\item[DDL] Lenguaje de definición de datos para especificar el esquema de la base de datos, eliminar relaciones, modificar esquemas, crear vistas, crear restricciones de integridad, especificar derechos de acceso, etc.
-\end{description}
+\textbf{DDL:} Lenguaje de definición de datos para especificar el esquema de la base de datos, eliminar relaciones, modificar esquemas, crear vistas, crear restricciones de integridad, especificar derechos de acceso, etc.
 
 \subsection{Tipos de dominios}
 \begin{itemize}
-\item \texttt{char($n$)}: texto de longitud $n$
-\item \texttt{varchar($n$)}: texto de longitud variable, con un máximo
-de $n$ caracteres
-\item \texttt{nvarchar($n$)}: texto de longitud variable, con un máximo
-de $n$ caracteres, utilizando el formato Unicode
-\item \texttt{int}
-\item \texttt{smallint}
-\item \texttt{numeric($p$,$d$)}: $p$ dígitos con signo, y $d$ de los
-$p$ dígitos están a la derecha del punto decimal.
-\item \texttt{real, double precision}
-\item \texttt{float($n$)}
-\item \texttt{date}
-\item \texttt{time}
-\item \texttt{timestamp}
-\item \texttt{clob(n)}: character large object de $n$ bytes
-\item \texttt{blob(n)}: binary large object de $n$ bytes
+	\item \texttt{char($n$)}: texto de longitud $n$
+	\item \texttt{varchar($n$)}: texto de longitud variable, con un máximo de $n$ caracteres
+	\item \texttt{nvarchar($n$)}: texto de longitud variable, con un máximo de $n$ caracteres, utilizando el formato Unicode
+	\item \texttt{int}
+	\item \texttt{smallint}
+	\item \texttt{numeric($p$,$d$)}: $p$ dígitos con signo, y $d$ de los $p$ dígitos están a la derecha del punto decimal.
+	\item \texttt{real, double precision}
+	\item \texttt{float($n$)}
+	\item \texttt{date}
+	\item \texttt{time}
+	\item \texttt{timestamp}
+	\item \texttt{clob(n)}: character large object de $n$ bytes
+	\item \texttt{blob(n)}: binary large object de $n$ bytes
 \end{itemize}
 
 \subsection{Create table}
-
 \begin{lstlisting}
 CREATE TABLE r(A1 D1, A2 D2, ..., An Dn,
 		<restriccion-integridad1>,
@@ -2104,56 +2098,36 @@ CREATE TABLE r(A1 D1, A2 D2, ..., An Dn,
 		<restriccion-integridadK>);
 \end{lstlisting}
 
-
-La instrucción anterior crea una tabla llamada \emph{r} con atributos
-$A_{i}$, y $D_{i}$ es el dominio del atributo $A_{i}$.
+La instrucción anterior crea una tabla llamada \emph{r} con atributos $A_{i}$, y $D_{i}$ es el dominio del atributo $A_{i}$.
 
 Las restricciones de integridad pueden ser:
 \begin{itemize}
-\item \texttt{primary key ($A_{j1},A_{j2},\dots,A_{jm})$}: los atributos
-$A_{ji}$, con $i\in[1,m]$ forman la clave primaria de cada tupla.
-No pueden ser \emph{null}, y deben ser únicos.
-\item \texttt{check ($P$)}: todas las tuplas de $r$ deben satisfacer el
-predicado $P$.
-\item \texttt{foreign key}:\texttt{}
-\begin{lstlisting}
+	\item \texttt{primary key ($A_{j1},A_{j2},\dots,A_{jm})$}: los atributos $A_{ji}$, con $i\in[1,m]$ forman la clave primaria de cada tupla. No pueden ser \emph{null}, y deben ser únicos.
+	\item \texttt{check ($P$)}: todas las tuplas de $r$ deben satisfacer el predicado $P$.
+	\item \texttt{foreign key}:
+	\begin{lstlisting}
 FOREIGN KEY (atr) REFERENCES rel
 	ON [update|delete] [cascade|set null|set default];
-\end{lstlisting}
+	\end{lstlisting}
 
-
-
-Se establece que el atributo \texttt{atr} es una clave primaria en
-la relación \texttt{rel}. Se puede especificar lo que sucede si se
-produce una actualización o un borrado de dicho valor en la relación
-\texttt{rel}:
-\begin{itemize}
-\item \textbf{Cascade}: se actualiza/elimina la tupla en esta relación
-\item \textbf{Set null}: la clave foránea se establece en \emph{null}
-\item \textbf{Set default}: la clave foránea se establece en su valor por
-default
-\end{itemize}
-\item \texttt{assert}: define una restricción aplicable a varias tablas.
-
-
-\begin{lstlisting}
+	Se establece que el atributo \texttt{atr} es una clave primaria en la relación \texttt{rel}. Se puede especificar lo que sucede si se produce una actualización o un borrado de dicho valor en la relación \texttt{rel}:
+	\begin{itemize}
+		\item \textbf{Cascade}: se actualiza/elimina la tupla en esta relación
+		\item \textbf{Set null}: la clave foránea se establece en \emph{null}
+		\item \textbf{Set default}: la clave foránea se establece en su valor por default
+	\end{itemize}
+	\item \texttt{assert}: define una restricción aplicable a varias tablas.
+	\begin{lstlisting}
 CREATE ASSERTION nombre_asercion
 	CHECK P
-\end{lstlisting}
-
-
+	\end{lstlisting}
 \end{itemize}
 
 \subsection{Drop table}
-
-La instrucción \texttt{DROP TABLE r} elimina todas las tuplas de la
-tabla $r$ y el esquema de relación $r$.
-
+La instrucción \texttt{DROP TABLE r} elimina todas las tuplas de la tabla $r$ y el esquema de relación $r$.
 
 \subsection{Alter table}
-
-La instrucción puede utilizarse para agregar atributos nuevos (con
-valor \emph{null}) o para eliminarlos.
+La instrucción puede utilizarse para agregar atributos nuevos (con valor \emph{null}) o para eliminarlos.
 
 \begin{lstlisting}
 ALTER TABLE r 
@@ -2162,32 +2136,28 @@ ALTER TABLE r
 	DROP <Atributo>;
 \end{lstlisting}
 
-\begin{description}
-\item [{Diccionario~de~datos}] Contiene \textbf{metadatos} (información
-sobre los datos), en particular, sobre el esquema de la misma.
-\end{description}
+\textbf{Diccionario de datos:} contiene \textbf{metadatos} (información sobre los datos), en particular, sobre el esquema de la misma.
 
 \section{DML}
-\begin{description}
-\item [{DML}] Lenguaje de manipulación de datos para expresar las consultas
-a la base de datos.
-\end{description}
+\textbf{DML:} lenguaje de manipulación de datos para expresar las consultas a la base de datos.
+
 Operaciones CRUD (\emph{Create}, \emph{Read}, \emph{Update}, \emph{Delete})
-\begin{description}
-\item [{%
-\begin{tabular}{|c|c|}
-\hline 
-\emph{Álgebra relacional} & \emph{SQL}\\
-\hline 
-\hline 
-$\pi_{attr}(r)$ & \texttt{SELECT attr FROM r}\\
-\hline 
-$\sigma_{cond}(r)$ & \texttt{SELECT {*} FROM r WHERE cond}\\
-\hline 
-$r\times s$ & \texttt{SELECT {*} FROM r,s}\\
-\hline 
-\end{tabular}}]~
-\end{description}
+
+\begin{center}
+	\begin{tabular}{|c|c|}
+		\hline 
+		\emph{Álgebra relacional} & \emph{SQL}\\
+		\hline 
+		\hline 
+		$\pi_{attr}(r)$ & \texttt{SELECT attr FROM r}\\
+		\hline 
+		$\sigma_{cond}(r)$ & \texttt{SELECT {*} FROM r WHERE cond}\\
+		\hline 
+		$r\times s$ & \texttt{SELECT {*} FROM r,s}\\
+		\hline 
+	\end{tabular}
+\end{center}
+
 La expresión
 
 \begin{lstlisting}
@@ -2196,197 +2166,123 @@ FROM r1, r2, ..., rm
 WHERE p;
 \end{lstlisting}
 
-
 es equivalente a la expresión $\pi_{a_{1},a_{2},\dots,a_{n}}\left(\sigma_{p}\left(r_{1}\times r_{2}\times\dots\times r_{m}\right)\right)$.
 \begin{itemize}
-\item El resultado de una expresión SQL \textbf{puede} contener tuplas duplicadas.
-Para eliminar los duplicados, se utiliza la cláusula \texttt{SELECT
-DISTINCT}.
-\item Las funciones agregadas no se pueden componer. Por ejemplo, \texttt{max(count({*}))}
-no es válido.
-\item Una cláusula de tipo \texttt{SELECT {*}} indica que se seleccionan
-todos los atributos de las relaciones en la cláusula \texttt{FROM}.
-\item El operador de renombre \texttt{as}: \texttt{SELECT viejo-nombre AS
-nuevo-nombre}
-\item El operador \texttt{like} se puede usar dentro de una cláusula \texttt{where}
-para buscar valores que cumplan un patrón, especificado con los siguientes
-caracteres especiales: 
-
-\begin{itemize}
-\item \texttt{\%}: matchea cualquier sub string
-\item \texttt{\_}: matchea un caracter cualquiera
-\end{itemize}
-\item El operador \texttt{order by <atributo(s)> {[}asc|desc{]}} ordena
-el resultado de una consulta por uno o varios de los atributos, de
-forma ascendente o descendente (ascendente por default).
-\item Operadores sobre conjuntos:
-
-\begin{itemize}
-\item \texttt{Union}
-\item \texttt{Intersect}
-\item \texttt{Except}
-\end{itemize}
-\item El operador \texttt{group by} permite agrupar tuplas en base a uno
-o más atributos (las tuplas con el mismo valor para los atributos
-en esta cláusula se ponen en un mismo grupo). Los atributos en la
-cláusula \texttt{select}, por fuera de las funciones agregadas, deben
-estar en el operador \texttt{group by}. La sintaxis es:
-
-
-\begin{lstlisting}
+	\item El resultado de una expresión SQL \textbf{puede} contener tuplas duplicadas. Para eliminar los duplicados, se utiliza la cláusula \texttt{SELECT DISTINCT}.
+	\item Las funciones agregadas no se pueden componer. Por ejemplo, \texttt{max(count({*}))} no es válido.
+	\item Una cláusula de tipo \texttt{SELECT {*}} indica que se seleccionan todos los atributos de las relaciones en la cláusula \texttt{FROM}.
+	\item El operador de renombre \texttt{as}: \texttt{SELECT viejo-nombre AS nuevo-nombre}
+	\item El operador \texttt{like} se puede usar dentro de una cláusula \texttt{where} para buscar valores que cumplan un patrón, especificado con los siguientes caracteres especiales: 
+	\begin{itemize}
+		\item \texttt{\%}: matchea cualquier sub string
+		\item \texttt{\_}: matchea un caracter cualquiera
+	\end{itemize}
+	\item El operador \texttt{order by <atributo(s)> {[}asc|desc{]}} ordena el resultado de una consulta por uno o varios de los atributos, de forma ascendente o descendente (ascendente por default).
+	\item Operadores sobre conjuntos:
+	\begin{itemize}
+		\item \texttt{Union}
+		\item \texttt{Intersect}
+		\item \texttt{Except}
+	\end{itemize}
+	\item El operador \texttt{group by} permite agrupar tuplas en base a uno o más atributos (las tuplas con el mismo valor para los atributos en esta cláusula se ponen en un mismo grupo). Los atributos en la cláusula \texttt{select}, por fuera de las funciones agregadas, deben estar en el operador \texttt{group by}. La sintaxis es:
+	\begin{lstlisting}
 SELECT expr1, ..., exprN, funcionAgregada(expr)
 FROM tablas
 WHERE condiciones
 GROUP BY expr1, ..., exprN;
-\end{lstlisting}
-
-
-
-\emph{Ejemplo: encontrar el promedio del saldo de las cuentas en cada
-sucursal de un banco.}
-
-
-\begin{lstlisting}
+	\end{lstlisting}
+	\emph{Ejemplo: encontrar el promedio del saldo de las cuentas en cada sucursal de un banco.}
+	\begin{lstlisting}
 SELECT sucursal-nombre, avg(saldo)
 FROM cuentas
 GROUP BY sucursal-nombre;
-\end{lstlisting}
-
-
-\item El operador \texttt{having} permite seleccionar a grupos formados
-con \texttt{group by }que cumplan una condición. Cualquier atributo
-que esté presente en la cláusula \texttt{having} sin agregar, debe
-aparecer en el operador \texttt{group by}.
-
-
-\begin{lstlisting}
+	\end{lstlisting}
+	\item El operador \texttt{having} permite seleccionar a grupos formados con \texttt{group by }que cumplan una condición. Cualquier atributo que esté presente en la cláusula \texttt{having} sin agregar, debe aparecer en el operador \texttt{group by}.
+	\begin{lstlisting}
 SELECT columna, funcion_agregada(columna) 
 FROM tabla 
 WHERE columna operator value 
 GROUP BY columna
 HAVING funcion_agregada(columna) operator value;
-\end{lstlisting}
-
-
-
-\emph{Ejemplo: encontrar los nombres de las sucursales del banco que
-tengan un promedio general de saldo mayor a \$1200.}
-
-
-\begin{lstlisting}
+	\end{lstlisting}
+	\emph{Ejemplo: encontrar los nombres de las sucursales del banco que tengan un promedio general de saldo mayor a \$1200.}
+	\begin{lstlisting}
 SELECT sucursal-nombre
 FROM cuentas
 GROUP BY sucursal-nombre
 HAVING avg(saldo) > 1200
-\end{lstlisting}
-
-
+	\end{lstlisting}
 \end{itemize}
-\textbf{Nota}: si se utilizan el operador \texttt{where} y el operador
-\texttt{having}, primero se aplica el \texttt{where} y luego se filtra
-por \texttt{having}.
 
+\textbf{Nota}: si se utilizan el operador \texttt{where} y el operador \texttt{having}, primero se aplica el \texttt{where} y luego se filtra por \texttt{having}.
 
 \subsection{Consultas anidadas}
-
-En una consulta anidada, el \texttt{select} interno puede tener variables
-de tuplas definidas dentro del \texttt{select}, o en cualquier consulta
-que incluya a ésta.
+En una consulta anidada, el \texttt{select} interno puede tener variables de tuplas definidas dentro del \texttt{select}, o en cualquier consulta que incluya a ésta.
 \begin{itemize}
-\item El conector \texttt{in} permite verificar la pertenencia de un valor
-a un conjunto que es resultado de una cláusula \texttt{select}. De
-forma equivalente, existe el conector \texttt{not in}.
+	\item El conector \texttt{in} permite verificar la pertenencia de un valor a un conjunto que es resultado de una cláusula \texttt{select}. De forma equivalente, existe el conector \texttt{not in}.
 
+	\emph{Ejemplo: encontrar los nombres de los clientes que tienen un préstamo y una cuenta en el banco.}
 
-\emph{Ejemplo: encontrar los nombres de los clientes que tienen un
-préstamo y una cuenta en el banco.}
-
-
-\begin{lstlisting}
+	\begin{lstlisting}
 SELECT DISTINCT cliente-nombre
 FROM pidio-prestamo
 WHERE cliente-nombre IN (SELECT cliente-nombre
 			FROM tiene-cuenta);
-\end{lstlisting}
+	\end{lstlisting}
 
-
-\item El operador de comparación \texttt{some} en una cláusula \texttt{where}
-de un \texttt{select} externo devuelve verdadero si el valor del atributo
-en cuestión es mayor o menor que al menos un valor de la cláusula
+	\item El operador de comparación \texttt{some} en una cláusula \texttt{where} de un \texttt{select} externo devuelve verdadero si el valor del atributo en cuestión es mayor o menor que al menos un valor de la cláusula
 \texttt{select} interna.
 
+	\emph{Ejemplo: encontrar los nombres de las sucursales del banco que tienen activos mayores que los de al menos una sucursal en Brooklyn.}
 
-\emph{Ejemplo: encontrar los nombres de las sucursales del banco que
-tienen activos mayores que los de al menos una sucursal en Brooklyn.}
-
-
-\begin{lstlisting}
+	\begin{lstlisting}
 SELECT sucursal-nombre
 FROM sucursales
 WHERE activos > SOME (SELECT activos
 			FROM sucursales
 			WHERE sucursal-nombre = 'Brooklyn');
-\end{lstlisting}
+	\end{lstlisting}
 
-
-\item El operador de comparación \texttt{all} en una cláusula \texttt{where}
-de un \texttt{select} externo devuelve verdadero si el valor del atributo
-en cuestión es mayor a todos los valores de la cláusula \texttt{select}
+	\item El operador de comparación \texttt{all} en una cláusula \texttt{where} de un \texttt{select} externo devuelve verdadero si el valor del atributo en cuestión es mayor a todos los valores de la cláusula \texttt{select}
 interna.
 
+	\emph{Ejemplo: encontrar los nombres de las sucursales del banco que tienen activos mayores que los todas las sucursales en Brooklyn.}
 
-\emph{Ejemplo: encontrar los nombres de las sucursales del banco que
-tienen activos mayores que los todas las sucursales en Brooklyn.}
-
-
-\begin{lstlisting}
+	\begin{lstlisting}
 SELECT sucursal-nombre
 FROM sucursales
 WHERE activos > ALL (SELECT activos
 			FROM sucursales
 			WHERE sucursal-nombre = 'Brooklyn');
-\end{lstlisting}
+	\end{lstlisting}
 
+	\item El operador \texttt{any} devuelve verdadero si existe al menos un valor para
 
-\item El operador \texttt{any} devuelve verdadero si existe al menos un
-valor para
+	\emph{Ejemplo: encontrar los clientes que pidieron un préstamo de monto mayor a al menos los activos de una sucursal.}
 
-
-\emph{Ejemplo: encontrar los clientes que pidieron un préstamo de
-monto mayor a al menos los activos de una sucursal.}
-
-
-\begin{lstlisting}
+	\begin{lstlisting}
 SELECT cliente-nombre
 FROM pidio-prestamo
 WHERE cantidad > ANY (SELECT activos
 			FROM sucursales);
-\end{lstlisting}
+	\end{lstlisting}
 
+	\item El operador \texttt{exists} devuelve verdadero si la consulta interna no es vacía.
 
-\item El operador \texttt{exists} devuelve verdadero si la consulta interna
-no es vacía.
+	\emph{Ejemplo: encontrar los clientes que tienen una cuenta y un préstamo en el banco.}
 
-
-\emph{Ejemplo: encontrar los clientes que tienen una cuenta y un préstamo
-en el banco.}
-
-
-\begin{lstlisting}
+	\begin{lstlisting}
 SELECT cliente-nombre
 FROM pidio-prestamo
 WHERE EXISTS (SELECT *
 		FROM tiene-cuenta
             WHERE pidio-prestamo.cliente-nombre = tiene-cuenta.cliente-nombre);
-\end{lstlisting}
+	\end{lstlisting}
 
-
-\item El operador \texttt{unique} devuelve verdadero si la consulta interna
-no contiene tuplas duplicadas.
+	\item El operador \texttt{unique} devuelve verdadero si la consulta interna no contiene tuplas duplicadas.
 \end{itemize}
-SQL no ofrece en forma nativa la posibilidad de ejecutar el operador
-división. Sin embargo, este se puede implementar usando consultas
-anidadas.
+
+SQL no ofrece en forma nativa la posibilidad de ejecutar el operador división. Sin embargo, este se puede implementar usando consultas anidadas.
 
 \emph{Ejemplo: dados los siguientes esquemas relacionales}
 
@@ -2397,27 +2293,21 @@ Cursa (Enro, Cnombre)
 Profesor (Pid, Pnombre, departamento) 
 \end{lstlisting}
 
-
-\emph{Hallar los nombres de todos los profesores que enseñan en todas
-las aulas en las que se dicta algún curso.}
+\emph{Hallar los nombres de todos los profesores que enseñan en todas las aulas en las que se dicta algún curso.}
 
 \begin{lstlisting}
 SELECT P.Pnombre 
 FROM Profesor P 
 WHERE NOT EXISTS (SELECT C.Aula                   
-				FROM Curso C1                  
-				WHERE NOT EXISTS (SELECT *                                    
-								FROM Curso C2                                    
-								WHERE C2.Aula = c1.Aula AND      
-                                    C2.Pid = P.Pid));
+		FROM Curso C1                  
+		WHERE NOT EXISTS (SELECT *                                    
+				FROM Curso C2                                    
+				WHERE C2.Aula = c1.Aula AND      
+					C2.Pid = P.Pid));
 \end{lstlisting}
 
-
-
 \subsection{Delete}
-
-Sintaxis para el borrado de tuplas de la relación $r$ para las cuales
-$P$ es verdadera:
+Sintaxis para el borrado de tuplas de la relación $r$ para las cuales $P$ es verdadera:
 
 \begin{lstlisting}
 DELETE FROM r
@@ -2425,14 +2315,12 @@ WHERE P
 \end{lstlisting}
 
 \begin{itemize}
-\item Sólo se borra de una relación.
-\item Sólo se borran tuplas (no atributos de tuplas).
-\item Primero se buscan todas las tuplas que satisfacen $P$, y luego se
-borran todas ellas.
+	\item Sólo se borra de una relación.
+	\item Sólo se borran tuplas (no atributos de tuplas).
+	\item Primero se buscan todas las tuplas que satisfacen $P$, y luego se borran todas ellas.
 \end{itemize}
 
 \subsection{Insert}
-
 Sintaxis para la inserción de tuplas en la relación $r$:
 
 \begin{lstlisting}
@@ -2440,19 +2328,16 @@ INSERT INTO r (nombreAtributo1, ..., nombreAtributoN)
 VALUES (valor1, ..., valorN)
 \end{lstlisting}
 
-
 \begin{lstlisting}
 INSERT INTO r 
 	SELECT (...)
 \end{lstlisting}
 
 \begin{itemize}
-\item Primero se buscan todas las tuplas que satisfacen el \texttt{select},
-y luego se insertan todas ellas.
+\item Primero se buscan todas las tuplas que satisfacen el \texttt{select}, y luego se insertan todas ellas.
 \end{itemize}
 
 \subsection{Update}
-
 Sintaxis para la actualización de un atributo de una tupla de $r$:
 
 \begin{lstlisting}
@@ -2461,87 +2346,57 @@ SET atributo = valor
 WHERE condicion
 \end{lstlisting}
 
-
 \begin{lstlisting}
 UPDATE r
 SET atributo = CASE
-				WHEN condicion1 THEN valor1
-				WHEN condicion2 THEN valor2
-				ELSE valor3
-			   END
+			WHEN condicion1 THEN valor1
+			WHEN condicion2 THEN valor2
+			ELSE valor3
+		 END
 \end{lstlisting}
 
-
-\pagebreak{}
-
-
+\newpage
 \part{Procesamiento de Consultas}
-
-\noindent \begin{center}
 \begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.5]{proc_consultas}
-\par\end{centering}
-
-\protect\caption{Pasos en el procesamiento de consultas}
+	\centering
+	\includegraphics[scale=0.5]{proc_consultas}
+	\caption{Pasos en el procesamiento de consultas}
 \end{figure}
-
-\par\end{center}
 
 Asumimos que toda la relación se almacena de forma contigua en disco.
 
 Metadatos que se almacenan para cada base de datos:
 \begin{enumerate}
-\item $n_{r}=$ cantidad de tuplas en la relación $r$
-\item $l_{r}=$ tamaño de una tupla, en bytes
-\item $b_{r}=$ cantidad de bloques que ocupa la relación $r$. 
-\[
-b_{r}=\frac{l_{r}\times n_{r}}{tam\, bloque\, en\, bytes}
-\]
-
-\item $f_{r}=$ factor de bloqueo de la relación $r$ (es decir, cuantas
-tuplas caben en un bloque)
-
-
-\[
-f_{r}=\left\lceil \frac{n_{r}}{b_{r}}\right\rceil 
-\]
-
-
-\item $V(A,r)=$cantidad de valores distintos que toma el atributo $A$
-en la relación $r$
-\item $MIN(A,r)=$mínimo valor que toma el atributo $A$ en la relación
-$r$
-\item $MAX(A,r)=$máximo valor que toma el atributo $A$ en la relación
-$r$
+	\item $n_{r}=$ cantidad de tuplas en la relación $r$
+	\item $l_{r}=$ tamaño de una tupla, en bytes
+	\item $b_{r}=$ cantidad de bloques que ocupa la relación $r$. 
+	\[
+		b_{r}=\frac{l_{r}\times n_{r}}{tam\, bloque\, en\, bytes}
+	\]
+	\item $f_{r}=$ factor de bloqueo de la relación $r$ (es decir, cuantas tuplas caben en un bloque)
+	\[
+		f_{r}=\left\lceil \frac{n_{r}}{b_{r}}\right\rceil 
+	\]
+	\item $V(A,r)=$cantidad de valores distintos que toma el atributo $A$ en la relación $r$
+	\item $MIN(A,r)=$mínimo valor que toma el atributo $A$ en la relación $r$
+	\item $MAX(A,r)=$máximo valor que toma el atributo $A$ en la relación $r$
 \end{enumerate}
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.5]{info_db}
-\par\end{centering}
 
-\protect\caption{Estadísticas que se almacenan de la base de datos}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{info_db}
+	\caption{Estadísticas que se almacenan de la base de datos}
 \end{figure}
 
-
-
 \section{Índices}
+Ciertas consultas sobre algunos atributos son más frecuentes que otras. Para acelerar estas consultas, se utilizan los índices. Podemos tener más de un índice sobre una relación.
 
-Ciertas consultas sobre algunos atributos son más frecuentes que otras.
-Para acelerar estas consultas, se utilizan los índices. Podemos tener
-más de un índice sobre una relación.
 \begin{description}
-\item [{Índice}] Estructura de datos (usualmente árbol B+) que permiten
-encontrar rápidamente las tuplas de una relación que tengan un valor
-especifico para un atributo o atributos (el/los que el índice almacena),
-con la desventaja de que cada modificación a la relación requiere
-actualizar el índice.
+\item[Índice] Estructura de datos (usualmente árbol B+) que permiten encontrar rápidamente las tuplas de una relación que tengan un valor especifico para un atributo o atributos (el/los que el índice almacena), con la desventaja de que cada modificación a la relación requiere actualizar el índice.
 
-
-Un registro de un índice tiene un valor de la clave de búsqueda, y
-punteros a uno o más tuplas con esa clave de búsqueda.
-
+Un registro de un índice tiene un valor de la clave de búsqueda, y punteros a uno o más tuplas con esa clave de búsqueda.
 \end{description}
+
 \begin{lstlisting}
 CREATE [CLUSTERED] INDEX estudianteID_indice
 	ON estudiante
@@ -2550,167 +2405,135 @@ CREATE [CLUSTERED] INDEX estudianteID_indice
 };
 \end{lstlisting}
 
-
 Tipos de índices:
 \begin{itemize}
-\item Según la clave:
+	\item Según la clave:
+	\begin{itemize}
+		\item \textbf{Clusterizado} \textbf{/ primario}: índice cuya clave de búsqueda define el orden secuencial del archivo de la tabla. Sólo puede haber uno de estos índices para cada relación
+		\item \textbf{Clusterizado / secundario}.
+		\begin{itemize}
+			\item El orden físico de las tuplas no es igual al orden del índice
+			\item Las columnas que se indexan son, típicamente, atributos no claves
+			\item Siempre son densos
+		\end{itemize}
+	\end{itemize}
 
-\begin{itemize}
-\item \textbf{Clusterizado} \textbf{/ primario}: índice cuya clave de búsqueda
-define el orden secuencial del archivo de la tabla. Sólo puede haber
-uno de estos índices para cada relación
-\item \textbf{Clusterizado / secundario}.
+	\item Según la cantidad de registros que tiene:
+	\begin{itemize}
+		\item \textbf{Denso}: tiene un registro para cada valor posible de la clave de búsqueda. Si es clusterizado, tiene un puntero al primer registro con ese valor. Si es no clusterizado, tiene punteros a todos los registros con ese valor.
+		\item \textbf{Esparcido}: tiene registros para algunos valores de la clave de búsqueda. Solo se pueden usar si el archivo de datos está ordenado por la clave de búsqueda.
+	\end{itemize}
+\end{itemize}
 
-\begin{itemize}
-\item El orden físico de las tuplas no es igual al orden del índice
-\item Las columnas que se indexan son, típicamente, atributos no claves
-\item Siempre son densos
-\end{itemize}
-\end{itemize}
-\item Según la cantidad de registros que tiene:
+\begin{center}
+	$Esparcido\implies Primario$
+\end{center}
 
-\begin{itemize}
-\item \textbf{Denso}: tiene un registro para cada valor posible de la clave
-de búsqueda. Si es clusterizado, tiene un puntero al primer registro
-con ese valor. Si es no clusterizado, tiene punteros a todos los registros
-con ese valor.
-\item \textbf{Esparcido}: tiene registros para algunos valores de la clave
-de búsqueda. Solo se pueden usar si el archivo de datos está ordenado
-por la clave de búsqueda.
-\end{itemize}
-\end{itemize}
-\noindent \begin{center}
-$Esparcido\implies Primario$
-\par\end{center}
-
-\noindent \begin{center}
-$Secundario\implies Denso$
-\par\end{center}
+\begin{center}
+	$Secundario\implies Denso$
+\end{center}
 
 \begin{figure}[H]
-\subfloat[Índice denso]{\includegraphics[scale=0.4]{dense_index}
-
-
-
-}\subfloat[Índice esparcido]{\includegraphics[scale=0.4]{sparse_index}
-
-}
-
-\protect\caption{Índices densos y esparcidos}
-
-
+	\subfloat[Índice denso]{
+		\includegraphics[scale=0.4]{dense_index}
+	}
+	\subfloat[Índice esparcido]{
+		\includegraphics[scale=0.4]{sparse_index}
+	}
+	\caption{Índices densos y esparcidos}
 \end{figure}
 
 \begin{description}
-\item [{Índice~compuesto}] índice cuya clave de búsqueda está formada
-por más de un atributo. Conviene que los atributos de más a la izquierda
-sean más discriminantes que los de la derecha. \emph{Ejemplo: para
-una relación $pelicula(nombre,a\tilde{n}o)$, es esperable que haya
-más consultas sobre el $nombre$ que sobre el $a\tilde{n}o$. Entonces,
-un índice $(nombre,a\tilde{n}o)$ sería mejor que $(a\tilde{n}o,nombre).$}
-\item [{Índice~cubridor}] Es un índice que contiene todas las columnas
-de una consulta, y por ende no se necesita realizar búsquedas adicionales
-en el índice clusterizado.
+	\item[Índice compuesto] índice cuya clave de búsqueda está formada por más de un atributo. Conviene que los atributos de más a la izquierda sean más discriminantes que los de la derecha. \emph{Ejemplo: para una relación $pelicula(nombre,a\tilde{n}o)$, es esperable que haya más consultas sobre el $nombre$ que sobre el $a\tilde{n}o$. Entonces, un índice $(nombre,a\tilde{n}o)$ sería mejor que $(a\tilde{n}o,nombre).$}
+
+	\item[Índice cubridor] Es un índice que contiene todas las columnas de una consulta, y por ende no se necesita realizar búsquedas adicionales en el índice clusterizado.
 \end{description}
 
 \subsection{Estructuras de índices}
 \begin{itemize}
-\item Árbol B+
-\item Tabla de hash
+	\item Árbol B+
+	\item Tabla de hash
 \end{itemize}
-\noindent \begin{center}
-\begin{tabular}{|c|c|c|}
-\hline 
- & \textbf{Ventajas} & \textbf{Desventajas}\\
-\hline 
-\hline 
-\textbf{Árbol B+} & Soporta búsquedas por rango & Operaciones más costosas\\
-\hline 
-\textbf{Tabla de hash} & La búsqueda típica requiere solo una operación de I/O & No soporta búsquedas por rango. \\
-\hline 
-\end{tabular}
-\par\end{center}
+
+\begin{center}
+	\begin{tabular}{|c|p{5cm}|p{5cm}|}
+		\hline 
+		 & \textbf{Ventajas} & \textbf{Desventajas}\\
+		\hline 
+		\hline 
+		\textbf{Árbol B+} & Soporta búsquedas por rango & Operaciones más costosas\\
+		\hline 
+		\textbf{Tabla de hash} & La búsqueda típica requiere solo una operación de I/O & No soporta búsquedas por rango. \\
+		\hline 
+	\end{tabular}
+\end{center}
 
 
 \section{Formas de realizar consultas}
 \begin{enumerate}
-\item Búsqueda lineal sobre toda la relación
-\item Usando índices
-\item \emph{Hashing}
-\item Ordenamiento
+	\item Búsqueda lineal sobre toda la relación
+	\item Usando índices
+	\item \emph{Hashing}
+	\item Ordenamiento
 \end{enumerate}
-Los algoritmos pueden asumir que una relación entra completamente
-en memoria, o que son muy grandes.
 
+Los algoritmos pueden asumir que una relación entra completamente en memoria, o que son muy grandes.
 
 \subsection{Operadores}
 \begin{itemize}
-\item \emph{Scan}
-
-\begin{itemize}
-\item \emph{Table scan}: se leen todos los bloques de la relación en disco.
-\item \emph{Index scan}: se leen todos los bloques de la relación en disco,
-utilizando un índice.
-\item \emph{Sort scan:} ordena una relación $R$ sobre un atributo $a$.
-
-\begin{itemize}
-\item Si hay un índice sobre $a$, se lo usa.
-\item Si $R$ entra en memoria, se la trae a memoria con \emph{table} o
-\emph{index scan}, y se la ordena en memoria
-\item Si $R$ no entra en memoria, se la ordena externamente.
-\end{itemize}
-\end{itemize}
+	\item \emph{Scan}
+	\begin{itemize}
+		\item \emph{Table scan}: se leen todos los bloques de la relación en disco.
+		\item \emph{Index scan}: se leen todos los bloques de la relación en disco, utilizando un índice.
+		\item \emph{Sort scan:} ordena una relación $R$ sobre un atributo $a$.
+		\begin{itemize}
+			\item Si hay un índice sobre $a$, se lo usa.
+			\item Si $R$ entra en memoria, se la trae a memoria con \emph{table} o \emph{index scan}, y se la ordena en memoria
+			\item Si $R$ no entra en memoria, se la ordena externamente.
+		\end{itemize}
+	\end{itemize}
 \end{itemize}
 
 \section{Algoritmos}
-
-
 \subsection{Selección}
-
 $\sigma_{A=a}(r)$
-\begin{itemize}
-\item Búsqueda lineal sobre $r$:
 
 \begin{itemize}
-\item Si la relación es clusterizada: $b_{r}$
-\item Si la relación no está clusterizada: $n_{r}$
-\end{itemize}
-\item Búsqueda con índice sobre los atributos de $A$:
-
-\begin{itemize}
-\item Si el índice es clusterizado: costo $\frac{b_{r}}{V(A,r)}$
-\item Si el índice no es clusterizado: costo $\frac{n_{r}}{V(A,r)}$
-\end{itemize}
+	\item Búsqueda lineal sobre $r$:
+	\begin{itemize}
+		\item Si la relación es clusterizada: $b_{r}$
+		\item Si la relación no está clusterizada: $n_{r}$
+	\end{itemize}
+	\item Búsqueda con índice sobre los atributos de $A$:
+	\begin{itemize}
+		\item Si el índice es clusterizado: costo $\frac{b_{r}}{V(A,r)}$
+		\item Si el índice no es clusterizado: costo $\frac{n_{r}}{V(A,r)}$
+	\end{itemize}
 \end{itemize}
 
 \subsection{Junta}
-
-$R(X,Y)\bowtie S(Y,Z)$, donde $R$ es la relación más pequeña. Suponemos
-que la memoria está formada por $M$ buffers.
-\begin{itemize}
-\item Iteración ingenua (\emph{tuple based nested-loop join}): 
+$R(X,Y)\bowtie S(Y,Z)$, donde $R$ es la relación más pequeña. Suponemos que la memoria está formada por $M$ buffers.
 
 \begin{itemize}
-\item costo $n_{s}\times n_{r}$
-\end{itemize}
+	\item Iteración ingenua (\emph{tuple based nested-loop join}): 
+	\begin{itemize}
+		\item costo $n_{s}\times n_{r}$
+	\end{itemize}
 
-\begin{lstlisting}
+	\begin{lstlisting}
 para cada tupla s en S:
 	para cada tupla r en R:
 		si (s join r = t):
 			devolver t
-\end{lstlisting}
+	\end{lstlisting}
 
+	\item Iteración por bloques (\emph{block based nested-loop join}): 
+	\begin{itemize}
+		\item Costo $b_{r}+\frac{b_{r}}{m-1}\times b_{s}$ ($R$ se lee una vez, $S$ se lee por cada pedazo de $R$, cada pedazo es de tamaño $\frac{b_{r}}{m-1}$)
+		\item Conviene que la relación del ciclo externo sea la más pequeña
+	\end{itemize}
 
-\item Iteración por bloques (\emph{block based nested-loop join}): 
-
-\begin{itemize}
-\item Costo $b_{r}+\frac{b_{r}}{m-1}\times b_{s}$ ($R$ se lee una vez,
-$S$ se lee por cada pedazo de $R$, cada pedazo es de tamaño $\frac{b_{r}}{m-1}$)
-\item Conviene que la relación del ciclo externo sea la más pequeña
-\end{itemize}
-
-\begin{lstlisting}
+	\begin{lstlisting}
 desde i=1 hasta i=(bR / m-1):
 	leer R en memoria (ocupar M-1 buffers)
 	para cada bloque bs en S:
@@ -2718,35 +2541,29 @@ desde i=1 hasta i=(bR / m-1):
 		para cada tupla t en bs:
 			buscar las tuplas de R en que hacen join con t
 			devolver t
-\end{lstlisting}
+	\end{lstlisting}
 
+	\item \emph{Indexed nested-loop join}: suponer que se tiene un índice sobre $S$ del atributo $Y$.
+	\begin{itemize}
+		\item Si el índice es clusterizado: costo $b_{r}+\frac{n_{r}b_{s}}{V(Y,S)}$
+		\item Si el índice no es clusterizado: costo $b_{r}+\frac{n_{r}n_{s}}{V(Y,S)}$
+		\item Este método es eficiente cuando $S$ no está almacenada en forma contigua en disco.
+	\end{itemize}
 
-\item \emph{Indexed nested-loop join}: suponer que se tiene un índice sobre
-$S$ del atributo $Y$.
-
-\begin{itemize}
-\item Si el índice es clusterizado: costo $b_{r}+\frac{n_{r}b_{s}}{V(Y,S)}$
-\item Si el índice no es clusterizado: costo $b_{r}+\frac{n_{r}n_{s}}{V(Y,S)}$
-\item Este método es eficiente cuando $S$ no está almacenada en forma contigua
-en disco.
-\end{itemize}
-
-\begin{lstlisting}
+	\begin{lstlisting}
 para cada bloque br de R:
 	para cada tupla t de br:
 		buscar con el indice las tuplas de S que hacen join con t
 		para cada tupla s join t:
 			agregar <s,t> al resultado
-\end{lstlisting}
+	\end{lstlisting}
 
+	\item Sort-merge (\emph{sort based join}): 
+	\begin{itemize}
+		\item Costo $b_{s}+b_{r}+b_{s}\log(b_{s})+b_{r}\log(b_{r})$
+	\end{itemize}
 
-\item Sort-merge (\emph{sort based join}): 
-
-\begin{itemize}
-\item Costo $b_{s}+b_{r}+b_{s}\log(b_{s})+b_{r}\log(b_{r})$
-\end{itemize}
-
-\begin{lstlisting}
+	\begin{lstlisting}
 ordenar R con respecto a Y
 ordenar S con respecto a Y
 mergear R y S:
@@ -2761,17 +2578,14 @@ mergear R y S:
 		agregar r join s al resultado
 		leer R
 		leer S
-\end{lstlisting}
+	\end{lstlisting}
 
+	\item Método Simple de Junta Hash: utiliza una función de hash $h$. Requiere que la relación $R$ entre en memoria. $h\to[0,M-1]$.
+	\begin{itemize}
+		\item Costo: $2\left(b_{r}+b_{s}\right)$
+	\end{itemize}
 
-\item Método Simple de Junta Hash: utiliza una función de hash $h$. Requiere
-que la relación $R$ entre en memoria. $h\to[0,M-1]$.
-
-\begin{itemize}
-\item Costo: $2\left(b_{r}+b_{s}\right)$
-\end{itemize}
-
-\begin{lstlisting}
+	\begin{lstlisting}
 TH = {} // en memoria
 
 // fase constructiva
@@ -2785,42 +2599,22 @@ para cada bloque de S:
 	para cada tupla s del bloque:
 		calcular h(s[Y])
 		agregar al resultado las tuplas de TH[Y] join "s"
-\end{lstlisting}
+	\end{lstlisting}
 
+	\item Método GRACE:
 
-\item Método GRACE:
+	El método de junta Hash versión GRACE se usa para calcular la junta $R \bowtie_{R.A=S.A}S$ cuando ninguna de las tablas entran en memoria. Lo que se hace es generar 2 conjuntos de $M$ particiones. Se utilizan dos funciones de hash: una para generar las particiones $h:A\to[0,M-1]$, y otra para calcular qué tuplas hacen \emph{join}.
 
+	En una primera etapa, por cada tupla $t$ de cada bloque de $R$ se aplica la función de hashing $h(t)$ para saber a cuál partición enviar la tupla. Se envía cada tupla a esa partición (un archivo) en disco. Al finalizar la etapa, se tienen $M$ archivos.
 
-El método de junta Hash versión GRACE se usa para calcular la junta
-$R\bowtie_{R.A=S.A}S$ cuando ninguna de las tablas entran en memoria.
-Lo que se hace es generar 2 conjuntos de $M$ particiones. Se utilizan
-dos funciones de hash: una para generar las particiones $h:A\to[0,M-1]$,
-y otra para calcular qué tuplas hacen \emph{join}.
+	En una segunda etapa, se hace lo mismo con $S$, pero con otros $M$ archivos. La clave está en que si dos tuplas hacen \emph{join}, entonces necesariamente deben estar en el mismo número de partición. 
 
+	Finalmente, se leen las $i$ particiones. A cada tupla leída de la partición $i$ de $R$ se le aplica la función de hash $h_{2}$ para saber dónde guardarla en una tabla de hash en memoria. Luego, se calcula $h_{2}$ para cada tupla de la partición $i$ de $S$. Este valor nos dirá la posición en la tabla de hash donde están las tuplas de $R$ que hacen \emph{join} con dicha tupla. De esta forma se obtienen las tuplas que hacen \emph{join}, y se las graba en disco.
+	\begin{itemize}
+		\item Costo: $3\left(b_{s}+b_{r}\right)$
+	\end{itemize}
 
-En una primera etapa, por cada tupla $t$ de cada bloque de $R$ se
-aplica la función de hashing $h(t)$ para saber a cuál partición enviar
-la tupla. Se envía cada tupla a esa partición (un archivo) en disco.
-Al finalizar la etapa, se tienen $M$ archivos.
-
-
-En una segunda etapa, se hace lo mismo con $S$, pero con otros $M$
-archivos. La clave está en que si dos tuplas hacen \emph{join}, entonces
-necesariamente deben estar en el mismo número de partición. 
-
-
-Finalmente, se leen las $i$ particiones. A cada tupla leída de la
-partición $i$ de $R$ se le aplica la función de hash $h_{2}$ para
-saber dónde guardarla en una tabla de hash en memoria. Luego, se calcula
-$h_{2}$ para cada tupla de la partición $i$ de $S$. Este valor
-nos dirá la posición en la tabla de hash donde están las tuplas de
-$R$ que hacen \emph{join} con dicha tupla. De esta forma se obtienen
-las tuplas que hacen \emph{join}, y se las graba en disco.
-\begin{itemize}
-\item Costo: $3\left(b_{s}+b_{r}\right)$
-\end{itemize}
-
-\begin{lstlisting}
+	\begin{lstlisting}
 // particionamiento de R. Costo: 2*bR
 para cada tupla r de R:
 	num buffer = calcular h1(r[Y])
@@ -2844,237 +2638,180 @@ para i desde 0 a M-1:
 	para cada tupla s en Si:
 		calcular h2(s[Y])
 		agregar al resultado las tuplas de TH[r[Y]] join "s"
-\end{lstlisting}
-
-
+	\end{lstlisting}
 \end{itemize}
 
 \section{Evaluación de expresiones}
+La forma obvia de evaluar una expresión que tiene varias operaciones es evaluar cada operación en el orden indicado, materializando en disco cada resultado intermedio como relaciones temporales.
 
-La forma obvia de evaluar una expresión que tiene varias operaciones
-es evaluar cada operación en el orden indicado, materializando en
-disco cada resultado intermedio como relaciones temporales.
-
-Otra alternativa, más eficiente, es evaluar las operaciones en simultáneo
-en un \textbf{pipeline}, donde los resultados de una operación pasan
-a la próxima, y se elimina la necesidad de almacenar relaciones temporales.
-Esto se puede utilizar para evaluar juntas múltiples: $R_{1}\bowtie R_{2}\bowtie\cdots\bowtie R_{k}$.
+Otra alternativa, más eficiente, es evaluar las operaciones en simultáneo en un \textbf{pipeline}, donde los resultados de una operación pasan a la próxima, y se elimina la necesidad de almacenar relaciones temporales. Esto se puede utilizar para evaluar juntas múltiples: $R_{1}\bowtie R_{2}\bowtie\cdots\bowtie R_{k}$.
 
 Ventajas de \emph{pipeline:}
 \begin{enumerate}
-\item Elimina el costo de leer y escribir relaciones temporales.
-\item Puede empezar a generar resultados inmediatamente.
+	\item Elimina el costo de leer y escribir relaciones temporales.
+	\item Puede empezar a generar resultados inmediatamente.
 \end{enumerate}
+
 Uso de \emph{pipelining}:
 \begin{itemize}
-\item \emph{Sort}: no se puede aplicar. El resultado del sort no se puede
-mostrar hasta que no se hayan procesado todas las tuplas.
-\item \emph{Join}: el método GRACE no se puede aplicar porque requiere leer
-y particionar todas las tuplas antes de que pueda producirse un resultado.
-Sin embargo, el método \emph{indexed nested-loop} puede aprovechar
-del \emph{pipelining. }Si las relaciones están ordenadas por los atributos
-de join, merge join también puede aprovechar del \emph{pipelining.}
+	\item \emph{Sort}: no se puede aplicar. El resultado del sort no se puede mostrar hasta que no se hayan procesado todas las tuplas.
+	\item \emph{Join}: el método GRACE no se puede aplicar porque requiere leer y particionar todas las tuplas antes de que pueda producirse un resultado. Sin embargo, el método \emph{indexed nested-loop} puede aprovechar del \emph{pipelining}. Si las relaciones están ordenadas por los atributos de join, merge join también puede aprovechar del \emph{pipelining}.
 \end{itemize}
 
 \section{Optimización de consultas}
 \begin{description}
-\item [{Plan~de~evaluación}] conjunto de operaciones de álgebra relacional
-a ejecutar, junto con las instrucciones para llevarlas a cabo (por
-ejemplo, los índices a usar).
-\item [{Optimización~de~consultas}] proceso de seleccionar el mejor plan
-de evaluación. El costo de cada plan se evalúa teniendo en cuenta
-información estadística de las relaciones. Lo que se busca minimizar
-es la cantidad de transferencias de bloques del disco a la memoria
-y la cantidad de \emph{seeks} que se hacen en el disco. 
+	\item[Plan de evaluación] conjunto de operaciones de álgebra relacional a ejecutar, junto con las instrucciones para llevarlas a cabo (por ejemplo, los índices a usar).
+	\item[Optimización de consultas] proceso de seleccionar el mejor plan de evaluación. El costo de cada plan se evalúa teniendo en cuenta información estadística de las relaciones. Lo que se busca minimizar es la cantidad de transferencias de bloques del disco a la memoria y la cantidad de \emph{seeks} que se hacen en el disco. 
 
-
-Para ello se tiene en cuenta:
-\begin{enumerate}
-\item ¿Cuál de la de las expresiones equivalentes a la consulta es más eficiente
-para resolver la misma?
-\item ¿Qué algoritmo se utilizará para implementar la operación?
-\item ¿Cómo deberían las operaciones pasarse datos entre sí? (\emph{Pipeline},
-buffers de memoria, disco)
-\end{enumerate}
+	Para ello se tiene en cuenta:
+	\begin{enumerate}
+		\item ¿Cuál de la de las expresiones equivalentes a la consulta es más eficiente para resolver la misma?
+		\item ¿Qué algoritmo se utilizará para implementar la operación?
+		\item ¿Cómo deberían las operaciones pasarse datos entre sí? (\emph{Pipeline}, buffers de memoria, disco)
+	\end{enumerate}
 \end{description}
+
 \begin{lstlisting}
 EXPLAIN consulta
 \end{lstlisting}
  
-
-
 \subsection{Reglas de equivalencia}
-
 Reglas relacionadas con la selección:
 \begin{enumerate}
-\item $\sigma_{a\wedge b}(r)=\sigma_{a}\left(\sigma_{b}(r)\right)=\sigma_{b}\left(\sigma_{a}(r)\right)$
-\item $\sigma_{a\vee b}(r)=\sigma_{a}(r)\cup\sigma_{b}(r)$
-\item $\sigma_{a}(r\cup s)=\sigma_{a}(r)\cup\sigma_{a}(s)$
-\item $\sigma_{a}(r-s)=\sigma_{a}(r)-s=\sigma_{a}(r)-\sigma_{a}(s)$
-\item $\sigma_{a}(r\bowtie s)=\sigma_{a}(r)\bowtie\sigma_{a}(s)$
-\item Si $a$ solo tiene atributos de $S$: $\sigma_{a}(r\times s)=r\times\sigma_{a}(s)$
+	\item $\sigma_{a\wedge b}(r)=\sigma_{a}\left(\sigma_{b}(r)\right)=\sigma_{b}\left(\sigma_{a}(r)\right)$
+	\item $\sigma_{a\vee b}(r)=\sigma_{a}(r)\cup\sigma_{b}(r)$
+	\item $\sigma_{a}(r\cup s)=\sigma_{a}(r)\cup\sigma_{a}(s)$
+	\item $\sigma_{a}(r-s)=\sigma_{a}(r)-s=\sigma_{a}(r)-\sigma_{a}(s)$
+	\item $\sigma_{a}(r\bowtie s)=\sigma_{a}(r)\bowtie\sigma_{a}(s)$
+	\item Si $a$ solo tiene atributos de $S$: $\sigma_{a}(r\times s)=r\times\sigma_{a}(s)$
 \end{enumerate}
+
 Reglas relacionadas con la proyección:
 \begin{enumerate}
-\item $\pi_{L}(R\cup S)=\pi_{L}(R)\cup\pi_{L}(S)$
-\item $\pi_{L}\left(\sigma_{a}(R)\right)=\pi_{L}\left(\sigma_{a}\left(\left(\pi_{M}(R)\right)\right)\right)$
-donde $M$ es la lista de atributos que figuran en $L$ o en $a$
+	\item $\pi_{L}(R\cup S)=\pi_{L}(R)\cup\pi_{L}(S)$
+	\item $\pi_{L}\left(\sigma_{a}(R)\right)=\pi_{L}\left(\sigma_{a}\left(\left(\pi_{M}(R)\right)\right)\right)$ donde $M$ es la lista de atributos que figuran en $L$ o en $a$
 \end{enumerate}
+
 Reglas relacionadas con el \emph{join}:
 \begin{enumerate}
-\item $r_{1}\bowtie r_{2}=r_{2}\bowtie r_{1}$
-\item $\left(r_{1}\bowtie r_{2}\right)\bowtie r_{3}=r_{1}\bowtie\left(r_{2}\bowtie r_{3}\right)$
+	\item $r_{1}\bowtie r_{2}=r_{2}\bowtie r_{1}$
+	\item $\left(r_{1}\bowtie r_{2}\right)\bowtie r_{3}=r_{1}\bowtie\left(r_{2}\bowtie r_{3}\right)$
 \end{enumerate}
 
 \subsection{Heurísticas de optimización de consultas}
 \begin{enumerate}
-\item Ejecutar las selecciones $(\sigma)$ lo antes posible 
-\item Ejecutar las proyecciones $(\pi)$ lo antes posible
-\item El orden de las operaciones de \emph{join} $(\bowtie)$ es importante
-\item Evitar cuando sea posible los productos cartesianos $(\times)$
+	\item Ejecutar las selecciones $(\sigma)$ lo antes posible 
+	\item Ejecutar las proyecciones $(\pi)$ lo antes posible
+	\item El orden de las operaciones de \emph{join} $(\bowtie)$ es importante
+	\item Evitar cuando sea posible los productos cartesianos $(\times)$
 \end{enumerate}
 
 \section{Estimación de tamaño de consultas}
+A continuación se describe la estimación de cantidad de tuplas para cada tipo de consulta. 
 
-A continuación se describe la estimación de cantidad de tuplas para
-cada tipo de consulta. 
-
-Se utiliza el concepto de \textbf{selectividad} de una condición $A$
-como la ``probabilidad de que una tupla satisfaga una condición $A$''.
-Sea $s_{i}=V(\sigma_{i},r)$ la cantidad de tuplas que satisfacen
-la condición $\sigma_{i}$. La probabilidad de satisfacer $\sigma_{i}$
-es $\frac{s_{i}}{n_{r}}$.
+Se utiliza el concepto de \textbf{selectividad} de una condición $A$ como la ``probabilidad de que una tupla satisfaga una condición $A$''. Sea $s_{i}=V(\sigma_{i},r)$ la cantidad de tuplas que satisfacen la condición $\sigma_{i}$. La probabilidad de satisfacer $\sigma_{i}$ es $\frac{s_{i}}{n_{r}}$.
 \begin{itemize}
-\item Selección
+	\item Selección
+	\begin{itemize}
+		\item $\sigma_{A=a}(r)$
+		\begin{itemize}
+			\item Si $A$ distribuye uniformemente: $\frac{n_{r}}{V(A,r)}$
+			\item Si se dispone de un histograma para $A$, y $a\in rango$: $\frac{freq_{rango}(A,r)}{cant_{rangos}}$
+		\end{itemize}
+		\item $\sigma_{A\leq v}(r)$ con $v$ conocido
+		\begin{itemize}
+			\item Si $A$ distribuye uniformemente y $v<\min(A,r)$: $0$
+			\item Si $A$ distribuye uniformemente y $v\geq\max(A,r)$: $n_{r}$
+			\item En cualquier otro caso: $n_{r}\cdot\frac{v-min(A,r)}{max(A,r)-min(A,r)}$
+		\end{itemize}
+		\item $\sigma_{a\wedge b\wedge\cdots\wedge z}(r)$ donde hay $x$ selectores: $n_{r}\times P(a)\times\cdots\times P(z)=n_{r}\cdot\frac{s_{a}\cdot s_{b}\cdots s_{z}}{\left(n_{r}\right)^{x}}$
+		\item $\sigma_{a\lor b\lor\cdots\lor z}(r)$ donde hay $x$ selectores independientes entre sí: 
+		\[
+			n_{r}\times\left[P(a)+\cdots+P(z)\right]=n_{r}\cdot\left[1-\left(1-\frac{s_{a}}{n_{r}}\right)\times\cdots\times\left(1-\frac{s_{z}}{n_{r}}\right)\right]
+		\]
+		\item $\sigma_{\lnot a}(r)$: $n_{r}-V(a,r)$
+	\end{itemize}
 
-\begin{itemize}
-\item $\sigma_{A=a}(r)$
+	\item Junta natural\footnote{Se introducen dos simplificaciones:
+		\begin{enumerate}
+			\item Si $R(X,Y)$ y $S(Y,Z)$, y $V(R,Y)\leq V(S,Y)$ entonces cada valor de $Y$ en $R$ será un valor de $Y$ en $S$.
+			\item Si $A$ es un atributo de $R$ pero no de $S$, $V\left(R\bowtie S,A\right)=v\left(R,A\right)$
+		\end{enumerate}}
+	\begin{itemize}
+		\item Si $R\cap S=\emptyset$: $n_{r}\times n_{s}$
+		\item Si $R\cap S=PK_{R}:$ $\leq n_{S}$ (porque podría haber \emph{nulls})
+		\item Si $R\cap S=PK_{S}:$ $\leq n_{R}$ (porque podría haber \emph{nulls})
+		\item Si $R\cap S=FK_{S}:$ $n_{S}$
+		\item Si $R\cap S=FK_{R}:$ $n_{R}$
+		\item Si $\#(R\cap S)=1$: $\frac{n_{s}\times n_{r}}{\max\left(V(S,R\cap S),V(R,R\cap S)\right)}\approx\frac{n_{s}\times n_{r}}{V(S,R\cap S)}\approx\frac{n_{s}\times n_{r}}{V(R,R\cap S)}$
+		\item Si $\#(R\cap S)=2$ y el \emph{join} es de tipo $R.A_{1}=S.A_{2}\wedge R.B_{1}=S.B_{2}$:
+		\[
+			\frac{n_{r} \times n_{s}}{\max \left( V(R,A_{1}), V(S,A_{2} \right) \times \max \left( V(R,B_{1}), V(S,B_{2}) \right)}
+		\]
+	\end{itemize}
 
-\begin{itemize}
-\item Si $A$ distribuye uniformemente: $\frac{n_{r}}{V(A,r)}$
-\item Si se dispone de un histograma para $A$, y $a\in rango$: $\frac{freq_{rango}(A,r)}{cant_{rangos}}$
-\end{itemize}
-\item $\sigma_{A\leq v}(r)$ con $v$ conocido
-
-\begin{itemize}
-\item Si $A$ distribuye uniformemente y $v<\min(A,r)$: $0$
-\item Si $A$ distribuye uniformemente y $v\geq\max(A,r)$: $n_{r}$
-\item En cualquier otro caso: $n_{r}\cdot\frac{v-min(A,r)}{max(A,r)-min(A,r)}$
-\end{itemize}
-\item $\sigma_{a\wedge b\wedge\cdots\wedge z}(r)$ donde hay $x$ selectores:
-$n_{r}\times P(a)\times\cdots\times P(z)=n_{r}\cdot\frac{s_{a}\cdot s_{b}\cdots s_{z}}{\left(n_{r}\right)^{x}}$
-\item $\sigma_{a\lor b\lor\cdots\lor z}(r)$ donde hay $x$ selectores independientes
-entre sí: 
-\[
-n_{r}\times\left[P(a)+\cdots+P(z)\right]=n_{r}\cdot\left[1-\left(1-\frac{s_{a}}{n_{r}}\right)\times\cdots\times\left(1-\frac{s_{z}}{n_{r}}\right)\right]
-\]
-
-\item $\sigma_{\lnot a}(r)$: $n_{r}-V(a,r)$
-\end{itemize}
-\item Junta natural%
-\footnote{Se introducen dos simplificaciones:
-\begin{enumerate}
-\item Si $R(X,Y)$ y $S(Y,Z)$, y $V(R,Y)\leq V(S,Y)$ entonces cada valor
-de $Y$ en $R$ será un valor de $Y$ en $S$.
-\item Si $A$ es un atributo de $R$ pero no de $S$, $V\left(R\bowtie S,A\right)=v\left(R,A\right)$\end{enumerate}
-%
-}
-
-\begin{itemize}
-\item Si $R\cap S=\emptyset$: $n_{r}\times n_{s}$
-\item Si $R\cap S=PK_{R}:$ $\leq n_{S}$ (porque podría haber \emph{nulls})
-\item Si $R\cap S=PK_{S}:$ $\leq n_{R}$ (porque podría haber \emph{nulls})
-\item Si $R\cap S=FK_{S}:$ $n_{S}$
-\item Si $R\cap S=FK_{R}:$ $n_{R}$
-\item Si $\#(R\cap S)=1$: $\frac{n_{s}\times n_{r}}{\max\left(V(S,R\cap S),V(R,R\cap S)\right)}\approx\frac{n_{s}\times n_{r}}{V(S,R\cap S)}\approx\frac{n_{s}\times n_{r}}{V(R,R\cap S)}$
-\item Si $\#(R\cap S)=2$ y el \emph{join} es de tipo $R.A_{1}=S.A_{2}\wedge R.B_{1}=S.B_{2}$:
-\[
-\frac{n_{r}\times n_{s}}{\max\left(V(R,A_{1}),V(S,A_{2}\right)\times\max\left(V(R,B_{1}),V(S,B_{2})\right)}
-\]
-
-\end{itemize}
-\item Proyección: $\pi_{A}(r):$ $V(A,r)$
-\item Agregación $_{A}\varrho_{f}(r):$ $V(A,r)$
-\item Unión $R\cup S$: $n_{r}+n_{s}$
-\item Intersección $R\cap S:$ $\min\left(n_{r},n_{s}\right)$ (cota superior)
-\item Diferencia $R-S:$ $r$ (cota superior)
-\item $V\left(A,\sigma_{A\, op\, v}(r)\right):$ $V(A,r)\times s_{A\, op\, v}$
-\item $V\left(A,r\bowtie s\right):$ 
-
-\begin{itemize}
-\item Si $A\in R$: $\min\left(V(A,r),n_{r\bowtie s}\right)$
-\item Si $a_{1}\in A$ y $a_{2}\in A$, $\min\left(V(a_{1},r)\times V(a_{2}-a_{1},s);V(a_{1}-a_{2},r)\times V(a_{2},S);n_{r\bowtie s}\right)$
-\end{itemize}
+	\item Proyección: $\pi_{A}(r):$ $V(A,r)$
+	\item Agregación $_{A}\varrho_{f}(r):$ $V(A,r)$
+	\item Unión $R\cup S$: $n_{r}+n_{s}$
+	\item Intersección $R\cap S:$ $\min\left(n_{r},n_{s}\right)$ (cota superior)
+	\item Diferencia $R-S:$ $r$ (cota superior)
+	\item $V\left(A,\sigma_{A\, op\, v}(r)\right):$ $V(A,r)\times s_{A\, op\, v}$
+	\item $V\left(A,r\bowtie s\right):$ 
+	\begin{itemize}
+		\item Si $A\in R$: $\min\left(V(A,r),n_{r\bowtie s}\right)$
+		\item Si $a_{1}\in A$ y $a_{2}\in A$, $\min\left(V(a_{1},r)\times V(a_{2}-a_{1},s);V(a_{1}-a_{2},r)\times V(a_{2},S);n_{r\bowtie s}\right)$
+	\end{itemize}
 \end{itemize}
 
 \subsection{Cálculo de juntas con histogramas}
-
-Un sistema de bases de datos puede computar un histograma de valores
-para un atributo dado. Si $V(R,A)$ no es muy grande, el histograma
-puede consistir de la cantidad de tuplas que tienen cada posible valor
-del atributo. Si $V(R,A)$ es muy grande, entonces podría guardarse
-solamente los valores más frecuentes, o agruparlos en rangos.
+Un sistema de bases de datos puede computar un histograma de valores para un atributo dado. Si $V(R,A)$ no es muy grande, el histograma puede consistir de la cantidad de tuplas que tienen cada posible valor del atributo. Si $V(R,A)$ es muy grande, entonces podría guardarse solamente los valores más frecuentes, o agruparlos en rangos.
 
 Los tipos de histogramas más frecuentes son:
 \begin{enumerate}
-\item \textbf{Igual ancho:} se escoge un ancho $w$ y una constante $v_{0}$.
-Se almacena la cantidad de tuplas con valores $v$ en los rangos\emph{
-$v_{0}\leq v<v_{0}+w,$ $v_{0}+w\leq v<v_{0}+2w$}, etcétera\emph{.}
-\item \textbf{Valores más frecuentes}: se listan los valores más frecuentes
-y la cantidad de tuplas que tienen esos valores. También se puede
-proporcionar la cantidad de tuplas que tienen ``otros'' valores.
+	\item \textbf{Igual ancho:} se escoge un ancho $w$ y una constante $v_{0}$. Se almacena la cantidad de tuplas con valores $v$ en los rangos\emph{$v_{0}\leq v<v_{0}+w,$ $v_{0}+w\leq v<v_{0}+2w$}, etcétera.
+	\item \textbf{Valores más frecuentes}: se listan los valores más frecuentes y la cantidad de tuplas que tienen esos valores. También se puede proporcionar la cantidad de tuplas que tienen ``otros'' valores.
 \end{enumerate}
-\emph{\uline{Ejemplo}}\emph{: sea la junta $R(A,B)\bowtie S(B,C)$.
-Sabemos que $V(R,B)=14$ y que $V(S,B)=13$. Tenemos los histogramas
-de valores más frecuentes para $R\cap S=B$.}
 
-\noindent \begin{center}
-\emph{}%
-\begin{tabular}{|c|c|c|c|c|c|}
-\hline 
- & \emph{0} & \emph{1} & \emph{2} & \emph{5} & \emph{``Otros''}\\
-\hline 
-\hline 
-\emph{$R.B$} & \emph{150} & \emph{200} & \emph{?} & \emph{100} & \emph{550 (11 valores)}\\
-\hline 
-\emph{$S.B$} & \emph{100} & \emph{80} & \emph{70} & \emph{?} & \emph{250 (10 valores)}\\
-\hline 
-\end{tabular}
-\par\end{center}
+\emph{\uline{Ejemplo:}} \emph{sea la junta $R(A,B)\bowtie S(B,C)$. Sabemos que $V(R,B)=14$ y que $V(S,B)=13$. Tenemos los histogramas de valores más frecuentes para $R\cap S=B$.}
 
-\emph{Suponemos que cada valor que aparece en la relación con menos
-valores de $B$ (en este caso, $S$) también aparecen en la otra relación
-(en este caso, $R$). También suponemos que la distribución de los
-valores dentro de ``Otros'' es uniforme, y estimamos la frecuencia
-de los datos desconocidos:}
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline 
+		 & \emph{0} & \emph{1} & \emph{2} & \emph{5} & \emph{``Otros''}\\
+		\hline 
+		\hline 
+		\emph{$R.B$} & \emph{150} & \emph{200} & \emph{?} & \emph{100} & \emph{550 (11 valores)}\\
+		\hline 
+		\emph{$S.B$} & \emph{100} & \emph{80} & \emph{70} & \emph{?} & \emph{250 (10 valores)}\\
+		\hline 
+	\end{tabular}
+\end{center}
 
-\noindent \begin{center}
-\emph{}%
-\begin{tabular}{|c|c|c|c|c|c|}
-\hline 
- & \emph{0} & \emph{1} & \emph{2} & \emph{5} & \emph{Otros}\\
-\hline 
-\hline 
-\emph{$R.B$} & \emph{150} & \emph{200} & \emph{$\frac{550}{11}=50$} & \emph{100} & \emph{550 (10 valores)}\\
-\hline 
-\emph{$S.B$} & \emph{100} & \emph{80} & \emph{70} & \emph{$\frac{250}{10}=25$} & \emph{250 (9 valores)}\\
-\hline 
-\end{tabular}
-\par\end{center}
+\emph{Suponemos que cada valor que aparece en la relación con menos valores de $B$ (en este caso, $S$) también aparecen en la otra relación (en este caso, $R$). También suponemos que la distribución de los valores dentro de ``Otros'' es uniforme, y estimamos la frecuencia de los datos desconocidos:}
+
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline 
+		 & \emph{0} & \emph{1} & \emph{2} & \emph{5} & \emph{Otros}\\
+		\hline 
+		\hline 
+		\emph{$R.B$} & \emph{150} & \emph{200} & \emph{$\frac{550}{11}=50$} & \emph{100} & \emph{550 (10 valores)}\\
+		\hline 
+		\emph{$S.B$} & \emph{100} & \emph{80} & \emph{70} & \emph{$\frac{250}{10}=25$} & \emph{250 (9 valores)}\\
+		\hline 
+	\end{tabular}
+\end{center}
 
 \emph{Entonces, el tamaño de la junta es:}
 
-\emph{
 \begin{eqnarray*}
-T\left[R\bowtie S\right] & = & T\left[R\bowtie_{B=0}S\right]+T\left[R\bowtie_{B=1}S\right]+T\left[R\bowtie_{B=2}S\right]T\left[R\bowtie_{B=5}S\right]+T\left[R\bowtie_{B\neq0,1,2,5}S\right]\\
- & = & \left(150\times100\right)+\left(200\times80\right)+\left(50\times70\right)+\left(100\times25\right)+\min(9,10)\times\left(\frac{550}{11}\times\frac{250}{10}\right)\\
- & = & 15.000+16.000+3.500+2.500+9\times1250\\
- & = & 48.250
+	T \left[ R \bowtie S \right] & = & T \left[ R \bowtie_{B=0} S \right] + T \left[ R \bowtie_{B=1} S \right] + T \left[ R \bowtie_{B=2} S \right] T \left[ R \bowtie_{B=5} S \right] + T \left[ R \bowtie_{B\neq0,1,2,5} S \right]\\
+	 & = & \left( 150 \times 100 \right) + \left( 200 \times 80 \right) + \left( 50 \times 70 \right) + \left( 100 \times 25 \right) + \min(9,10) \times \left( \frac{550}{11} \times \frac{250}{10} \right)\\
+	 & = & 15.000+16.000+3.500+2.500+9 \times 1250\\
+	 & = & 48.250
 \end{eqnarray*}
-}
 
-\emph{\uline{Ejemplo}}\emph{: sean las relaciones $Enero(dia,temp)$
-y $Julio(dia,temp)$. Sea la consulta}
+\emph{\uline{Ejemplo}}\emph{: sean las relaciones $Enero(dia,temp)$ y $Julio(dia,temp)$. Sea la consulta}
 
 \begin{lstlisting}
 SELECT Enero.dia, Julio.dia
@@ -3082,212 +2819,147 @@ FROM Enero, Julio
 WHERE Enero.temp = Julio.temp
 \end{lstlisting}
 
-
 \emph{Suponer los siguientes histogramas de igual ancho:}
 
-\noindent \begin{center}
-\emph{}%
-\begin{tabular}{|c|c|c|}
-\hline 
-\emph{Rango C\textdegree{}} & \emph{Enero} & \emph{Julio}\\
-\hline 
-\hline 
-\emph{-17, -13} & \emph{0} & \emph{40}\\
-\hline 
-\emph{-13, -9} & \emph{0} & \emph{60}\\
-\hline 
-\emph{-8, -4} & \emph{0} & \emph{80}\\
-\hline 
-\emph{-3, 1} & \emph{0} & \emph{50}\\
-\hline 
-\emph{2, 6} & \emph{5} & \emph{10}\\
-\hline 
-\emph{7, 11} & \emph{20} & \emph{5}\\
-\hline 
-\emph{12, 16} & \emph{50} & \emph{0}\\
-\hline 
-\emph{17, 21} & \emph{100} & \emph{0}\\
-\hline 
-\emph{22, 26} & \emph{60} & \emph{0}\\
-\hline 
-\emph{27, 31} & \emph{10} & \emph{0}\\
-\hline 
-\end{tabular}
-\par\end{center}
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+		\hline 
+		\emph{Rango C\textdegree{}} & \emph{Enero} & \emph{Julio}\\
+		\hline 
+		\hline 
+		\emph{-17, -13} & \emph{0} & \emph{40}\\
+		\hline 
+		\emph{-13, -9} & \emph{0} & \emph{60}\\
+		\hline 
+		\emph{-8, -4} & \emph{0} & \emph{80}\\
+		\hline 
+		\emph{-3, 1} & \emph{0} & \emph{50}\\
+		\hline 
+		\emph{2, 6} & \emph{5} & \emph{10}\\
+		\hline 
+		\emph{7, 11} & \emph{20} & \emph{5}\\
+		\hline 
+		\emph{12, 16} & \emph{50} & \emph{0}\\
+		\hline 
+		\emph{17, 21} & \emph{100} & \emph{0}\\
+		\hline 
+		\emph{22, 26} & \emph{60} & \emph{0}\\
+		\hline 
+		\emph{27, 31} & \emph{10} & \emph{0}\\
+		\hline 
+	\end{tabular}
+\end{center}
 
-\emph{Sabemos que si dos bandas tienen $T_{1}$ y $T_{2}$ tuplas
-respectivamente, y la cantidad de valores de la banda es $V$, entonces
-la estimación del tamaño de la junta es $\frac{T_{1}T_{2}}{V}$.}
+\emph{Sabemos que si dos bandas tienen $T_{1}$ y $T_{2}$ tuplas respectivamente, y la cantidad de valores de la banda es $V$, entonces la estimación del tamaño de la junta es $\frac{T_{1}T_{2}}{V}$.}
 
-\emph{En el ejemplo anterior, las únicas bandas que contribuyen al
-resultado son las de {[}2,6{]} y {[}7,11{]}. Entonces, el tamaño de
-la junta es:}
+\emph{En el ejemplo anterior, las únicas bandas que contribuyen al resultado son las de {[}2,6{]} y {[}7,11{]}. Entonces, el tamaño de la junta es:}
 
-\emph{
 \begin{eqnarray*}
-T\left[R\bowtie S\right] & = & T\left[R\bowtie_{temp\in[2,6]}S\right]+T\left[R\bowtie_{temp\in[7,11]}S\right]\\
- & = & \frac{5\times10}{4}+\frac{20\times5}{4}\\
- & = & 12,5+25\\
- & = & 37,5
+	T \left[ R \bowtie S \right] & = & T \left[ R \bowtie_{temp \in[2,6]} S \right] + T \left[ R \bowtie_{temp \in[7,11]} S \right]\\
+	 & = & \frac{5\times10}{4}+\frac{20\times5}{4}\\
+	 & = & 12,5+25\\
+	 & = & 37,5
 \end{eqnarray*}
-}
 
-\pagebreak{}
-
-
+\newpage
 \part{Control de Concurrencia}
 \begin{description}
-\item [{Ítem~de~dato}] elemento al que accede una transacción. Puede
-ser un registro de una base de datos, un bloque de disco, un campo
-de un registro, o incluso toda la base de datos. Cada ítem tiene un
-nombre único que lo identifica (por ejemplo, la dirección física de
-un bloque de disco). 
-\item [{Modelo~de~concurrencia~intercalada}] la CPU ejecuta una transacción
-a la vez, pero varias transacciones en un período de tiempo.
+	\item[Ítem de dato] elemento al que accede una transacción. Puede ser un registro de una base de datos, un bloque de disco, un campo de un registro, o incluso toda la base de datos. Cada ítem tiene un nombre único que lo identifica (por ejemplo, la dirección física de un bloque de disco). 
+	\item[Modelo de concurrencia intercalada] la CPU ejecuta una transacción a la vez, pero varias transacciones en un período de tiempo.
 \end{description}
+
 \begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.7]{transaction_manager}\includegraphics[scale=0.8]{scheduler}
-\par\end{centering}
-
-\protect\caption{El manejador de transacciones (a) le emite órdenes al manejador del
-log, (b) se asegura que transacciones concurrentes no interfieran
-entre ellas. El scheduler permite o bloquea transacciones}
+	\centering
+	\includegraphics[scale=0.7]{transaction_manager}
+	\includegraphics[scale=0.8]{scheduler}
+	\caption{El manejador de transacciones (a) le emite órdenes al manejador del log, (b) se asegura que transacciones concurrentes no interfieran entre ellas. El scheduler permite o bloquea transacciones}
 \end{figure}
-
-
 
 \section{Transacciones}
 \begin{description}
 \item [{Transacción}] unidad lógica de procesamiento. Está formada por
 una o más operaciones que acceden a la base de datos. Tiene un identificador
 único de transacción. 
-
-
-Debe tener las siguientes propiedades \textbf{ACID}:
-\begin{description}
-\item [{%
-\begin{tabular}{|c|>{\centering}m{7cm}|>{\centering}m{5cm}|}
-\hline 
-\emph{Atomicity} & La transacción debe ejecutarse en su totalidad o no debe ejecutarse & Responsabilidad del gestor de recuperación, que mantiene un log donde
-guarda los valores viejos sobrescritos por una transacción \tabularnewline
-\hline 
-\emph{Consistency} & La transacción debe llevar a la base de datos de un estado consistente
-a otro (i.e. que respeten las reglas de integridad de la base de datos) & Responsabilidad de los programadores \tabularnewline
-\hline 
-\emph{Isolation} & La ejecución de una transacción no debe interferir con otras & Responsabilidad del gestor de concurrencia \tabularnewline
-\hline 
-\emph{Durability} & Los efectos de una transacción commiteada deben persistir en la base
-de datos. Es decir, luego de commiteada, no deberíamos necesitar ejecutar
-un \emph{rollback} & Gestor de recuperación, que debe garantizar que el log esté en disco
-antes de que termine la transacción \tabularnewline
-\hline 
-\end{tabular}}]~
 \end{description}
 
-\emph{How transactions interact with the database. There are three
-address spaces that interact in important ways: }
+Debe tener las siguientes propiedades \textbf{ACID}:
+
+\begin{tabular}{|c|>{\centering}m{7cm}|>{\centering}m{5cm}|}
+	\hline 
+	\emph{Atomicity} & La transacción debe ejecutarse en su totalidad o no debe ejecutarse & Responsabilidad del gestor de recuperación, que mantiene un log donde guarda los valores viejos sobrescritos por una transacción \tabularnewline
+	\hline 
+	\emph{Consistency} & La transacción debe llevar a la base de datos de un estado consistente a otro (i.e. que respeten las reglas de integridad de la base de datos) & Responsabilidad de los programadores \tabularnewline
+	\hline
+	\emph{Isolation} & La ejecución de una transacción no debe interferir con otras & Responsabilidad del gestor de concurrencia \tabularnewline
+	\hline 
+	\emph{Durability} & Los efectos de una transacción commiteada deben persistir en la base de datos. Es decir, luego de commiteada, no deberíamos necesitar ejecutar un \emph{rollback} & Gestor de recuperación, que debe garantizar que el log esté en disco antes de que termine la transacción \tabularnewline
+	\hline 
+\end{tabular}
+
+\emph{How transactions interact with the database. There are three address spaces that interact in important ways:}
 \begin{enumerate}
-\item \emph{The space of disk blocks holding the database elements.}
-\item \emph{The virtual or main memory address space that is managed by
-the buffer manager.}
-\item \emph{The local address space of the transaction.}
+	\item \emph{The space of disk blocks holding the database elements.}
+	\item \emph{The virtual or main memory address space that is managed by the buffer manager.}
+	\item \emph{The local address space of the transaction.}
 \end{enumerate}
 
 Cada transacción está formada por una o más operaciones:
 \begin{itemize}
-\item \texttt{\textbf{start}}
-\item \texttt{\textbf{leer(X)}}: lee un item de dato de la base de datos
-a una variable local a la transacción, que está en memoria
-\item \texttt{\textbf{escribir(X)}}: escribe una variable de programa en
-memoria, en la base de datos
-\item \texttt{\textbf{commit}}: marca el fin exitoso de una transacción.
-Los cambios que introdujo son seguros para guardar en la base de datos.
-\item \texttt{\textbf{abort}}: marca el fin con errores de una transacción.
-Los cambios que introdujo se deben revertir.
+	\item \texttt{\textbf{start}}
+	\item \texttt{\textbf{leer(X)}}: lee un item de dato de la base de datos a una variable local a la transacción, que está en memoria
+	\item \texttt{\textbf{escribir(X)}}: escribe una variable de programa en memoria, en la base de datos
+	\item \texttt{\textbf{commit}}: marca el fin exitoso de una transacción. Los cambios que introdujo son seguros para guardar en la base de datos.
+	\item \texttt{\textbf{abort}}: marca el fin con errores de una transacción. Los cambios que introdujo se deben revertir.
 \end{itemize}
 
 Estados posibles de una transacción:
 \begin{itemize}
-\item \textbf{\emph{Partially committed}}: luego de que se ejecutó la última
-instrucción pero antes de ejecutar el \emph{commit} o \emph{abort}
-\item \textbf{\emph{Commited}}: sus efectos fueron almacenados permanentemente
-en la base de datos
-\item \textbf{\emph{Aborted}}: se ejecutó un \emph{roll back} de la transacción
-y la base de datos se restauró a su estado original
-
-
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.8]{state_diagram_transaction}
-\par\end{centering}
-
-\protect\caption{Diagrama de estados de una transacción}
-
-
-\end{figure}
-
-
+	\item \textbf{\emph{Partially committed}}: luego de que se ejecutó la última instrucción pero antes de ejecutar el \emph{commit} o \emph{abort}
+	\item \textbf{\emph{Commited}}: sus efectos fueron almacenados permanentemente en la base de datos
+	\item \textbf{\emph{Aborted}}: se ejecutó un \emph{roll back} de la transacción y la base de datos se restauró a su estado original
 \end{itemize}
 
-Una transacción llega al \textbf{punto de commit} cuando todas sus
-operaciones se ejecutaron correctamente y se grabaron todos sus registros
-de operaciones en el log. Luego de este punto, la transacción está
-\textbf{commiteada} y se debe almacenar permanentemente en la base
-de datos. Esto se marca agregando un registro \texttt{{[}commit,T{]}}
-en el log.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{state_diagram_transaction}
+	\caption{Diagrama de estados de una transacción}
+\end{figure}
+
+Una transacción llega al \textbf{punto de commit} cuando todas sus operaciones se ejecutaron correctamente y se grabaron todos sus registros de operaciones en el log. Luego de este punto, la transacción está \textbf{commiteada} y se debe almacenar permanentemente en la base de datos. Esto se marca agregando un registro \texttt{[commit,T]} en el log.
 \begin{enumerate}
-\item Si ocurre una falla y la transacción aún no grabó \texttt{{[}commit,T{]}},
-se debe ejecutar un \emph{rollback} de esta transacción.
-\item Si ocurre una falla y la transacción ya había grabado \texttt{{[}commit,T{]}}
-en el log, se debe \emph{rehacer} esta transacción.
+	\item Si ocurre una falla y la transacción aún no grabó \texttt{[commit,T]}, se debe ejecutar un \emph{rollback} de esta transacción.
+	\item Si ocurre una falla y la transacción ya había grabado \texttt{[commit,T]} en el log, se debe \emph{rehacer} esta transacción.
 \end{enumerate}
 
-El protocolo \textbf{WAL (}\textbf{\emph{Write-Ahead Logging}}\textbf{)}
-indica que antes de commitear una transacción se debe guardar el log
-en memoria al log en disco.
-
-\end{description}
+El protocolo \textbf{WAL (\emph{Write-Ahead Logging})} indica que antes de commitear una transacción se debe guardar el log en memoria al log en disco.
 
 \section{Problemas de Concurrencia}
 \begin{enumerate}
-\item \textbf{\emph{The Lost Update Problem}}: una \texttt{Escritura} que
-sobrescribe a otra.
-\item \textbf{\emph{The Dirty Read Problem}}: una \texttt{Lectura} de un
-valor incorrecto.
-\item \textbf{\emph{The Incorrect Summary Problem}}: una \texttt{Lectura}
-de muchos valores incorrectos.
-\item \textbf{\emph{The Unrepeatable Read Problem}}: dos \texttt{Lectura}s
-consecutivas que producen resultados distintos, por haber una transacción
-intermedia que cambió el valor.
-
+	\item \textbf{\emph{The Lost Update Problem}}: una \texttt{Escritura} que sobrescribe a otra.
+	\item \textbf{\emph{The Dirty Read Problem}}: una \texttt{Lectura} de un valor incorrecto.
+	\item \textbf{\emph{The Incorrect Summary Problem}}: una \texttt{Lectura} de muchos valores incorrectos.
+	\item \textbf{\emph{The Unrepeatable Read Problem}}: dos \texttt{Lectura}s consecutivas que producen resultados distintos, por haber una transacción intermedia que cambió el valor.
+\end{enumerate}
 
 \begin{figure}[H]
-\noindent \begin{centering}
-\subfloat[Lost Update]{\includegraphics[scale=0.5]{problem_lost_update}
-
-
-
-}
-\par\end{centering}
-
-\noindent \begin{centering}
-\subfloat[Dirty Read]{\includegraphics[scale=0.5]{problem_dirty_read}
-
-}
-\par\end{centering}
-
-\noindent \begin{centering}
-\subfloat[Incorrect Summary]{\includegraphics[scale=0.5]{problem_incorrect_summary}}
-\par\end{centering}
-
-\protect\caption{Probemas de concurrencia}
-
-
+	\begin{centering}
+		\subfloat[Lost Update]{
+			\includegraphics[scale=0.4]{problem_lost_update}
+		}
+	\end{centering}
+	\begin{centering}
+		\subfloat[Dirty Read]{
+			\includegraphics[scale=0.4]{problem_dirty_read}
+		}
+	\end{centering}
+	
+	\begin{centering}
+		\subfloat[Incorrect Summary]{
+			\includegraphics[scale=0.4]{problem_incorrect_summary}
+		}
+	\end{centering}
+	\caption{Probemas de concurrencia}
 \end{figure}
-
-
-\end{enumerate}
 
 \subsection{Atributos de una Transacción}
 \begin{itemize}
