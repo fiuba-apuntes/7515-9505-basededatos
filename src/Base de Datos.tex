@@ -26,7 +26,7 @@
 
 \usepackage[mostrarlicencia]{\rutapaquetes/caratula} % Caratula personalizada (cargada desde caratula.sty)
 \usepackage{\rutapaquetes/macros} % Macros útiles para los apuntes (cargado desde macros.sty)
-\usepackage[mostrarrevisores]{\rutapaquetes/colaboradores} % Seccion de colaboradores (cargada y creada con colaboradores.sty)
+\usepackage[ocultarrevisores]{\rutapaquetes/colaboradores} % Seccion de colaboradores (cargada y creada con colaboradores.sty)
 \usepackage{\rutapaquetes/historial} % Seccion de historial de cambios (cargada y creada con historial.sty)
 
 % Define los estilos de los enlaces interpretados por el paquete hyperref
@@ -205,1154 +205,686 @@ La pieza más elemental de información es el \textbf{dato}. Un dato solo es de 
 
 \subsection{Base de datos}
 \begin{description}
-\item [{Base~de~Datos~(BD)}] conjunto de datos interrelacionados.
-\item [{Instancia~de~la~base~de~datos}] colección de información en
-la base de datos en un momento particular.
-\item [{Esquema~de~la~base~de~datos}] descripción de la base de datos.
-La base de datos física varía con el tiempo (porque se producen altas,
-bajas y modificaciones), pero el esquema es fijo (o se cambia en raras
-ocasiones).
-
-\begin{itemize}
-\item Modelo conceptual: representación de alto nivel, que concentra los
-requerimientos del cliente. Utiliza el modelo Entidad-Relación.
-\item Modelo lógico: representación de bajo nivel. Utiliza el modelo relacional.
-\item Modelo físico: utiliza \textbf{SQL}.
-\end{itemize}
-
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.6]{esquema_bd}
-\par\end{centering}
-
-\protect\caption{Base de datos}
-
-
-\end{figure}
-
-
+	\item[Base de Datos (BD)] conjunto de datos interrelacionados.
+	\item[Instancia de la base de datos] colección de información en la base de datos en un momento particular.
+	\item[Esquema de la base de datos] descripción de la base de datos. La base de datos física varía con el tiempo (porque se producen altas, bajas y modificaciones), pero el esquema es fijo (o se cambia en raras ocasiones).
+	\begin{itemize}
+		\item Modelo conceptual: representación de alto nivel, que concentra los requerimientos del cliente. Utiliza el modelo Entidad-Relación.
+		\item Modelo lógico: representación de bajo nivel. Utiliza el modelo relacional.
+		\item Modelo físico: utiliza \textbf{SQL}.
+	\end{itemize}
 \end{description}
 
-\subsection{¿Por qué una base de datos y no un sistema de archivo?}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.65]{esquema_bd}
+	\caption{Base de datos}
+\end{figure}
 
+\subsection{¿Por qué una base de datos y no un sistema de archivo?}
 Desventajas de usar un sistema de archivo:
 \begin{itemize}
-\item Inconsistencia y redundancia, porque se usan muchos archivos, y tal
-vez tienen distintos formatos
-\item Dificultad para acceder a los datos, porque se necesitan programas
-para acceder a los archivos
-\item Problemas de integridad, porque es difícil cambiar todos los programas
-para que adopten restricciones de consistencia
-\item Dificultad para asegurar la atomicidad de las transacciones
-\item Problemas para garantizar el acceso concurrente
-\item Problemas de seguridad
+	\item Inconsistencia y redundancia, porque se usan muchos archivos, y tal vez tienen distintos formatos
+	\item Dificultad para acceder a los datos, porque se necesitan programas para acceder a los archivos
+	\item Problemas de integridad, porque es difícil cambiar todos los programas para que adopten restricciones de consistencia
+	\item Dificultad para asegurar la atomicidad de las transacciones
+	\item Problemas para garantizar el acceso concurrente
+	\item Problemas de seguridad
 \end{itemize}
 
 \subsection{Diseño de una base de datos}
-
-\noindent \begin{center}
 \begin{figure}[H]
-\noindent \centering{}\includegraphics[scale=0.6]{diseno_bd}\protect\caption{Metodología de diseño de una base de datos}
+	\centering
+	\includegraphics[scale=0.55]{diseno_bd}
+	\caption{Metodología de diseño de una base de datos}
 \end{figure}
-
-\par\end{center}
-
 
 \subsection{Modelos de datos}
 \begin{description}
-\item [{Modelo~de~datos}] guía para organizar los datos de una base de
-datos. Formado por tres componentes: 
-
-\begin{enumerate}
-\item la \emph{estructura} de los datos (tablas, árboles, redes, etc.),
-\item las \emph{operaciones} sobre las estructuras, y
-\item las \emph{restricciones} sobre las estructuras o sobre las operaciones
-(para que los datos mantengan su integridad semántica).
-\end{enumerate}
+	\item[Modelo de datos] guía para organizar los datos de una base de datos. Formado por tres componentes: 
+	\begin{enumerate}
+		\item la \emph{estructura} de los datos (tablas, árboles, redes, etc.),
+		\item las \emph{operaciones} sobre las estructuras, y
+		\item las \emph{restricciones} sobre las estructuras o sobre las operaciones (para que los datos mantengan su integridad semántica).
+	\end{enumerate}
 \end{description}
-La \textbf{potencia semántica} de un modelo de datos está determinada
-por su capacidad de representar, además de la estructura de los datos,
-el significado de los mismos y sus interrelaciones.
 
+La \textbf{potencia semántica} de un modelo de datos está determinada por su capacidad de representar, además de la estructura de los datos, el significado de los mismos y sus interrelaciones.
 
 \subsubsection{Operaciones en una base de datos}
 \begin{description}
-\item [{Estado~de~una~BD}] valor de todos los atributos de todos los
-objetos de la base de datos.
-\item [{Operadores}] los hay de dos tipos:\end{description}
-\begin{enumerate}
-\item De consulta (no modifican el estado de la base de datos)
-\item De actualización (modifican el estado de la base de datos)\end{enumerate}
-\begin{description}
-\item [{Transacción}] conjunto de operaciones elementales. \emph{Ejemplo:
-la transferencia a una cuenta.}
-\end{description}
-\begin{lstlisting}
+	\item[Estado de una BD] valor de todos los atributos de todos los objetos de la base de datos.
+	\item[Operadores] los hay de dos tipos:
+	\begin{enumerate}
+		\item De consulta (no modifican el estado de la base de datos)
+		\item De actualización (modifican el estado de la base de datos)
+	\end{enumerate}
+	\item[Transacción] conjunto de operaciones elementales. \emph{Ejemplo: la transferencia a una cuenta.}
+	\begin{lstlisting}
 leer(cuenta_a)
 cuenta_a <- cuenta_a + 100
 escribir(cuenta_a)
 leer(cuenta_b)
 cuenta_b <- cuenta_b - 100
 escribir(cuenta_b)
-\end{lstlisting}
-
-
+	\end{lstlisting}
+\end{description}
 
 \subsubsection{Restricciones}
-
 Tipos de restricciones sobre una base de datos:
 \begin{itemize}
-\item \textbf{Inherentes}: determinado por la estructura de la base de datos
-\item \textbf{Explícitas}: provienen del mundo real
-\item \textbf{Implícitas}: se derivan de las explícitas
-\item \textbf{De estado}: restringen los posibles valores de los atributos.
-\emph{Ejemplo: la edad de una persona no puede ser negativa.}
-\item \textbf{De actualización}: restringen las posibles operaciones sobre
-los atributos. \emph{Ejemplo: no se puede disminuir la edad de una
-persona.}
-\item \textbf{De entidad}: \emph{Ejemplo: no puede haber dos objetos iguales
-en la misma base de datos.}
-\item \textbf{De integridad referencial}: \emph{Ejemplo: no se puede referenciar
-a un objeto que no existe en la base de datos.}
+	\item \textbf{Inherentes}: determinado por la estructura de la base de datos
+	\item \textbf{Explícitas}: provienen del mundo real
+	\item \textbf{Implícitas}: se derivan de las explícitas
+	\item \textbf{De estado}: restringen los posibles valores de los atributos. \emph{Ejemplo: la edad de una persona no puede ser negativa.}
+	\item \textbf{De actualización}: restringen las posibles operaciones sobre los atributos. \emph{Ejemplo: no se puede disminuir la edad de una persona.}
+	\item \textbf{De entidad}: \emph{Ejemplo: no puede haber dos objetos iguales en la misma base de datos.}
+	\item \textbf{De integridad referencial}: \emph{Ejemplo: no se puede referenciar a un objeto que no existe en la base de datos.}
 \end{itemize}
 
 \subsection{Modelos de bases de datos}
 \begin{enumerate}
-\item Entidad-Interrelación: para el diseño conceptual
-\item Relacional: para el modelo lógico. La relaciones se representan a
-través de claves foráneas
-\item Jerárquico (árbol): el acceso a niveles inferiores sólo es posible
-a través de sus padres
-\item De red: las relaciones entre los datos se representan con referencias
-físicas
-\item De objetos: existe una persistencia de los objetos más allá de la
-existencia en memoria
+	\item Entidad-Interrelación: para el diseño conceptual
+	\item Relacional: para el modelo lógico. La relaciones se representan a través de claves foráneas
+	\item Jerárquico (árbol): el acceso a niveles inferiores sólo es posible a través de sus padres
+	\item De red: las relaciones entre los datos se representan con referencias físicas
+	\item De objetos: existe una persistencia de los objetos más allá de la existencia en memoria
 \end{enumerate}
 
-\section{\label{sec:Modelo-Entidad-Interrelaci=0000F3n}Modelo Entidad-Interrelación
-(E-R)}
-
-\uline{Nota importante}: no podemos tener nombres de entidades
-o interrelaciones repetidos.
-
+\section{Modelo Entidad-Interrelación (E-R)}
+\uline{Nota importante}: no podemos tener nombres de entidades o interrelaciones repetidos.
 
 \subsection{Entidades}
+El modelo entidad-interrelación se basa en la idea de que el mundo real está compuesto por objetos (las \emph{entidades}) y las \emph{interrelaciones} que hay entre las entidades.
 
-El modelo entidad-interrelación se basa en la idea de que el mundo
-real está compuesto por objetos (las \emph{entidades}) y las \emph{interrelaciones}
-que hay entre las entidades.
 \begin{description}
-\item [{Entidad}] algo que existe, concreto o abstracto. \emph{Ejemplo:
-una persona Juan, la cuenta bancaria n\textdegree{} 4500011.}
-\item [{Conjunto~de~entidades~/~tipo~de~entidad}] conjunto de entidades
-del mismo tipo. \emph{Ejemplo: el conjunto de entidades ``cliente''
-abarca todas las personas que tienen cuenta en un banco.}
+	\item[Entidad] algo que existe, concreto o abstracto. \emph{Ejemplo: una persona Juan, la cuenta bancaria n\textdegree 4500011.}
+	\item[Conjunto de entidades / tipo de entidad] conjunto de entidades del mismo tipo. \emph{Ejemplo: el conjunto de entidades ``cliente'' abarca todas las personas que tienen cuenta en un banco.}
 
+	Un conjunto de entidades $E$ tiene un predicado asociado $p$ para probar si una entidad $e$ pertenece al conjunto.
+	\[
+		E = \left\{ e/p(e)\right\} 
+	\]
 
-Un conjunto de entidades $E$ tiene un predicado asociado $p$ para
-probar si una entidad $e$ pertenece al conjunto.
+	Los conjuntos de entidades no necesitan ser disjuntos. \emph{Ejemplo: ``animales'' y ``mamíferos'' no son disjuntos.}
 
+	Un tipo de entidad queda definido por:
+	\begin{enumerate}
+		\item \textbf{Nombre}: en singular o frase simple en singular. \emph{Ejemplos: ``cliente'', ``cuenta corriente''}
+		\item \textbf{Significado}: texto preciso, conciso y claro. Debe indicar, si existieran, dependencias con otros tipos de entidades
+		\item \textbf{Atributos}: características de todas las entidades de ese tipo. \emph{Ejemplo: para el conjunto de entidades ``cliente'', posibles atributos son ``nombre'', ``DNI'', ``calle'', ``ciudad'', etc.} Cada atributo tiene un conjunto de \textbf{valores} permitidos, denominado el \textbf{dominio }del atributo. \emph{Ejemplo: el DNI debe ser un número positivo.} Los atributos deben ser \textbf{atómicos} (es decir, que no se pueden descomponer), y no pueden estar repetidos.
 
-\[
-E=\left\{ e/p(e)\right\} 
-\]
-
-
-
-Los conjuntos de entidades no necesitan ser disjuntos. \emph{Ejemplo:
-``animales'' y ``mamíferos'' no son disjuntos.}
-
-
-Un tipo de entidad queda definido por:
-\begin{enumerate}
-\item \textbf{Nombre}: en singular o frase simple en singular. \emph{Ejemplos:
-``cliente'', ``cuenta corriente''}
-\item \textbf{Significado}: texto preciso, conciso y claro. Debe indicar,
-si existieran, dependencias con otros tipos de entidades
-\item \textbf{Atributos}: características de todas las entidades de ese
-tipo. \emph{Ejemplo: para el conjunto de entidades ``cliente'',
-posibles atributos son ``nombre'', ``DNI'', ``calle'', ``ciudad'',
-etc. }Cada atributo tiene un conjunto de \textbf{valores} permitidos,
-denominado el \textbf{dominio }del atributo. \emph{Ejemplo: el DNI
-debe ser un número positivo. }Los atributos deben ser \textbf{atómicos}
-(es decir, que no se pueden descomponer), y no pueden estar repetidos.
-
-
-Formalmente, un \textbf{atributo} es una función que hace corresponder
-un conjunto de entidades a un dominio o producto cartesiano de dominios.
-\emph{Ejemplo: una entidad ``empleado'' está descrita por el conjunto
+		Formalmente, un \textbf{atributo} es una función que hace corresponder un conjunto de entidades a un dominio o producto cartesiano de dominios. \emph{Ejemplo: una entidad ``empleado'' está descrita por el conjunto
 \{(nombre, Juan), (apellido, Cancela), (DNI, 5.678.901)\}.}
 
+		Un atributo puede tener el valor \textbf{nulo}, por varias razones:
+		\begin{enumerate}
+			\item No aplica
+			\item Faltante
+			\item Desconocido
+		\end{enumerate}
 
-Un atributo puede tener el valor \textbf{nulo}, por varias razones:
-\begin{enumerate}
-\item No aplica
-\item Faltante
-\item Desconocido
-\end{enumerate}
-
-Tipos de atributos:
-\begin{enumerate}
-\item \emph{Simple vs compuesto. Ejemplo: nombre puede descomponerse en
-primer nombre, segundo nombre, y apellido.}
-\item \emph{Un valor vs Multivaluado}: se repite varias veces en la entidad.
-\emph{Ejemplo: número de teléfono.}
-\item \emph{Derivable}: su valor puede calcularse a partir de otros atributos.
-Debe evitarse. \emph{Ejemplo: si tengo el atributo ``fecha de nacimiento'',
-``edad'' es un atributo derivable.}
-\end{enumerate}
-\item \textbf{Identificador}: atributo o conjunto de atributos que permiten
-distinguir a cada entidad dentro del conjunto de entidades del mismo
-tipo.
-\end{enumerate}
+		Tipos de atributos:
+		\begin{enumerate}
+			\item \emph{Simple vs compuesto. Ejemplo: nombre puede descomponerse en primer nombre, segundo nombre, y apellido.}
+			\item \emph{Un valor vs Multivaluado}: se repite varias veces en la entidad. \emph{Ejemplo: número de teléfono.}
+			\item \emph{Derivable}: su valor puede calcularse a partir de otros atributos. Debe evitarse. \emph{Ejemplo: si tengo el atributo ``fecha de nacimiento'', ``edad'' es un atributo derivable.}
+		\end{enumerate}
+		\item \textbf{Identificador}: atributo o conjunto de atributos que permiten distinguir a cada entidad dentro del conjunto de entidades del mismo tipo.
+	\end{enumerate}
 \end{description}
 
 \subsection{Interrelaciones}
 \begin{description}
-\item [{Interrelación}] asociación entre dos o más conjuntos de entidades.
-\item [{Conjunto~de~interrelaciones~/~tipo~de~interrelación}] conjunto
-de interrelaciones del mismo tipo. Si $E_{1},E_{2},\ldots,E_{n}$
-son conjuntos de entidades, entonces el conjunto de interrelaciones
-$R$ es un subconjunto del producto cartesiano 
-\[
-\left\{ \left(e_{1},e_{2},\ldots,e_{n}\right)/e_{1}\in E_{1},e_{2}\in E_{2},\ldots,e_{n}\in E_{n}\right\} 
-\]
+	\item[Interrelación] asociación entre dos o más conjuntos de entidades.
 
+	\item[Conjunto de interrelaciones / tipo de interrelación] conjunto de interrelaciones del mismo tipo. Si $E_{1},E_{2},\ldots,E_{n}$ son conjuntos de entidades, entonces el conjunto de interrelaciones $R$ es un subconjunto del producto cartesiano
+	\[
+		\left\{ \left(e_{1},e_{2},\ldots,e_{n}\right)/e_{1}\in E_{1},e_{2}\in E_{2},\ldots,e_{n}\in E_{n}\right\} 
+	\]
 
+	donde la tupla $\left(e_{1},e_{2},\ldots,e_{n}\right)$ es una interrelación.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{er_model}
+		\caption{``Tenencia'' es una interrelación entre dos entidades}
+	\end{figure}
 
-donde la tupla $\left(e_{1},e_{2},\ldots,e_{n}\right)$ es una interrelación.
+	Un tipo de interrelación puede tener atributos descriptivos. \emph{Ejemplo: la interrelación ``tenencia'' puede tener un atributo ``fecha último movimiento''.}
 
+	Características:
+	\begin{description}
+		\item[Grado de una interrelación] cantidad de tipos de entidades que participan en la relación.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.6]{grados_interrelacion}
+			\caption{Grado de una interrelación}
+		\end{figure}
 
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.5]{er_model}\protect\caption{``Tenencia'' es una interrelación entre dos entidades}
+		\item[Cardinalidad de una interrelación] cantidad de tipos de entidades con las que puede estar relacionado.
+	\end{description}
 
-\par\end{centering}
-
-\end{figure}
-
-
-
-Un tipo de interrelación puede tener atributos descriptivos. \emph{Ejemplo:
-la interrelación ``tenencia'' puede tener un atributo ``fecha último
-movimiento''.}
-
-
-Características:
-\begin{description}
-\item [{Grado~de~una~interrelación}] cantidad de tipos de entidades
-que participan en la relación.
-
-
-\begin{figure}[H]
-\noindent \centering{}\includegraphics[scale=0.6]{grados_interrelacion}\protect\caption{Grado de una interrelación}
-\end{figure}
-
-
-\item [{Cardinalidad~de~una~interrelación}] cantidad de tipos de entidades
-con las que puede estar relacionado.
+	\item[Rol] función que desempeña una entidad en una interrelación. Normalmente no se especifica porque está implícito. \emph{Ejemplos: un cliente ``tiene'' una cuenta, un empleado ``es jefe de'' $n$ empleados.}
+	\item[Instancia de una interrelación] asociación entre dos o más entidades. Debe ser unívocamente identificable s\emph{in usar los atributos descriptivos de la interrelación}.
 \end{description}
-\item [{Rol}] función que desempeña una entidad en una interrelación. Normalmente
-no se especifica porque está implícito. \emph{Ejemplos: un cliente
-``tiene'' una cuenta, un empleado ``es jefe de'' $n$ empleados.}
-\item [{Instancia~de~una~interrelación}] asociación entre dos o más
-entidades. Debe ser unívocamente identificable s\emph{in usar los
-atributos descriptivos de la interrelación}.
-\end{description}
+
 Un tipo de interrelación puede identificarse por:
 \begin{enumerate}
-\item Un atributo propio, o
-\item Una clave primaria, formada por los atributos de las claves primarias
-de los tipos de entidad que asocian. \emph{Ejemplo: ``DNI'' es la
-clave primaria de ``cliente'', y ``nro cuenta'' es la clave primaria
-de ``cuenta''. La clave primaria del tipo de interrelación ``tenencia''
-es (DNI, nro cuenta)}
+	\item Un atributo propio, o
+	\item Una clave primaria, formada por los atributos de las claves primarias de los tipos de entidad que asocian. \emph{Ejemplo: ``DNI'' es la clave primaria de ``cliente'', y ``nro cuenta'' es la clave primaria de ``cuenta''. La clave primaria del tipo de interrelación ``tenencia'' es (DNI, nro cuenta)}
 \end{enumerate}
-La estructura de la clave primaria de una interrelación $R$ depende
-de las restricciones de cardinalidad del conjunto de interrelaciones.
 
-\noindent \begin{center}
-\includegraphics[scale=0.25]{interrelacion}
-\par\end{center}
+La estructura de la clave primaria de una interrelación $R$ depende de las restricciones de cardinalidad del conjunto de interrelaciones.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.24]{interrelacion}
+\end{figure}
 
 \subsubsection{Tipos de interrelaciones}
 \begin{description}
-\item [{Especialización}] un conjunto de entidades se divide en grupos
-de entidades que son distintivas. \emph{Ejemplo: en el contexto de
-un banco, una persona puede ser ``especializada'' en un empleado
-o un cliente, o ambas, o ninguna}
-\item [{Generalización}] la inversa de especialización. Existe una superclase
-y una o más subclases. 
+	\item[Especialización] un conjunto de entidades se divide en grupos de entidades que son distintivas. \emph{Ejemplo: en el contexto de un banco, una persona puede ser ``especializada'' en un empleado o un cliente, o ambas, o ninguna}
 
+	\item[Generalización] la inversa de especialización. Existe una superclase y una o más subclases. 
 
-Puede haber restricciones de pertenencia:
-\begin{enumerate}
-\item ¿Qué tipos de entidades pueden ser miembros de una subclase?
+	Puede haber restricciones de pertenencia:
+	\begin{enumerate}
+		\item ¿Qué tipos de entidades pueden ser miembros de una subclase?
+		\begin{enumerate}
+			\item Definido por condición: existe una condición o predicado explícito que decide la pertenencia o no pertenencia.
+			\item Definido por el usuario: el usuario de la BD asigna entidades a una subclase.
+		\end{enumerate}
 
-\begin{enumerate}
-\item Definido por condición: existe una condición o predicado explícito
-que decide la pertenencia o no pertenencia.
-\item Definido por el usuario: el usuario de la BD asigna entidades a una
-subclase.
-\end{enumerate}
-\item ¿Las entidades pueden pertenecer a más de una subclase dentro de una
-superclase?
+		\item ¿Las entidades pueden pertenecer a más de una subclase dentro de una superclase?
+		\begin{enumerate}
+			\item Sí $\implies$Generalizaciones \textbf{superpuestas}
+			\item No $\implies$Generalizaciones \textbf{disjuntas}
+		\end{enumerate}
 
-\begin{enumerate}
-\item Sí $\implies$Generalizaciones \textbf{superpuestas}
-\item No $\implies$Generalizaciones \textbf{disjuntas}
-\end{enumerate}
-\item ¿Una entidad en la superclase debe pertenecer a al menos una entidad
-en la subclase?
-
-\begin{enumerate}
-\item Sí $\implies$Generalización \textbf{total}
-\item No $\implies$Generalización \textbf{parcial}
-\end{enumerate}
-\end{enumerate}
-\end{description}
-En la especialización y en la generalización, las subclases \emph{heredan
-atributos} de la superclase.
-\begin{description}
-\item [{Agregación}] abstracción mediante la cual un conjunto de interrelación
-es tratado como una superclase.
+		\item ¿Una entidad en la superclase debe pertenecer a al menos una entidad en la subclase?
+		\begin{enumerate}
+			\item Sí $\implies$Generalización \textbf{total}
+			\item No $\implies$Generalización \textbf{parcial}
+		\end{enumerate}
+	\end{enumerate}
+	
+	En la especialización y en la generalización, las subclases \emph{heredan atributos} de la superclase.
+	
+	\item[Agregación] abstracción mediante la cual un conjunto de interrelación es tratado como una superclase.
 \end{description}
 
 \subsection{Restricciones}
-
-
 \subsubsection{Restricciones de participación}
-
-Se dice que la participación de un conjunto de entidades $E$ en un
-conjunto de interrelaciones $R$ es \textbf{total} cuando cada entidad
-en $E$ participa en al menos una interrelación en $R$. Si solo algunas
-entidades participan, la participación es \textbf{parcial}.
-
+Se dice que la participación de un conjunto de entidades $E$ en un conjunto de interrelaciones $R$ es \textbf{total} cuando cada entidad en $E$ participa en al menos una interrelación en $R$. Si solo algunas entidades participan, la participación es \textbf{parcial}.
 
 \subsubsection{Restricciones de cardinalidad de correspondencia}
-\begin{description}
-\item [{Cardinalidad~de~correspondencia}] cantidad mínima y máxima de
-entidades a las cuales puede asociarse una entidad a través de un
-tipo de interrelación.
+\textbf{Cardinalidad de correspondencia:} cantidad mínima y máxima de entidades a las cuales puede asociarse una entidad a través de un tipo de interrelación.\\
 
-
-Para una interrelación \emph{binaria} $R$ entre dos tipos de entidades
-$A$ y $B$, la cardinalidad puede ser:
+Para una interrelación \emph{binaria} $R$ entre dos tipos de entidades $A$ y $B$, la cardinalidad puede ser:
 \begin{enumerate}
-\item Uno a uno $(1:1)$: Una entidad en $A$ está asociada como máximo
-a una entidad en $B$, y una entidad en $B$ está asociada como máximo
-a una entidad en $A$.
+	\item Uno a uno $(1:1)$: Una entidad en $A$ está asociada como máximo a una entidad en $B$, y una entidad en $B$ está asociada como máximo a una entidad en $A$.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{cardinalidad_11}
+		\caption{Cardinalidad $1:1$}
+	\end{figure}
 
+	\item Uno a muchos $(1:M)$: Una entidad en $A$ está asociada como máximo con cualquier cantidad de entidades en $B$, y una entidad en $B$ está asociada como máximo a una entidad en $A$.
 
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.7]{cardinalidad_11}
-\par\end{centering}
+	También existe la restricción ``muchos a uno'' ($M:1$).
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{cardinalidad_1M}
+		\caption{Cardinalidad $1:M$}
+	\end{figure}
 
-\protect\caption{$1:1$}
-\end{figure}
-
-
-\item Uno a muchos $(1:M)$: Una entidad en $A$ está asociada como máximo
-con cualquier cantidad de entidades en $B$, y una entidad en $B$
-está asociada como máximo a una entidad en $A$.
-
-
-También existe la restricción ``muchos a uno'' ($M:1$).
-
-
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics{cardinalidad_1M}
-\par\end{centering}
-
-\protect\caption{$1:M$}
-\end{figure}
-
-
-\item Muchos a muchos $(M:M)$: Una entidad en $A$ está asociada como máximo
-con cualquier cantidad de entidades en $B$, y una entidad en $B$
-está asociada como máximo con cualquier cantidad de entidades en $A$.
-
-
-\begin{figure}[H]
-\includegraphics[scale=0.7]{cardinalidad_MM}
-
-\protect\caption{$M:M$}
-\end{figure}
-
-
+	\item Muchos a muchos $(M:M)$: Una entidad en $A$ está asociada como máximo con cualquier cantidad de entidades en $B$, y una entidad en $B$ está asociada como máximo con cualquier cantidad de entidades en $A$.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{cardinalidad_MM}
+		\caption{Cardinalidad $M:M$}
+	\end{figure}
 \end{enumerate}
 
-Para una interrelación \emph{ternaria} $R$ entre tres tipos de entidades
-$A,B$ y $C$, la cardinalidad puede ser:
-\begin{itemize}
-\item N:N:N
+Para una interrelación \emph{ternaria} $R$ entre tres tipos de entidades $A,B$ y $C$, la cardinalidad puede ser:	\begin{itemize}
+	\item N:N:N
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{ternaria_nnn}
+		\caption{Las fábricas le compran insumos a proveedores.}
+	\end{figure}
 
+	Claves candidatas de ``Compra'': $\left\{ id_{f\acute{a}brica},id_{insumo},id_{proveedor}\right\} $
 
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.5]{ternaria_nnn}
-\par\end{centering}
+	\item N:N:1
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{ternaria_nn1}
+		\caption{Las fábricas le compran insumos a proveedores. Una fábrica no puede comprar el mismo insumo a más de un proveedor.}
+	\end{figure}
 
-\protect\caption{Las fábricas le compran insumos a proveedores.}
+	Claves candidatas de ``Compra'': $\left\{ id_{f\acute{a}brica},id_{insumo}\right\} $
 
+	\item N:1:1
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{ternaria_n11}
+		\caption{Las fábricas le compran insumos a proveedores. Una fábrica no puede comprar el mismo insumo a más de un proveedor. Un proveedor no puede venderle el mismo insumo a más de una fabrica.}
+	\end{figure}
 
-\end{figure}
+	Claves candidatas de ``Compra'': $\left\{ id_{f\acute{a}brica},id_{insumo}\right\} ;\left\{ id_{proveedor},id_{insumo}\right\} $
 
+	\item 1:1:1
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.7]{ternaria_111}
+		\caption{Las fábricas le compran insumos a proveedores. Una fábrica no puede comprar el mismo insumo a más de un proveedor. Un proveedor no puede venderle el mismo insumo a más de una fabrica. Una fábrica no puede comprarle más de un insumo a cada proveedor.}
+	\end{figure}
 
-
-Claves candidatas de ``Compra'': $\left\{ id_{f\acute{a}brica},id_{insumo},id_{proveedor}\right\} $
-
-\item N:N:1
-
-
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.5]{ternaria_nn1}
-\par\end{centering}
-
-\protect\caption{Las fábricas le compran insumos a proveedores. Una fábrica no puede
-comprar el mismo insumo a más de un proveedor.}
-\end{figure}
-
-
-
-Claves candidatas de ``Compra'': $\left\{ id_{f\acute{a}brica},id_{insumo}\right\} $
-
-\item N:1:1
-
-
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.5]{ternaria_n11}
-\par\end{centering}
-
-\protect\caption{Las fábricas le compran insumos a proveedores. Una fábrica no puede
-comprar el mismo insumo a más de un proveedor. Un proveedor no puede
-venderle el mismo insumo a más de una fabrica.}
-\end{figure}
-
-
-
-Claves candidatas de ``Compra'': $\left\{ id_{f\acute{a}brica},id_{insumo}\right\} ;\left\{ id_{proveedor},id_{insumo}\right\} $
-
-\item 1:1:1
-
-
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.7]{ternaria_111}
-\par\end{centering}
-
-\protect\caption{Las fábricas le compran insumos a proveedores. Una fábrica no puede
-comprar el mismo insumo a más de un proveedor. Un proveedor no puede
-venderle el mismo insumo a más de una fabrica. Una fábrica no puede
-comprarle más de un insumo a cada proveedor.}
-\end{figure}
-
-
-
-Claves candidatas de ``Compra'': $\left\{ id_{f\acute{a}brica},id_{insumo}\right\} ;\left\{ id_{proveedor},id_{insumo}\right\} ;\left\{ id_{f\acute{a}brica},id_{proveedor}\right\} $
-
+	Claves candidatas de ``Compra'': $\left\{ id_{f\acute{a}brica},id_{insumo}\right\} ;\left\{ id_{proveedor},id_{insumo}\right\} ;\left\{ id_{f\acute{a}brica},id_{proveedor}\right\} $
 \end{itemize}
-\begin{description}
-\item [{Teorema:}] en las relaciones ternarias, las restricciones de cardinalidad
-no imponen restricciones en las relaciones binarias. \emph{En el ejemplo
-anterior, una fábrica puede comprar $N$ insumos. Una fábrica puede
-comprarle a $N$ proveedores. Un proveedor puede proveer $N$ insumos.}
-\end{description}
-\end{description}
+
+\textbf{Teorema:} en las relaciones ternarias, las restricciones de cardinalidad no imponen restricciones en las relaciones binarias. \emph{En el ejemplo anterior, una fábrica puede comprar $N$ insumos. Una fábrica puede comprarle a $N$ proveedores. Un proveedor puede proveer $N$ insumos.}
 
 \subsubsection{Restricciones de dependencia existencial}
-
-Si la existencia de la entidad $S$ depende de la existencia de la
-entidad $D$, entonces se dice que $S$ tiene \textbf{dependencia
-existencial} de $D$. Operacionalmente, esto significa que si $D$
-es borrado, también $S$ es borrado. La entidad $D$ es la entidad
-\textbf{dominante} y $S$ es la entidad \textbf{subordinada}.
-
+Si la existencia de la entidad $S$ depende de la existencia de la entidad $D$, entonces se dice que $S$ tiene \textbf{dependencia existencial} de $D$. Operacionalmente, esto significa que si $D$ es borrado, también $S$ es borrado. La entidad $D$ es la entidad \textbf{dominante} y $S$ es la entidad \textbf{subordinada}.
 
 \subsubsection{Restricciones de identificación}
 \begin{description}
-\item [{Superclave}] conjunto de uno o más atributos que, tomados en conjunto,
-permiten identificar unívocamente una entidad o una interrelación
-en el conjunto de entidades o interrelaciones del mismo tipo\emph{.}
+	\item[Superclave] conjunto de uno o más atributos que, tomados en conjunto, permiten identificar unívocamente una entidad o una interrelación en el conjunto de entidades o interrelaciones del mismo tipo.
 
+	Si $K$ es una superclave, cualquier superconjunto de $K$ también es una superclave.
 
-Si $K$ es una superclave, cualquier superconjunto de $K$ también
-es una superclave.
+	\item[Clave candidata] superclaves minimales; aquellas para las cuales ningún subconjunto propio es una superclave.
 
-\item [{Clave~candidata}] superclaves minimales; aquellas para las cuales
-ningún subconjunto propio es una superclave.
+	Sea $R$ un esquema de relación con atributos $A_{1},\dots,A_{n}$. El conjunto de atributos $K=\left(A_{1},\dots,A_{k}\right)$ es una clave candidata de $R$ sí y sólo sí satisface:
+	\begin{enumerate}
+		\item \emph{Unicidad}: en todo momento, no existen dos tuplas distintas de $R$ que tengan el mismo valor para $A_{i}$, donde $i\in[1,k]$.
+		\item \emph{Minimalidad}: ningún atributo de $K$ puede ser eliminado sin que se pierda la propiedad de unicidad.
+	\end{enumerate}
 
+	\item[Clave primaria] aquella clave candidata que es elegida por el diseñador del modelo de datos para identificar entidades dentro del conjunto de entidades. Esta clave no debería cambiar en el tiempo. \emph{Ejemplo: la dirección de un cliente no es una buena clave primaria, porque se puede mudar}
 
-Sea $R$ un esquema de relación con atributos $A_{1},\dots,A_{n}$.
-El conjunto de atributos $K=\left(A_{1},\dots,A_{k}\right)$ es una
-clave candidata de $R$ sí y sólo sí satisface:
-\begin{enumerate}
-\item \emph{Unicidad}: en todo momento, no existen dos tuplas distintas
-de $R$ que tengan el mismo valor para $A_{i}$, donde $i\in[1,k]$.
-\item \emph{Minimalidad}: ningún atributo de $K$ puede ser eliminado sin
-que se pierda la propiedad de unicidad.
-\end{enumerate}
-\item [{Clave~primaria}] aquella clave candidata que es elegida por el
-diseñador del modelo de datos para identificar entidades dentro del
-conjunto de entidades. Esta clave no debería cambiar en el tiempo.
-\emph{Ejemplo: la dirección de un cliente no es una buena clave primaria,
-porque se puede mudar}
-\item [{Clave~foránea}] atributo o conjunto de atributos que es clave
-primaria en otra relación. \emph{Ejemplo: en una relación ``autos'',
-puede haber una clave foránea ``DNI'' que es la clave primaria en
-otra relación ``personas'', y que indica el dueño de ese auto}
-\item [{Entidad~débil}] entidad que tiene \textbf{dependencia de identificación},
-porque no es identificable por sus propios atributos. Está subordinada
-a otro tipo de entidad, la entidad fuerte.
-\item [{Entidad~fuerte}] entidad que tiene una clave primaria propia.
+	\item[Clave foránea] atributo o conjunto de atributos que es clave primaria en otra relación. \emph{Ejemplo: en una relación ``autos'', puede haber una clave foránea ``DNI'' que es la clave primaria en otra relación ``personas'', y que indica el dueño de ese auto}
+
+	\item[Entidad débil] entidad que tiene \textbf{dependencia de identificación}, porque no es identificable por sus propios atributos. Está subordinada a otro tipo de entidad, la entidad fuerte.
+
+	\item[Entidad fuerte] entidad que tiene una clave primaria propia.
+
+	El concepto de entidades fuertes y débiles está relacionado con el concepto de dependencia de existencia. Una entidad débil es, por definición, una entidad subordinada a la entidad dominante de la cual depende su identidad. Toda dependencia de identidad es una dependencia de existencia, pero una dependencia de existencia no implica necesariamente una dependencia de identidad.
+
+	\item[Discriminador] atributo o conjunto de atributos de una entidad débil que lo distingue de otras entidades débiles que dependen de la misma entidad fuerte.
+	
+	Para una entidad débil, su clave primaria está formada por su identificador más la clave primaria de la entidad fuerte de la cual depende.
 \end{description}
-El concepto de entidades fuertes y débiles está relacionado con el
-concepto de dependencia de existencia. Una entidad débil es, por definición,
-una entidad subordinada a la entidad dominante de la cual depende
-su identidad. Toda dependencia de identidad es una dependencia de
-existencia, pero una dependencia de existencia no implica necesariamente
-una dependencia de identidad.
-\begin{description}
-\item [{Discriminador}] atributo o conjunto de atributos de una entidad
-débil que lo distingue de otras entidades débiles que dependen de
-la misma entidad fuerte.
-\end{description}
-Para una entidad débil, su clave primaria está formada por su identificador
-más la clave primaria de la entidad fuerte de la cual depende.
-
 
 \subsection{Diagramas E-R}
-
 \begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.7]{simbologia_er}
-\par\end{centering}
-
-\protect\caption{Simbología en los diagramas E-R}
-
-
+	\centering
+	\includegraphics[scale=0.7]{simbologia_er}
+	\caption{Simbología en los diagramas E-R}
 \end{figure}
 
-
 \begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.5]{simbologia_er_2}
-\par\end{centering}
-
-\protect\caption{Simbología en los diagramas E-R para entidades fuertes (\emph{cuenta})
-y débiles (\emph{transacción}). La clave primaria de la entidad fuerte
-se identifica con el atributo subrayado (\emph{nro. cuenta}). La dependencia
-a la entidad fuerte se identifica con arcos dobles. El discriminador
-de la entidad débil se identifica con el atributo subrayado a medias
-(\emph{nro. transacción}). El identificador de la entidad débil es
-la suma de su discriminador y de la clave primaria de la entidad fuerte
-(\emph{nro. cuenta + nro. transacción})}
+	\centering
+	\includegraphics[scale=0.5]{simbologia_er_2}
+	\caption{Simbología en los diagramas E-R para entidades fuertes (\emph{cuenta}) y débiles (\emph{transacción}). La clave primaria de la entidad fuerte se identifica con el atributo subrayado (\emph{nro. cuenta}). La dependencia a la entidad fuerte se identifica con arcos dobles. El discriminador de la entidad débil se identifica con el atributo subrayado a medias (\emph{nro. transacción}). El identificador de la entidad débil es la suma de su discriminador y de la clave primaria de la entidad fuerte (\emph{nro. cuenta + nro. transacción})}
 \end{figure}
-
-
 
 \subsection{Cuestiones de diseño}
 \begin{enumerate}
-\item Conjuntos de entidades vs Atributos?
+	\item ¿Conjuntos de entidades vs. Atributos?
+	\begin{enumerate}
+		\item Algunos atributos no pueden transformarse en entidades. \emph{Ejemplo: el nombre de una persona}
+		\item Algunos atributos están mejor representados como entidades, para permitir atributos. \emph{Ejemplo: teléfonos de una persona}
+	\end{enumerate}
 
-\begin{enumerate}
-\item Algunos atributos no pueden transformarse en entidades. \emph{Ejemplo:
-el nombre de una persona}
-\item Algunos atributos están mejor representados como entidades, para permitir
-atributos. \emph{Ejemplo: teléfonos de una persona}
-\end{enumerate}
-\item Conjuntos de entidades vs Conjuntos de interrelaciones?
+	\item ¿Conjuntos de entidades vs. Conjuntos de interrelaciones?
 
+	Las interrelaciones modelan ``acciones'' que ocurren entre entidades.
 
-Las interrelaciones modelan ``acciones'' que ocurren entre entidades.
+	\item ¿Conjuntos de interrelaciones binarias vs. n-arias?
 
-\item Conjuntos de interrelaciones binarias vs n-arias?
+	\textbf{Teorema:} es posible reemplazar cualquier conjunto de interrelaciones $n-$aria (con $n>2$) con un número de interrelaciones binarias.
 
-\begin{description}
-\item [{Teorema}] es posible reemplazar cualquier conjunto de interrelaciones
-$n-$aria (con $n>2$) con un número de interrelaciones binarias.
-\end{description}
-\item Localización de atributos de interrelaciones
-
-\begin{enumerate}
-\item Relaciones $1:1$ $\implies$en cualquiera de las dos entidades participantes
-\item Relaciones $1:N$$\implies$en la segunda entidad
-\item Relaciones $N:N$$\implies$en la interrelación
-\end{enumerate}
+	\item Localización de atributos de interrelaciones
+	\begin{enumerate}
+		\item Relaciones $1:1$ $\implies$ en cualquiera de las dos entidades participantes
+		\item Relaciones $1:N$ $\implies$ en la segunda entidad
+		\item Relaciones $N:N$ $\implies$ en la interrelación
+	\end{enumerate}
 \end{enumerate}
 
 \subsection{Reducción de un esquema E-R a un modelo relacional}
-
-Para cada entidad y para cada interrelación, se construye una única
-tabla. Cada tabla contiene múltiples columnas.
-\begin{itemize}
-\item Representación de conjuntos de entidades fuertes
-
-
-Sea $E$ un conjunto de entidad fuerte con atributos $a_{1},\ldots,a_{n}$.
-Se representa a la misma con una tabla llamada $E$ con $n$ columnas.
-Cada fila de la tabla es una entidad. El conjunto de todas las posibles
-filas de la tabla es el \textbf{producto cartesiano }entre los dominios
-de cada atributo:
-
-
-\[
-D_{1}\times\ldots\times D_{n}
-\]
-
-
-\item Representación de conjuntos de entidades débiles
-
-
-Sea $A$ un conjunto de entidad débil con atributos $a_{1},\ldots,a_{m}$.
-Sea $B$ el conjunto de entidad fuerte del cual depende $A$. La clave
-primaria de $B$ está formada por los atributos $b_{1},\ldots,b_{n}$.
-Se representa a $A$ con una tabla con $m+n$ columnas $a_{1},\ldots,a_{m},b_{1},\ldots,b_{n}$.
-
-\item Representación de conjuntos de interrelaciones
-
-
-Sea $R$ un conjunto de interrelaciones entre las entidades $E_{1},\dots,E_{n}$
-con atributos $r_{1},\ldots,r_{m}$. Sean $a_{1},\ldots,a_{n}$ el
-conjunto de atributos formado por la unión de las claves primarias
-de cada entidad participante. Se representa a $R$ con una tabla con
-columnas $a_{1},\ldots,a_{n},r_{1},\ldots,r_{m}$.
-\begin{itemize}
-\item Si la interrelación relaciona un conjunto de entidades débil y otro
-fuerte, la tabla de $R$ no es necesaria, es redundante.
-\end{itemize}
-\item Representación de interrelaciones $1:N$ entre entidades $A$ y $B$
+Para cada entidad y para cada interrelación, se construye una única tabla. Cada tabla contiene múltiples columnas.
 
 \begin{itemize}
-\item Si la participación de $A$ en $R$ es total (i.e. cada entidad en
-$A$ debe participar en la relación $R$), se pueden unir las tablas
-de $A$ y $R$
+	\item Representación de conjuntos de entidades fuertes
+
+	Sea $E$ un conjunto de entidad fuerte con atributos $a_{1},\ldots,a_{n}$. Se representa a la misma con una tabla llamada $E$ con $n$ columnas. Cada fila de la tabla es una entidad. El conjunto de todas las posibles filas de la tabla es el \textbf{producto cartesiano }entre los dominios de cada atributo:
+	\[
+		D_{1}\times\ldots\times D_{n}
+	\]
+
+	\item Representación de conjuntos de entidades débiles
+
+	Sea $A$ un conjunto de entidad débil con atributos $a_{1},\ldots,a_{m}$. Sea $B$ el conjunto de entidad fuerte del cual depende $A$. La clave primaria de $B$ está formada por los atributos $b_{1},\ldots,b_{n}$. Se representa a $A$ con una tabla con $m+n$ columnas $a_{1},\ldots,a_{m},b_{1},\ldots,b_{n}$.
+
+	\item Representación de conjuntos de interrelaciones
+
+	Sea $R$ un conjunto de interrelaciones entre las entidades $E_{1},\dots,E_{n}$ con atributos $r_{1},\ldots,r_{m}$. Sean $a_{1},\ldots,a_{n}$ el conjunto de atributos formado por la unión de las claves primarias de cada entidad participante. Se representa a $R$ con una tabla con columnas $a_{1},\ldots,a_{n},r_{1},\ldots,r_{m}$.
+	
+	\emph{Si la interrelación relaciona un conjunto de entidades débil y otro fuerte, la tabla de $R$ no es necesaria, es redundante.}
+
+	\item Representación de interrelaciones $1:N$ entre entidades $A$ y $B$
+
+	\emph{Si la participación de $A$ en $R$ es total (i.e. cada entidad en $A$ debe participar en la relación $R$), se pueden unir las tablas de $A$ y $R$.}
+
+	\item Representación de atributos compuestos
+
+	Sea el atributo compuesto $x$ formado por $x_{1},\ldots,x_{n}$. Se debe generar una columna para cada $x_{1},\ldots,x_{n}$, pero \emph{no} para $x$.
+
+	\item Representación de atributos multivaluados
+
+	Sea el atributo multivaluado $x$. Se debe crear una tabla $T$ con una columna $C$ que corresponde a $x$ y el resto de las columnas son la clave primaria del conjunto de entidades o interrelación del cual $x$ es un atributo.
+
+	\item Representación de generalización
+
+	Hay dos métodos:
+	\begin{enumerate}
+		\item Una tabla para la superclase + una tabla para cada subclase, que incluya una columna con la clave primaria de la superclase
+		\item Si la generalización es disjunta y completa, no se crea una tabla para la superclase. Se crea una tabla para cada subclase, que incluya todos los atributos de la superclase.
+	\end{enumerate}
+
+	\item Representación de agregación
+
+	La tabla de la interrelación $R$ entre la agregación $A$ y el conjunto de entidades $B$ incluye una columna por cada clave primaria de $B$ y $A$.
 \end{itemize}
-\item Representación de atributos compuestos
 
-
-Sea el atributo compuesto $x$ formado por $x_{1},\ldots,x_{n}$.
-Se debe generar una columna para cada $x_{1},\ldots,x_{n}$, pero
-\emph{no} para $x$.
-
-\item Representación de atributos multivaluados
-
-
-Sea el atributo multivaluado $x$. Se debe crear una tabla $T$ con
-una columna $C$ que corresponde a $x$ y el resto de las columnas
-son la clave primaria del conjunto de entidades o interrelación del
-cual $x$ es un atributo.
-
-\item Representación de generalización
-
-
-Hay dos métodos:
-\begin{enumerate}
-\item Una tabla para la superclase + una tabla para cada subclase, que incluya
-una columna con la clave primaria de la superclase
-\item Si la generalización es disjunta y completa, no se crea una tabla
-para la superclase. Se crea una tabla para cada subclase, que incluya
-todos los atributos de la superclase.
-\end{enumerate}
-\item Representación de agregación
-
-
-La tabla de la interrelación $R$ entre la agregación $A$ y el conjunto
-de entidades $B$ incluye una columna por cada clave primaria de $B$
-y $A$.
-
-\end{itemize}
-
-\section{\label{sec:Modelo-relacional}Modelo Relacional}
-
-
+\section{Modelo Relacional}
 \subsection{Estructura del modelo relacional}
-
-El modelo relacional es un ejemplo de modelo basado en registros.
-Usa un grupo de tablas para representar los datos y las relaciones
-entre los datos. Cada tabla tiene múltiples columnas. Cada tabla contiene
-registros de un tipo en particular. Cada registro tiene atributos
-(las columnas).
+El modelo relacional es un ejemplo de modelo basado en registros. Usa un grupo de tablas para representar los datos y las relaciones entre los datos. Cada tabla tiene múltiples columnas. Cada tabla contiene registros de un tipo en particular. Cada registro tiene atributos (las columnas).
 
 \begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.7]{tablas}
-\par\end{centering}
-
-\protect\caption{Tablas}
+	\centering
+	\includegraphics[scale=0.7]{tablas}
+	\caption{Tablas}
 \end{figure}
 
 \begin{description}
-\item [{Dominio}] valores posibles de un conjunto. \emph{Ejemplo: $D_{padron}=\{1,2,\dots100000\}$}
+	\item[Dominio] valores posibles de un conjunto. \emph{Ejemplo: $D_{padron}=\{1,2,\dots100000\}$}
 
+	Existe un valor que es posible en cualquier dominio: el valor \textbf{nulo}. Este valor significa ``atributo desconocido'' o ``atributo inexistente''. Se puede prohibir, para un atributo, que este tenga el valor nulo, ya que puede causar problemas al realizar consultas.
 
-Existe un valor que es posible en cualquier dominio: el valor \textbf{nulo}.
-Este valor significa ``atributo desconocido'' o ``atributo inexistente''.
-Se puede prohibir, para un atributo, que este tenga el valor nulo,
-ya que puede causar problemas al realizar consultas.
+	\item[Esquema de relación] descripción de una relación. Es el nombre de la relación seguido de la lista de los atributos con sus dominios. \emph{Ejemplo: Estudiante (Padrón, nombre, dirección, fechaIngreso)}
 
-\item [{Esquema~de~relación}] descripción de una relación. Es el nombre
-de la relación seguido de la lista de los atributos con sus dominios.
-\emph{Ejemplo: Estudiante (Padrón, nombre, dirección, fechaIngreso)}
-\item [{Relación}] instancia de un esquema. Subconjunto del producto cartesiano
-de una lista de dominios\emph{. }Sea el esquema de relación $R$,
-denotamos a la instancia $r$ mediante $r(R)$.
-\item [{Tabla}] representación de una relación. Se pueden relacionar entre
-sí al compartir atributos. Una tabla de $n$ atributos es un subconjunto
-de $D_{1}\times D_{2}\times\dots\times D_{n}$. Notar que al ser un
-conjunto, el orden no interesa. 
-\item [{Atributo}] nombre de cada columna de una tabla.
-\item [{Esquema~de~BD~relacional}] conjunto de esquemas de relación.
-\item [{Tupla}] miembro de una relación. Son las filas de una tabla.
+	\item[Relación] instancia de un esquema. Subconjunto del producto cartesiano de una lista de dominios\emph{. }Sea el esquema de relación $R$, denotamos a la instancia $r$ mediante $r(R)$.
+
+	\item[Tabla] representación de una relación. Se pueden relacionar entre sí al compartir atributos. Una tabla de $n$ atributos es un subconjunto de $D_{1}\times D_{2}\times\dots\times D_{n}$. Notar que al ser un conjunto, el orden no interesa.
+
+	\item[Atributo] nombre de cada columna de una tabla.
+
+	\item[Esquema de BD relacional] conjunto de esquemas de relación.
+
+	\item[Tupla] miembro de una relación. Son las filas de una tabla.
 \end{description}
 
 \subsection{Restricciones del modelo relacional}
 \begin{itemize}
-\item Regla de integridad de entidad
+	\item Regla de integridad de entidad
 
+	Ningún atributo de la clave primaria de un esquema de relación puede tomar valor nulo.
 
-Ningún atributo de la clave primaria de un esquema de relación puede
-tomar valor nulo.
+	\item Regla de integridad referencial
 
-\item Regla de integridad referencial
-
-
-Si la relación $r$ incluye una clave foránea $F$ que es la clave
-primaria $P$ de una relación $s$, entonces todo valor de $F$ en
-$r$ debe ser totalmente nulo o ser igual al valor de $P$ en alguna
-tupla de $s$.
-
+	Si la relación $r$ incluye una clave foránea $F$ que es la clave primaria $P$ de una relación $s$, entonces todo valor de $F$ en $r$ debe ser totalmente nulo o ser igual al valor de $P$ en alguna tupla de $s$.
 \end{itemize}
 
 \subsection{Operaciones del modelo relacional: álgebra relacional}
-
-Es un lenguaje\textbf{ formal }y \textbf{procedural }que\textbf{ }permite
-realizar consultas sobre un conjunto de relaciones, y produce relaciones
-como resultado.
-
+Es un lenguaje\textbf{ formal }y \textbf{procedural }que\textbf{ }permite realizar consultas sobre un conjunto de relaciones, y produce relaciones como resultado.
 
 \subsubsection{Operadores básicos}
-
-Los siguientes operadores son linealmente independientes. Se utilizan
-para filtrar,\emph{ }cortar y combinar relaciones.
-\begin{enumerate}
-\item Operaciones unarias:
+Los siguientes operadores son linealmente independientes. Se utilizan para filtrar,\emph{ }cortar y combinar relaciones.
 
 \begin{enumerate}
-\item \textbf{Proyección} ($\pi_{a_{1},\dots,a_{n}}(r)$). 
+	\item Operaciones unarias:
+	\begin{enumerate}
+		\item \textbf{Proyección} ($\pi_{a_{1},\dots,a_{n}}(r)$). 
 
+		Dados los atributos $a_{1},\dots,a_{n}$ que pertenecen a $r$, devuelve una relación de esquema $\{a_{1},\dots,a_{n}\}$.
 
-Dados los atributos $a_{1},\dots,a_{n}$ que pertenecen a $r$, devuelve
-una relación de esquema $\{a_{1},\dots,a_{n}\}$.
+		Se eliminan las tuplas repetidas.
 
+		\item \textbf{Selección} ($\sigma_{p}(r)$). 
 
-Se eliminan las tuplas repetidas.
+		Devuelve una relación $r'$ con el mismo esquema que $r$, en la que las tuplas son aquellas pertenecientes a $r$ que satisfacen la condición o el predicado $p$. La condición puede ser de dos estilos:
+		\begin{enumerate}
+			\item \emph{Atómica}: expresión lógica simple del tipo que utiliza un operador de comparación $\theta$, tal que $\theta\in\left\{ =,\neq,<,>,\leq,\geq\right\} $. Se permiten dos tipos de expresiones:
+			\begin{enumerate}
+				\item Atributo $\theta$ atributo
+				\item Atributo $\theta$ constante
+			\end{enumerate}
 
-\item \textbf{Selección} ($\sigma_{p}(r)$). 
+			\item \emph{Compuesta}: utiliza conectores \emph{and, or, not}.
+		\end{enumerate}
 
+		\item \textbf{Renombre} ($\rho_{R(A_{1},A_{2},\dots,A_{n})}(E)$). 
 
-Devuelve una relación $r'$ con el mismo esquema que $r$, en la que
-las tuplas son aquellas pertenecientes a $r$ que satisfacen la condición
-o el predicado $p$. La condición puede ser de dos estilos:
-\begin{enumerate}
-\item \emph{Atómica}: expresión lógica simple del tipo que utiliza un operador
-de comparación $\theta$, tal que $\theta\in\left\{ =,\neq,<,>,\leq,\geq\right\} $.
-Se permiten dos tipos de expresiones:
+		Cambia el nombre de la relación $E$ a $R$, y también cambia el nombre de sus atributos a $A_{1},A_{2},\dots,A_{n}$.
+	\end{enumerate}
 
-\begin{enumerate}
-\item Atributo $\theta$ atributo
-\item Atributo $\theta$ constante
-\end{enumerate}
-\item \emph{Compuesta}: utiliza conectores \emph{and, or, not}.
-\end{enumerate}
-\item \textbf{Renombre} ($\rho_{R(A_{1},A_{2},\dots,A_{n})}(E)$). 
+	\item Operaciones binarias:
+	\begin{enumerate}
+		\item \textbf{Unión} ($r\bigcup s$).
 
+		Sean $r$ y $s$ instancias \emph{homogéneas}%
+		\footnote{Las relaciones homogéneas tienen: (a) la misma cantidad de atributos, y (b) para todo $i$, el dominio del atributo $i$ de $r$ es el mismo que el dominio del atributo $i$ de $s$}%
+		de las relaciones $R$ y $S$ respectivamente. $r$ contiene $m$ tuplas y $s$ contiene $n$ tuplas. La unión se define como:
+		\[
+			r\bigcup s=\left\{ x:\, x\in r\vee x\in s\right\} 
+		\]
 
-Cambia el nombre de la relación $E$ a $R$, y también cambia el nombre
-de sus atributos a $A_{1},A_{2},\dots,A_{n}$.
+		Las tuplas repetidas se eliminan.
 
-\end{enumerate}
-\item Operaciones binarias:
+		\item \textbf{Diferencia} ($r-s$).
 
-\begin{enumerate}
-\item \textbf{Unión} ($r\bigcup s$).
+		Sean $r$ y $s$ instancias \emph{homogéneas }de las relaciones $R$ y $S$ respectivamente. La diferencia se define como:
+		\[
+			r-s=\left\{ x:\, x\in r\wedge x\not\in s\right\} 
+		\]
 
+		\item \textbf{Producto cartesiano} ($r\times s$). 
 
-Sean $r$ y $s$ instancias \emph{homogéneas}%
-\footnote{Las relaciones homogéneas tienen: (a) la misma cantidad de atributos,
-y (b) para todo $i$, el dominio del atributo $i$ de $r$ es el mismo
-que el dominio del atributo $i$ de $s$%
-}\emph{ }de las relaciones $R$ y $S$ respectivamente. $r$ contiene
-$m$ tuplas y $s$ contiene $n$ tuplas. La unión se define como:
+		Sean $r$ y $s$ instancias de las relaciones $R$ y $S$ respectivamente. El producto cartesiano es el conjunto de tuplas que resulta de concatenar cada tupla de $r$ con cada tupla de $s$.
+		\[
+			r\times s = \left\{ \left(r_{1},s_{1}\right);\ldots;\left(r_{1},s_{m}\right);\ldots;\left(r_{n},s_{1}\right)\ldots,\left(r_{n},s_{m}\right)\right\} 
+		\]
 
-
-\[
-r\bigcup s=\left\{ x:\, x\in r\vee x\in s\right\} 
-\]
-
-
-
-Las tuplas repetidas se eliminan.
-
-\item \textbf{Diferencia} ($r-s$).
-
-
-Sean $r$ y $s$ instancias \emph{homogéneas }de las relaciones $R$
-y $S$ respectivamente. La diferencia se define como:
-
-
-\[
-r-s=\left\{ x:\, x\in r\wedge x\not\in s\right\} 
-\]
-
-
-\item \textbf{Producto cartesiano} ($r\times s$). 
-
-
-Sean $r$ y $s$ instancias de las relaciones $R$ y $S$ respectivamente.
-El producto cartesiano es el conjunto de tuplas que resulta de concatenar
-cada tupla de $r$ con cada tupla de $s$.
-
-
-\[
-r\times s=\left\{ \left(r_{1},s_{1}\right);\ldots;\left(r_{1},s_{m}\right);\ldots;\left(r_{n},s_{1}\right)\ldots,\left(r_{n},s_{m}\right)\right\} 
-\]
-
-
-
-Si $r$ tiene $n$ tuplas y $s$ tiene $m$ tuplas, $r\times s$ tendrá
-$n\cdot m$ tuplas. El grado de $r\times s$ es la suma de los grados
-de $r$ y $s$.
-
-\end{enumerate}
+		Si $r$ tiene $n$ tuplas y $s$ tiene $m$ tuplas, $r\times s$ tendrá $n\cdot m$ tuplas. El grado de $r\times s$ es la suma de los grados de $r$ y $s$.
+	\end{enumerate}
 \end{enumerate}
 
 \subsubsection{Operadores secundarios}
-
 No proporcionan nuevas funcionalidades, solo simplifican las consultas.
+
 \begin{enumerate}
-\item \textbf{Intersección} ($r\bigcap s$)
+	\item \textbf{Intersección} ($r\bigcap s$)
 
+	Dadas las relaciones $r_{1}$ y $r_{2}$ con el mismo esquema, devuelve una relación $r$ con igual esquema, tal que $r=\left\{ x:\, x\in r_{1}\wedge x\in r_{2}\right\} $
+	\[
+		r\bigcap s\equiv r-\left(r-s\right)
+	\]
 
-Dadas las relaciones $r_{1}$ y $r_{2}$ con el mismo esquema, devuelve
-una relación $r$ con igual esquema, tal que $r=\left\{ x:\, x\in r_{1}\wedge x\in r_{2}\right\} $
+	\item \textbf{Junta (}\textbf{\emph{join}}\textbf{) ($r\bowtie s$)}
 
-
-\[
-r\bigcap s\equiv r-\left(r-s\right)
-\]
-
-
-\item \textbf{Junta (}\textbf{\emph{join}}\textbf{) ($r\bowtie s$)}
-
-
-La junta de dos relaciones $r$ y $s$ según un predicado $P$ es
-una relación de esquema igual al producto cartesiano $r\times s$,
-cuyas tuplas son el conjunto de tuplas de $r\times s$ que satisfacen
+	La junta de dos relaciones $r$ y $s$ según un predicado $P$ es una relación de esquema igual al producto cartesiano $r\times s$, cuyas tuplas son el conjunto de tuplas de $r\times s$ que satisfacen
 el predicado $P$.
+	\[
+		r\bowtie_{p}s\equiv\sigma_{p}\left(r\times s\right)
+	\]
 
+	\begin{enumerate}
+		\item \textbf{\emph{Equi-join}}: dadas las relaciones $r$ y $s$, es el \emph{join} según el predicado $r.A_{i}=s.A_{j}$
+		\item \textbf{\emph{Auto-join}}: dada la relación $r$, es el \emph{join} de $r$ consigo mismo según el predicado $1.A_{i}\,\theta\,2.A_{i}$ donde $1$ y $2$ son aliases de $r$.
+		\item \textbf{\emph{Natural join}}\textbf{ }($r*s$). Requiere que haya atributos compartidos entre las relaciones $r$ y $s$, y además que $R\bigcap S\neq\emptyset$.
+		\[
+			r*s \equiv \pi_{R\cup S} \left( \sigma_{r.c_{1} = s.c_{1} \wedge r.c_{2} = s.c_{2} \wedge \dots \wedge r.c_{h} = s.c_{h}} \left( r\times s \right) \right)
+		\]
 
-\[
-r\bowtie_{p}s\equiv\sigma_{p}\left(r\times s\right)
-\]
+		El \emph{join} natural es una operación asociativa, por lo tanto, $(r*s)*t = r*(s*t)$.
+	\end{enumerate}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.7]{join_natural}
+		\caption{Junta natural}
+	\end{figure}
 
-\begin{enumerate}
-\item \textbf{\emph{Equi-join}}: dadas las relaciones $r$ y $s$, es el
-\emph{join} según el predicado $r.A_{i}=s.A_{j}$
-\item \textbf{\emph{Auto-join}}: dada la relación $r$, es el \emph{join}
-de $r$ consigo mismo según el predicado $1.A_{i}\,\theta\,2.A_{i}$
-donde $1$ y $2$ son aliases de $r$.
-\item \textbf{\emph{Natural join}}\textbf{ }($r*s$). Requiere que haya
-atributos compartidos entre las relaciones $r$ y $s$, y además que
-$R\bigcap S\neq\emptyset$.
+	\item \textbf{División} ($r/s$). 
 
+	Sean las relaciones $r\in R$ con $n$ atributos y $s\in S$ con $m$ atributos, tal que $m<n$ y $S\subset R$. La división son todas las tuplas $t$ tales que, multiplicadas por \textbf{todas} las filas $u$ de $s$, me dan filas que están en $r$. El esquema de la división es $R-S$.
+	\[
+		r/s\equiv\pi_{1,\dots,n-m}(r)-\pi_{1,\dots,n-m}\left(\left(\pi_{1,\dots,n-m}(r)\times s\right)-r\right)
+	\]
 
-\[
-r*s\equiv\pi_{R\cup S}\left(\sigma_{r.c_{1}=s.c_{1}\wedge r.c_{2}=s.c_{2}\wedge\dots\wedge r.c_{h}=s.c_{h}}\left(r\times s\right)\right)
-\]
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.7]{division}
+		\caption{División}
+	\end{figure}
 
+	\item \textbf{Asignación} ($r\leftarrow s$)
 
-
-El \emph{join} natural es una operación asociativa, por lo tanto,
-$(r*s)*t=r*(s*t)$.
-
-\end{enumerate}
-
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.7]{join_natural}
-\par\end{centering}
-
-\protect\caption{Junta natural}
-
-
-\end{figure}
-
-
-\item \textbf{División} ($r/s$). 
-
-
-Sean las relaciones $r\in R$ con $n$ atributos y $s\in S$ con $m$
-atributos, tal que $m<n$ y $S\subset R$. La división son todas las
-tuplas $t$ tales que, multiplicadas por \textbf{todas} las filas
-$u$ de $s$, me dan filas que están en $r$. El esquema de la división
-es $R-S$.
-
-
-\[
-r/s\equiv\pi_{1,\dots,n-m}(r)-\pi_{1,\dots,n-m}\left(\left(\pi_{1,\dots,n-m}(r)\times s\right)-r\right)
-\]
-
-
-
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.7]{division}
-\par\end{centering}
-
-\protect\caption{División}
-\end{figure}
-
-
-\item \textbf{Asignación} ($r\leftarrow s$)
-
-
-$r$ no cambia al ejecutar operaciones de actualización sobre $s$.
-
+	$r$ no cambia al ejecutar operaciones de actualización sobre $s$.
 \end{enumerate}
 
 \subsection{Operadores extendidos}
 \begin{enumerate}
-\item \textbf{Proyección generalizada}: permite operadores aritméticos como
-parte de una proyección.
+	\item \textbf{Proyección generalizada}: permite operadores aritméticos como parte de una proyección.
 
+	\[
+		\pi_{F_{1},F_{2},\dots,F_{n}}(E)
+	\]
 
-\[
-\pi_{F_{1},F_{2},\dots,F_{n}}(E)
-\]
+	donde $E$ es una expresión de álgebra relacional, y $F_{i}$ es una expresión aritmética que involucra constantes y atributos del esquema $E$.
 
-
-
-donde $E$ es una expresión de álgebra relacional, y $F_{i}$ es una
-expresión aritmética que involucra constantes y atributos del esquema
-$E$.
-
-\item \textbf{Funciones agregadas}: son funciones que toman como parámetro
-un multiconjunto%
-\footnote{Un \textbf{multiconjunto} es un conjunto en el que un valor puede
-aparecer muchas veces.%
-}.
-
-
-\texttt{}
-\begin{lstlisting}
+	\item \textbf{Funciones agregadas}: son funciones que toman como parámetro un multiconjunto%
+	\footnote{Un \textbf{multiconjunto} es un conjunto en el que un valor puede aparecer muchas veces.}.
+	\begin{lstlisting}
 sum
 count
 min
 max
 avg
-\end{lstlisting}
+	\end{lstlisting}
 
+	La forma general es: 
+	\[
+		_{G_{1},\dots G_{n}}\mathcal{G}_{F_{1}(A_{1}),\dots,F_{m}(A_{m})}(E)
+	\]
 
+	donde $E$ una expresión de álgebra relacional; $G_{i}$ es un atributo para formar grupos, $F_{i}$ es una función agregada, y $A_{i}$ es un atributo. Las tuplas de la relación resultado de $E$ se particionan en grupos de tal forma que
+	\begin{enumerate}
+		\item Todas las tuplas en un grupo tienen el mismo valor para $G_{i}\,\forall i\in[1,n]$
+		\item Tuplas en distintos grupos tienen distinto valor para $G_{i}\,\forall i\in[1,n]$
+	\end{enumerate}
 
-La forma general es: 
+	Para cada grupo, la relación tendrá una tupla $(g_{1},\dots,g_{n},a_{1},\dots,a_{m})$ donde para cada $i$, $a_{i}$ es el resultado de aplicar la función $F_{i}$ en el multiconjunto, para el atributo $A_{i}$ del grupo.
 
+	\emph{Ejemplo: dada la relación EmpleadosPartTime(nombre,sucursal,salario), la siguiente expresión devuelve una relación con un solo atributo (sin nombre) y una sola fila, que contiene el valor de la suma de todos los salarios:} 
+	\[
+		\mathcal{G}_{sum(salario)}EmpleadosPartTime
+	\]
 
-\[
-_{G_{1},\dots G_{n}}\mathcal{G}_{F_{1}(A_{1}),\dots,F_{m}(A_{m})}(E)
-\]
+	Se puede usar el operador \texttt{distinct} para eliminar múltiples ocurrencias de un valor.
 
+	\emph{Ejemplo: con la misma relación anterior, la siguiente expresión devuelve una relación con un solo atributo (sin nombre) y una sola fila, que contiene la cantidad de sucursales:}
+	\[
+		\mathcal{G}_{count-distinct(sucursal)}EmpleadosPartTime
+	\]
 
+	Se puede usar el operador de \textbf{grupos}\textbf{\emph{ }}para particionar una relación y computar una función agregada a cada grupo.
 
-donde $E$ una expresión de álgebra relacional; $G_{i}$ es un atributo
-para formar grupos, $F_{i}$ es una función agregada, y $A_{i}$ es
-un atributo. Las tuplas de la relación resultado de $E$ se particionan
-en grupos de tal forma que
-\begin{enumerate}
-\item Todas las tuplas en un grupo tienen el mismo valor para $G_{i}\,\forall i\in[1,n]$
-\item Tuplas en distintos grupos tienen distinto valor para $G_{i}\,\forall i\in[1,n]$
-\end{enumerate}
+	\emph{Ejemplo: con la misma relación anterior, la siguiente expresión devuelve una relación con dos atributos (sin nombres), que contiene la suma de salarios de cada sucursal:}
+	\[
+		_{sucursal}\mathcal{G}_{sum(salario)}EmpleadosPartTime
+	\]
 
-Para cada grupo, la relación tendrá una tupla $(g_{1},\dots,g_{n},a_{1},\dots,a_{m})$
-donde para cada $i$, $a_{i}$ es el resultado de aplicar la función
-$F_{i}$ en el multiconjunto, para el atributo $A_{i}$ del grupo.
-
-
-\emph{Ejemplo: dada la relación EmpleadosPartTime(nombre,sucursal,salario),
-la siguiente expresión devuelve una relación con un solo atributo
-(sin nombre) y una sola fila, que contiene el valor de la suma de
-todos los salarios:} 
-\[
-\mathcal{G}_{sum(salario)}EmpleadosPartTime
-\]
-
-
-
-Se puede usar el operador \texttt{distinct} para eliminar múltiples
-ocurrencias de un valor.
-
-
-\emph{Ejemplo: con la misma relación anterior, la siguiente expresión
-devuelve una relación con un solo atributo (sin nombre) y una sola
-fila, que contiene la cantidad de sucursales:}
-
-
-\[
-\mathcal{G}_{count-distinct(sucursal)}EmpleadosPartTime
-\]
-
-
-
-Se puede usar el operador de \textbf{grupos}\textbf{\emph{ }}para
-particionar una relación y computar una función agregada a cada grupo. 
-
-
-\emph{Ejemplo: con la misma relación anterior, la siguiente expresión
-devuelve una relación con dos atributos (sin nombres), que contiene
-la suma de salarios de cada sucursal:}
-
-
-\[
-_{sucursal}\mathcal{G}_{sum(salario)}EmpleadosPartTime
-\]
-
-
-\item \textbf{Join externo} (\emph{outer join}): es una extensión de la
-operación de \emph{join} que lidia con información faltante (\emph{null}s).
-
-\begin{enumerate}
-\item \emph{Left outer join} (\textbf{$r_{1}$$ $$\leftouterjoin\, r_{2}$}):
-hace un \emph{join} \emph{natural}, y toma todas las tuplas de $r_{1}$
-que no matchearon con ninguna tupla de $r_{2}$, les agrega valores
-\emph{null} a los atributos de $r_{2}$, y los agrega al resultado.
-\item \emph{Right outer join} (\textbf{$r_{1}$$\rightouterjoin\, r_{2}$}):
-hace un \emph{join} \emph{natural}, y toma todas las tuplas de $r_{2}$
-que no matchearon con ninguna tupla de $r_{1}$, les agrega valores
-\emph{null} a los atributos de $r_{1}$, y los agrega al resultado.
-\item \emph{Full outer join} (\textbf{$r_{1}$$\fullouterjoin\, r_{2}$}):
-combina las dos operaciones anteriores.
-
-
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.5]{fullouterjoin}
-\par\end{centering}
-
-\protect\caption{Ejemplo de \emph{full outer join}}
-
-
-\end{figure}
-
-
-\end{enumerate}
+	\item \textbf{Join externo} (\emph{outer join}): es una extensión de la operación de \emph{join} que lidia con información faltante (\emph{null}s).
+	\begin{enumerate}
+		\item \emph{Left outer join} (\textbf{$r_{1}$$ $$\leftouterjoin\, r_{2}$}): hace un \emph{join} \emph{natural}, y toma todas las tuplas de $r_{1}$ que no matchearon con ninguna tupla de $r_{2}$, les agrega valores \emph{null} a los atributos de $r_{2}$, y los agrega al resultado.
+		\item \emph{Right outer join} (\textbf{$r_{1}$ $\rightouterjoin\, r_{2}$}): hace un \emph{join} \emph{natural}, y toma todas las tuplas de $r_{2}$ que no matchearon con ninguna tupla de $r_{1}$, les agrega valores \emph{null} a los atributos de $r_{1}$, y los agrega al resultado.
+		\item \emph{Full outer join} (\textbf{$r_{1}$ $\fullouterjoin\, r_{2}$}): combina las dos operaciones anteriores.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{fullouterjoin}
+			\caption{Ejemplo de \emph{full outer join}}
+		\end{figure}
+	\end{enumerate}
 \end{enumerate}
 
 \subsection{Actualizaciones a bases de datos}
-
-
 \subsubsection{Delete}
-
-En álgebra relacional se expresa como $r\leftarrow r-E$, donde $r$
-es una relación y $E$ es una expresión de consulta.
+En álgebra relacional se expresa como $r\leftarrow r-E$, donde $r$ es una relación y $E$ es una expresión de consulta.
 
 Solo se pueden borrar tuplas completas, no valores de atributos.
 
-
 \subsubsection{Insert}
-
-En álgebra relacional se expresa como $r\leftarrow r\cup E$, donde
-$r$ es una relación y $E$ es una expresión de consulta, o una relación
-constante con una sola tupla.
-
+En álgebra relacional se expresa como $r\leftarrow r\cup E$, donde $r$ es una relación y $E$ es una expresión de consulta, o una relación constante con una sola tupla.
 
 \subsubsection{Update}
-
-En álgebra relacional se expresa como $r\leftarrow\pi_{F_{1},\dots,F_{n}}(r)$,
-donde $r$ es una relación y cada $F_{i}$ es, o el atributo i-ésimo
-de $r$, o una expresión que involucra solo constantes y el nuevo
-valor de $r$, que da el nuevo valor del atributo i-ésimo.
-
+En álgebra relacional se expresa como $r\leftarrow\pi_{F_{1},\dots,F_{n}}(r)$, donde $r$ es una relación y cada $F_{i}$ es, o el atributo i-ésimo de $r$, o una expresión que involucra solo constantes y el nuevo valor de $r$, que da el nuevo valor del atributo i-ésimo.
 
 \subsection{Vistas (\emph{views})}
-\begin{description}
-\item [{Vista}] relación que no es parte del modelo lógico de la base de
-datos, pero que es visible para el usuario como una relación ``virtual''.
-\end{description}
+\textbf{Vista:} relación que no es parte del modelo lógico de la base de datos, pero que es visible para el usuario como una relación ``virtual''.
+
 \begin{lstlisting}
 CREATE VIEW v AS <expresion de consulta>
 \end{lstlisting}
 
-
 Limitaciones:
 \begin{itemize}
-\item No se pueden ejecutar operaciones de \emph{update} sobre una vista,
-salvo que la vista sobre la relación $R$ cumpla lo siguiente:
+	\item No se pueden ejecutar operaciones de \emph{update} sobre una vista, salvo que la vista sobre la relación $R$ cumpla lo siguiente:
+	\begin{itemize}
+		\item Deben usar \texttt{SELECT}, y no \texttt{SELECT DISTINCT}
+		\item La cláusula \texttt{WHERE} no debe incluir a $R$ en una consulta anidada
+		\item La cláusula \texttt{WHERE} no debe incluir a otra relación
+		\item Los atributos del \texttt{SELECT} deben ser \texttt{NOT NULL}
+	\end{itemize}
 
-\begin{itemize}
-\item Deben usar \texttt{SELECT}, y no \texttt{SELECT DISTINCT}
-\item La cláusula \texttt{WHERE} no debe incluir a $R$ en una consulta
-anidada
-\item La cláusula \texttt{WHERE} no debe incluir a otra relación
-\item Los atributos del \texttt{SELECT} deben ser \texttt{NOT NULL}
+	El \emph{update} solo se ejecutará sobre los atributos del \texttt{SELECT}.
+
+	\item A las operaciones de \emph{delete} sobre una vista se les pasa la cláusula \texttt{WHERE} de la vista (para borrar solo las tuplas que se pueden ver en la vista).
+
+	\item Si las relaciones subyacentes son modificadas, la vista queda desactualizada. Por eso, en los motores, en una expresión que involucra una vista, la relación de la vista se recalcula al evaluar la expresión.
 \end{itemize}
 
-El \emph{update} solo se ejecutará sobre los atributos del \texttt{SELECT}.
-
-\item A las operaciones de \emph{delete} sobre una vista se les pasa la
-cláusula \texttt{WHERE} de la vista (para borrar solo las tuplas que
-se pueden ver en la vista).
-\item Si las relaciones subyacentes son modificadas, la vista queda desactualizada.
-Por eso, en los motores, en una expresión que involucra una vista,
-la relación de la vista se recalcula al evaluar la expresión.\end{itemize}
-\begin{description}
-\item [{Vista~materializada}] vista que se evalúa y se almacena físicamente.
-Los cambios a estas vistas se realizan de forma \emph{incremental
-}(no se reconstruye toda la vista desde cero).
-\end{description}
+\textbf{Vista materializada:} vista que se evalúa y se almacena físicamente. Los cambios a estas vistas se realizan de forma \emph{incremental}(no se reconstruye toda la vista desde cero).
 
 \section{Cálculo relacional}
-
- COMPLETAR
-
+COMPLETAR
 
 \section{Lenguajes de consulta}
-\begin{description}
-\item [{Query}] expresión que solicita una porción de información.
-\end{description}
+\textbf{Query:} expresión que solicita una porción de información.
+
 Hay dos tipos de lenguajes de consulta (\emph{query languages}):
 \begin{enumerate}
-\item \textbf{Procedurales:} el usuario indica una serie de operaciones
-a ejecutar sobre una base de datos para producir el resultado deseado.
-\emph{Ejemplos: SQL.}
-\item \textbf{No procedurales:} el usuario indica la información deseada,
-sin especificar el procedimiento para obtenerla. \emph{Ejemplos: Datalog
-(similar a Prolog).}
+	\item \textbf{Procedurales:} el usuario indica una serie de operaciones a ejecutar sobre una base de datos para producir el resultado deseado. \emph{Ejemplos: SQL.}
+	\item \textbf{No procedurales:} el usuario indica la información deseada, sin especificar el procedimiento para obtenerla. \emph{Ejemplos: Datalog (similar a Prolog).}
 \end{enumerate}
 
 \section{Integridad y seguridad}
-
 En SQL, tenemos las siguientes restricciones:
 \begin{itemize}
-\item \texttt{NOT NULL}: indica que un atributo no puede tener el valor
-\emph{null}
-\item \texttt{UNIQUE}: asegura que para todas las tuplas, el valor del atributo
-es único
-\item \texttt{PRIMARY KEY}: asegura que una o varias columnas tengan una
-identidad única, no nula
-\item \texttt{FOREIGN KEY}: asegura la integridad referencial de una tabla
-\item \texttt{CHECK}: asegura que el valor de un atributo satisface una
-condición especificada
-\item \texttt{DEFAULT}: especifica un valor por defecto cuando no se especifique
-ninguo
+	\item \texttt{NOT NULL}: indica que un atributo no puede tener el valor \emph{null}
+	\item \texttt{UNIQUE}: asegura que para todas las tuplas, el valor del atributo es único
+	\item \texttt{PRIMARY KEY}: asegura que una o varias columnas tengan una identidad única, no nula
+	\item \texttt{FOREIGN KEY}: asegura la integridad referencial de una tabla
+	\item \texttt{CHECK}: asegura que el valor de un atributo satisface una condición especificada
+	\item \texttt{DEFAULT}: especifica un valor por defecto cuando no se especifique ninguo
 \end{itemize}
 
 \subsection{Restricciones de dominio}
-
 \begin{lstlisting}
 CREATE DOMAIN color AS VARCHAR(10)
 	DEFAULT 'SinColor'
@@ -1365,12 +897,8 @@ DROP DOMAIN <dominio>;
 ALTER DOMAIN <dominio>;
 \end{lstlisting}
 
-
-
 \subsection{Restricciones de integridad referencial}
-
 Ejemplo: 
-
 \begin{lstlisting}
 CREATE TABLE hospital (
 	IdHosp SMALLINT,
@@ -1388,13 +916,8 @@ ALTER TABLE medico
 	REFERENCES hospital(IdHosp);
 \end{lstlisting}
 
-
-
 \subsubsection{Acciones referenciales}
-
-Son llamadas SQL que se ejecutan de forma automática ante la eliminación
-o actualización de una restricción de integridad referencial, para
-mantener la misma.
+Son llamadas SQL que se ejecutan de forma automática ante la eliminación o actualización de una restricción de integridad referencial, para mantener la misma.
 
 \begin{lstlisting}
 ALTER TABLE medico 
@@ -1404,33 +927,18 @@ ALTER TABLE medico
 		ON [DELETE|UPDATE] [SET DEFAULT|SET NULL|CASCADE|NO ACTION];
 \end{lstlisting}
 
-
-De esta forma, cuando se elimine o actualice una fila en la tabla
-\texttt{Hospital}, el sistema de base de datos ejecutará la acción
-especificada en la tabla \texttt{Medico}:
+De esta forma, cuando se elimine o actualice una fila en la tabla \texttt{Hospital}, el sistema de base de datos ejecutará la acción especificada en la tabla \texttt{Medico}:
 \begin{itemize}
-\item \texttt{SET DEFAULT / SET NULL}: se fija el valor predeterminado o
-nulo en la fila referenciante.
-\item \texttt{CASCADE}: al eliminar una tupla referenciada, las tuplas referenciantes
-son eliminadas. Al modificar la clave en la tabla referenciada, el
-correspondiente valor de la clave foránea es actualizado.
+	\item \texttt{SET DEFAULT / SET NULL}: se fija el valor predeterminado o nulo en la fila referenciante.
+	\item \texttt{CASCADE}: al eliminar una tupla referenciada, las tuplas referenciantes son eliminadas. Al modificar la clave en la tabla referenciada, el correspondiente valor de la clave foránea es actualizado.
 \end{itemize}
 
 \subsection{Seguridad y autorizaciones}
+Para brindar autorizaciones, se brindan privilegios. Los privilegios son tipos de autorizaciones para leer, insertar, actualizar o borrar datos. También existe el privilegio \texttt{references}, que permite declarar claves foráneas al crear relaciones nuevas.
 
-Para brindar autorizaciones, se brindan privilegios. Los privilegios
-son tipos de autorizaciones para leer, insertar, actualizar o borrar
-datos. También existe el privilegio \texttt{references}, que permite
-declarar claves foráneas al crear relaciones nuevas.
+Con la opción \texttt{WITH GRANT OPTION} se permite que el usuario que recibe el permiso se lo conceda a alguien más. El pase de autorizaciones de un usuario a otro se representa con un \textbf{grafo de autorización}, donde cada nodo es un usuario (la raíz es el DBA), y las aristas representan autorizaciones concedidas.
 
-Con la opción \texttt{WITH GRANT OPTION} se permite que el usuario
-que recibe el permiso se lo conceda a alguien más. El pase de autorizaciones
-de un usuario a otro se representa con un \textbf{grafo de autorización},
-donde cada nodo es un usuario (la raíz es el DBA), y las aristas representan
-autorizaciones concedidas.
-
-Un usuario tiene autorización sí y solo sí existe un camino desde
-la raíz del grafo hacia el nodo usuario.
+Un usuario tiene autorización sí y solo sí existe un camino desde la raíz del grafo hacia el nodo usuario.
 
 \begin{lstlisting}
 GRANT <privilegios>
@@ -1439,11 +947,7 @@ GRANT <privilegios>
 	[WITH GRANT OPTION];
 \end{lstlisting}
 
-
-Para eliminar autorizaciones se usa el comando \texttt{REVOKE}. Por
-defecto, este comando tiene el efecto de revocar los privilegios que
-el usuario le brindó a otros. Para evitar este efecto cascada, se
-usa la opción \texttt{RESTRICT}.
+Para eliminar autorizaciones se usa el comando \texttt{REVOKE}. Por defecto, este comando tiene el efecto de revocar los privilegios que el usuario le brindó a otros. Para evitar este efecto cascada, se usa la opción \texttt{RESTRICT}.
 
 \begin{lstlisting}
 REVOKE <privilegios>
@@ -1452,22 +956,15 @@ REVOKE <privilegios>
 	[RESTRICT];
 \end{lstlisting}
 
-
 Para crear roles:
 
 \begin{lstlisting}
 CREATE ROLE instructor;
 \end{lstlisting}
 
-
-
 \section{Triggers}
-\begin{description}
-\item [{Trigger}] comando que el sistema ejecuta automáticamente si un
-\emph{evento} satisface cierta \emph{condición}. Son un conjunto de
-acciones; por ejemplo, enviar un e-mail, ejecutar el \emph{rollback}
-de una transacción, o crear una copia de la base de datos.
-\end{description}
+\textbf{Trigger:} comando que el sistema ejecuta automáticamente si un \emph{evento} satisface cierta \emph{condición}. Son un conjunto de acciones; por ejemplo, enviar un e-mail, ejecutar el \emph{rollback} de una transacción, o crear una copia de la base de datos.
+
 \begin{lstlisting}
 CREATE TRIGGER chequear_horario
 [BEFORE|AFTER] [UPDATE|INSERT|DELETE] [OF atributo] ON curso
@@ -1476,66 +973,46 @@ BEGIN
 	acciones
 END
 \end{lstlisting}
-\pagebreak{}
 
-
+\newpage
 \part{Diseño de bases de datos}
-
 Objetivos:
 \begin{itemize}
-\item Reducir la redundancia de la información (porque ocupa espacio y es
-más difícil de actualizar): repetición de información en varias tuplas
-\item Eliminar las anomalías:
+	\item Reducir la redundancia de la información (porque ocupa espacio y es más difícil de actualizar): repetición de información en varias tuplas
+	\item Eliminar las anomalías:
+	\begin{itemize}
+		\item De actualización: podría darse el caso de que actualizamos una tupla y no actualizamos otra tupla con el mismo dato
+		\item De inserción: no es posible insertar ciertos datos sin insertar otros (posiblemente no relacionados)
+		\item De eliminación: podría darse el caso de que eliminamos una tupla y, sin querer, borramos un dato importante
+	\end{itemize}
+	\item Devolver información rápidamente
+\end{itemize}
 
-\begin{itemize}
-\item De actualización: podría darse el caso de que actualizamos una tupla
-y no actualizamos otra tupla con el mismo dato
-\item De inserción: no es posible insertar ciertos datos sin insertar otros
-(posiblemente no relacionados)
-\item De eliminación: podría darse el caso de que eliminamos una tupla y,
-sin querer, borramos un dato importante
-\end{itemize}
-\item Devolver información rápidamente
-\end{itemize}
 Notación:
 \begin{itemize}
-\item Nombre de esquemas: $R,S,R_{1},\dots,R_{n},S_{1},\dots,S_{n}$
-\item Instancias de esquemas: $r,s,r_{1},\dots r_{n},s_{1},\dots,s_{n}$
-\item Conjuntos de atributos: $\alpha,\beta,\gamma$
-\item Atributos: $A,B,C$
-\item Tuplas: $t_{1},t_{2}$
+	\item Nombre de esquemas: $R,S,R_{1},\dots,R_{n},S_{1},\dots,S_{n}$
+	\item Instancias de esquemas: $r,s,r_{1},\dots r_{n},s_{1},\dots,s_{n}$
+	\item Conjuntos de atributos: $\alpha,\beta,\gamma$
+	\item Atributos: $A,B,C$
+	\item Tuplas: $t_{1},t_{2}$
 \end{itemize}
 
-\subsection{Dependencias funcionales}
+\section{Dependencias funcionales}
 \begin{description}
-\item [{Dependencia~funcional}] sea el esquema $R$, y sean $\alpha\subseteq R$
-y $\beta\subseteq R$. La dependencia funcional $\alpha\to\beta$
-se cumple si para cada par de tuplas $t_{1},t_{2}$ tal que $t_{1}[\alpha]=t_{2}[\alpha]$
-, también se cumple que $t_{1}[\beta]=t_{2}[\beta]$. 
+	\item[Dependencia funcional] sea el esquema $R$, y sean $\alpha \subseteq R$ y $\beta\subseteq R$. La dependencia funcional $\alpha \to \beta$ se cumple si para cada par de tuplas $t_{1}, t_{2}$ tal que $t_{1}[\alpha] = t_{2}[\alpha]$, también se cumple que $t_{1}[\beta]=t_{2}[\beta]$. 
 
+	Una dependencia funcional es \textbf{trivial} si $\beta\subseteq\alpha$. En particular, $\alpha\to\alpha$ es trivial.
 
-Una dependencia funcional es \textbf{trivial} si $\beta\subseteq\alpha$.
-En particular, $\alpha\to\alpha$ es trivial.
+	Un conjunto $K$ es superclave de $R$ si $K\to R$.
 
+	Un conjunto $J$ es clave candidata de $R$ si $J\to R$ y además $\not\exists\gamma\subset J/\gamma\to R$.
 
-Un conjunto $K$ es superclave de $R$ si $K\to R$.
+	Una dependencia funcional, a diferencia de una diferencia multivaluada o de junta, prohíbe que ciertas tuplas existan.
 
-
-Un conjunto $J$ es clave candidata de $R$ si $J\to R$ y además
-$\not\exists\gamma\subset J/\gamma\to R$.
-
-
-Una dependencia funcional, a diferencia de una diferencia multivaluada
-o de junta, prohíbe que ciertas tuplas existan.
-
-\item [{Dependencias~funcionales~implicadas}] sea el esquema $R$. Una
-dependencia funcional $f$ está lógicamente implicada por un conjunto
-de dependencias $F$, si para cada instancia de relación $r(R)$ que
-cumple $F$, también cumple $f$.
+	\item[Dependencias funcionales implicadas] sea el esquema $R$. Una dependencia funcional $f$ está lógicamente implicada por un conjunto de dependencias $F$, si para cada instancia de relación $r(R)$ que cumple $F$, también cumple $f$.
 \end{description}
 
-\subsubsection{Axiomas de Armstrong}
-
+\subsection{Axiomas de Armstrong}
 Se utilizan para hallar las dependencias funcionales implicadas, es
 decir, $F^{+}$ de un conjunto $F$.
 \begin{enumerate}
@@ -1585,7 +1062,7 @@ y $X(R-XY)$, es decir, si $R$ satisface la dependencia de junta
 $*\left(XY,X(R-XY)\right)$
 
 
-\subsubsection{Clausura y superclaves}
+\subsection{Clausura y superclaves}
 \begin{description}
 \item [{Clausura~de~F}] sea $F$ un conjunto de dependencias funcionales
 sobre el esquema $R$. $F^{+}$ es el conjunto de dependencias funcionales
@@ -1700,7 +1177,7 @@ una arista entre $X$ e $Y$)
 
 
 
-\subsubsection{Cubrimiento minimal}
+\subsection{Cubrimiento minimal}
 \begin{description}
 \item [{Atributo~extráneo}] atributo de una dependencia funcional que
 se puede quitar de la misma sin cambiar\emph{ }la clausura del conjunto
@@ -1809,7 +1286,7 @@ es redundante.
 
 \end{enumerate}
 
-\subsection{Primera forma normal (1FN)}
+\section{Primera forma normal (1FN)}
 \begin{description}
 \item [{Dominio~atómico}] los elementos del dominio se consideran unidades
 indivisibles.
@@ -1859,7 +1336,7 @@ Para normalizarla, hay que dividirla en dos relaciones.
 \end{tabular}
 
 
-\subsection{Descomposición de una relación}
+\section{Descomposición de una relación}
 \begin{description}
 \item [{Descomposición~de~una~relación}] Sea el esquema relacional $R$.
 El conjunto de esquemas $\left\{ R_{1},R_{2},\dots,R_{n}\right\} $
@@ -1944,7 +1421,7 @@ Salida: ``verdadero'' si la descomposición preserva $A\to B$
 
 
 
-\subsubsection{Descomposición SPI en 2 relaciones}
+\subsection{Descomposición SPI en 2 relaciones}
 
 Sea el esquema relacional $R$, y sea $F$ el conjunto de dependencias
 funcionales sobre $R$. Sean $R_{1}$ y $R_{2}$ una descomposición
@@ -1966,7 +1443,7 @@ ni $R_{1}\cap R_{2}\to R_{2}-R_{1}$. Por lo tanto, esta descomposición
 no es SPI. }
 \end{itemize}
 
-\subsubsection{Descomposición SPI en más de 2 relaciones}
+\subsection{Descomposición SPI en más de 2 relaciones}
 
 El algoritmo \textbf{Chase Tableau }se utiliza para verificar si una
 descomposición de $R$ en $R_{1},\ldots,R_{k}$ ($k>2)$ es SPI. Es
@@ -2101,7 +1578,7 @@ Como son todas variables distinguidas, la descomposición es sin pérdida
 de información.
 
 
-\subsection{Segunda forma normal (2FN)}
+\section{Segunda forma normal (2FN)}
 \begin{description}
 \item [{Atributo~primo}] atributo de $R$ que pertenece a una clave candidata.
 \end{description}
@@ -2164,7 +1641,7 @@ de la clave candidata.}
 \end{tabular}
 
 
-\subsection{Forma Normal Boyce-Codd (FNBC)}
+\section{Forma Normal Boyce-Codd (FNBC)}
 
 Un esquema de relación $R$ está en FNBC con respecto a un conjunto
 de dependencias funcionales $F$ si, para todas las dependencias funcionales
@@ -2221,7 +1698,7 @@ tal que $R_{i}$ está en FNBC con respecto a $F_{i}$
 
 
 
-\subsection{Tercera forma normal (3FN)}
+\section{Tercera forma normal (3FN)}
 \begin{quote}
 \emph{A statement of Codd's definition of 3NF, paralleling the traditional
 pledge to give true evidence in a court of law, was given by Bill
@@ -2340,7 +1817,7 @@ Bob Albertson  & 28 Septiembre 1968\\
 \end{tabular}
 
 
-\subsection{Dependencias multivaluadas}
+\section{Dependencias multivaluadas}
 
 Una dependencia multivaluada expresa que dos conjuntos de atributos
 en un esquema son mutuamente independientes.
@@ -2398,7 +1875,7 @@ redundancia.}
 son satisfechas por la descomposición del mismo.
 \end{description}
 
-\subsubsection{Propiedades de las DMVs}
+\subsection{Propiedades de las DMVs}
 \begin{itemize}
 \item $\alpha\twoheadrightarrow\beta$ es \textbf{trivial} si $\beta\subseteq\alpha$
 ó si $R=\alpha\beta$.
@@ -2481,7 +1958,7 @@ donde $A\twoheadrightarrow B$ esté en $D^{+}$ y $A\subseteq R_{i}$
 
 
 
-\subsubsection{Preservación de dependencias multivaluadas}
+\subsection{Preservación de dependencias multivaluadas}
 
 Una descomposición de $R$ en los esquemas $R_{1},\ldots,R_{n}$ es
 una descomposición que \textbf{preserva las dependencias} con respecto
@@ -2578,7 +2055,7 @@ se cumple porque$BI$ no se puede expresar como la unión de componentes
 de $Bdep(AC)$.
 
 
-\subsection{Cuarta forma normal (4FN)}
+\section{Cuarta forma normal (4FN)}
 
 Un esquema de relación $R$ está en 4FN con respecto a un conjunto
 de dependencias funcionales y multivaluadas $M$ si, para todas las
@@ -2644,7 +2121,7 @@ Para normalizarla, hay que dividirla en dos relaciones.
 \par\end{center}
 
 
-\subsubsection{Descomposición SPI en 2 relaciones}
+\subsection{Descomposición SPI en 2 relaciones}
 
 Sea el esquema relacional $R$, y sea $M$ el conjunto de dependencias
 funcionales y multivaluadas sobre $R$. Sean $R_{1}$ y $R_{2}$ una
@@ -2656,7 +2133,7 @@ multivaluadas está en $M^{+}$:
 \item $R_{1}\cap R_{2}\twoheadrightarrow R_{2}-R_{1}$
 \end{enumerate}
 
-\subsubsection{Descomposición SPI en más de 2 relaciones}
+\subsection{Descomposición SPI en más de 2 relaciones}
 
 El algoritmo es idéntico al de descomposición en BCFN, excepto que
 se usan dependencias multivaluadas y se restringe $R_{i}$ al conjunto
@@ -5024,4 +4501,22 @@ $Logs\, X\implies Bd\, X\implies Commit\, al\, log$ & $Logs\, X\,\&\, Commit\, a
 \hline 
 \end{tabular}
 \par\end{center}
+
+% Bibliografía utilizada en el apunte
+%\newpage
+%\newcommand{\bibliographyname}{Bibliografía} % Defino el nombre de la sección de la bibliografía
+%\addcontentsline{toc}{section}{\bibliographyname} % Agrego la bibliografía en el índice
+%\renewcommand\refname{\bibliographyname} % Renombro a la bibliografía (por default es 'Referencias')
+%\begin{thebibliography}{X}
+%	\bibitem{Marsden} \textsc{Jerrold E. Marsden} y \textsc{Anthony J. Tromba}, \textit{Cálculo Vectorial}, tercera edición, Addison-Wesley Iberoamericana, 1991.
+%\end{thebibliography}
+
+% Nombres de las personas que han colaborado en la creación del apunte
+\colaborador{María Inés Parnisari (maineparnisari@gmail.com)}
+\makeseccioncolaboradores % Crea la seccion de colaboradres
+
+% Incluir el historial de cambios
+\revision{08/03/2015}{Versión inicial}
+\makehistorial
+
 \end{document}
