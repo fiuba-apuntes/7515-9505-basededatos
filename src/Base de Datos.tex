@@ -314,8 +314,7 @@ El modelo entidad-interrelación se basa en la idea de que el mundo real está c
 		\item \textbf{Significado}: texto preciso, conciso y claro. Debe indicar, si existieran, dependencias con otros tipos de entidades
 		\item \textbf{Atributos}: características de todas las entidades de ese tipo. \emph{Ejemplo: para el conjunto de entidades ``cliente'', posibles atributos son ``nombre'', ``DNI'', ``calle'', ``ciudad'', etc.} Cada atributo tiene un conjunto de \textbf{valores} permitidos, denominado el \textbf{dominio }del atributo. \emph{Ejemplo: el DNI debe ser un número positivo.} Los atributos deben ser \textbf{atómicos} (es decir, que no se pueden descomponer), y no pueden estar repetidos.
 
-		Formalmente, un \textbf{atributo} es una función que hace corresponder un conjunto de entidades a un dominio o producto cartesiano de dominios. \emph{Ejemplo: una entidad ``empleado'' está descrita por el conjunto
-\{(nombre, Juan), (apellido, Cancela), (DNI, 5.678.901)\}.}
+		Formalmente, un \textbf{atributo} es una función que hace corresponder un conjunto de entidades a un dominio o producto cartesiano de dominios. \emph{Ejemplo: una entidad ``empleado'' está descrita por el conjunto \{(nombre, Juan), (apellido, Cancela), (DNI, 5.678.901)\}.}
 
 		Un atributo puede tener el valor \textbf{nulo}, por varias razones:
 		\begin{enumerate}
@@ -1016,1345 +1015,1064 @@ Notación:
 Se utilizan para hallar las dependencias funcionales implicadas, es
 decir, $F^{+}$ de un conjunto $F$.
 \begin{enumerate}
-\item Regla de reflexividad
+	\item Regla de reflexividad
+	
+	Si $\alpha$ es un conjunto de atributos y $\beta\subseteq\alpha,$ entonces $(\alpha\to\beta)\in F^{+}$
 
+	\item Regla de augmentación
 
-Si $\alpha$ es un conjunto de atributos y $\beta\subseteq\alpha,$
-entonces $(\alpha\to\beta)\in F^{+}$
+	Si $\alpha\to\beta$ es una dependencia funcional y $\gamma$ es un conjunto de atributos, entonces $(\gamma\alpha\to\gamma\beta)\in F^{+}$
 
-\item Regla de augmentación
+	\item Regla de transitividad
 
-
-Si $\alpha\to\beta$ es una dependencia funcional y $\gamma$ es un
-conjunto de atributos, entonces $(\gamma\alpha\to\gamma\beta)\in F^{+}$
-
-\item Regla de transitividad
-
-
-Si $\alpha\to\beta$ es una dependencia funcional y $\beta\to\gamma$
-es otra dependencia funcional, entonces $(\alpha\to\gamma)\in F^{+}$
-
+	Si $\alpha\to\beta$ es una dependencia funcional y $\beta\to\gamma$ es otra dependencia funcional, entonces $(\alpha\to\gamma)\in F^{+}$
 \end{enumerate}
+
 Propiedades deducidas:
 \begin{enumerate}
-\item Regla de unión
+	\item Regla de unión
 
+	Si se cumplen $\alpha\to\beta$ y $\alpha\to\gamma$, entonces también se cumple $\alpha\to\beta\gamma$
 
-Si se cumplen $\alpha\to\beta$ y $\alpha\to\gamma$, entonces también
-se cumple $\alpha\to\beta\gamma$
+	\item Regla de descomposición
 
-\item Regla de descomposición
+	Si se cumple $\alpha\to\beta\gamma$, entonces también se cumplen $\alpha\to\beta$ y $\alpha\to\gamma$
 
+	\item Regla de pseudotransitividad
 
-Si se cumple $\alpha\to\beta\gamma$, entonces también se cumplen
-$\alpha\to\beta$ y $\alpha\to\gamma$
-
-\item Regla de pseudotransitividad
-
-
-Si se cumplen $\alpha\to\beta$ y $\gamma\beta\to\delta$, entonces
-también se cumple $\gamma\alpha\to\delta$
-
+	Si se cumplen $\alpha\to\beta$ y $\gamma\beta\to\delta$, entonces también se cumple $\gamma\alpha\to\delta$
 \end{enumerate}
-\textbf{Teorema}: $R$ satisface la dependencia funcional $X\to Y$
-sí y sólo sí $R$ descompone sin pérdida sobre los esquemas $XY$
-y $X(R-XY)$, es decir, si $R$ satisface la dependencia de junta
-$*\left(XY,X(R-XY)\right)$
 
+\textbf{Teorema}: $R$ satisface la dependencia funcional $X\to Y$ sí y sólo sí $R$ descompone sin pérdida sobre los esquemas $XY$ y $X(R-XY)$, es decir, si $R$ satisface la dependencia de junta $*\left( XY, X(R-XY) \right)$
 
 \subsection{Clausura y superclaves}
-\begin{description}
-\item [{Clausura~de~F}] sea $F$ un conjunto de dependencias funcionales
-sobre el esquema $R$. $F^{+}$ es el conjunto de dependencias funcionales
-implicadas por $F$.
-
+\textbf{Clausura de F:} sea $F$ un conjunto de dependencias funcionales sobre el esquema $R$. $F^{+}$ es el conjunto de dependencias funcionales implicadas por $F$.
 
 \[
-F^{+}=\left\{ \alpha\to\beta/F\vDash\alpha\to\beta\right\} 
+	F^{+}=\left\{ \alpha\to\beta/F\vDash\alpha\to\beta\right\} 
 \]
 
-
-\end{description}
 \begin{algorithm}[H]
-Entrada: relación $R$, conjunto de dependencias funcionales $F$
+	Entrada: relación $R$, conjunto de dependencias funcionales $F$
 
-Salida: $F^{+}$
-\begin{enumerate}
-\item $F^{+}=F$
-\item Repetir hasta que $F^{+}$ no varíe:
+	Salida: $F^{+}$
+	\begin{enumerate}
+		\item $F^{+}=F$
 
-\begin{enumerate}
-\item Para cada dependencia funcional $f$ en $F^{+}$:
+		\item Repetir hasta que $F^{+}$ no varíe:
+		\begin{enumerate}
+			\item Para cada dependencia funcional $f$ en $F^{+}$:
 
+			Aplicar reglas de reflexividad y aumentación a $f$
 
-Aplicar reglas de reflexividad y aumentación a $f$
+			Agregar las dependencias funcionales restantes a $F^{+}$
 
+			\item Para cada par de dependencias funcionales $f_{1},f_{2}$ en $F^{+}$:
+			\begin{itemize}
+				\item Si $f_{1},f_{2}$ pueden combinarse usando el axioma de transitividad:
 
-Agregar las dependencias funcionales restantes a $F^{+}$
+				Agregar la dependencia funcional resultante a $F^{+}$
+			\end{itemize}
+		\end{enumerate}
 
-\item Para cada par de dependencias funcionales $f_{1},f_{2}$ en $F^{+}$:
-
-\begin{itemize}
-\item Si $f_{1},f_{2}$ pueden combinarse usando el axioma de transitividad:
-
-
-Agregar la dependencia funcional resultante a $F^{+}$
-
-\end{itemize}
-\end{enumerate}
-\item Devolver $F^{+}$
-\end{enumerate}
-\protect\caption{Computar $F^{+}$}
+		\item Devolver $F^{+}$
+	\end{enumerate}
+	\caption{Computar $F^{+}$}
 \end{algorithm}
 
+Para un esquema $R$ con $n$ atributos, hay $2^{n+1}$ posibles dependencias funcionales.
 
-Para un esquema $R$ con $n$ atributos, hay $2^{n+1}$ posibles dependencias
-funcionales.
-
-\textbf{Clausura de $\alpha$} \textbf{bajo $F$}: es el conjunto
-de atributos de $R$ que dependen funcionalmente de $\alpha$.
+\textbf{Clausura de $\alpha$ bajo $F$}: es el conjunto de atributos de $R$ que dependen funcionalmente de $\alpha$.
 
 \[
-\alpha_{F}^{+}=\left\{ \beta/\beta\subset R\,\wedge\, F\vDash\alpha\to\beta\right\} 
+	\alpha_{F}^{+}=\left\{ \beta/\beta\subset R\,\wedge\, F\vDash\alpha\to\beta\right\} 
 \]
 
-
 \begin{algorithm}[H]
-Entrada: relación $R$, conjunto de dependencias funcionales $F$,
-atributo $\alpha$
+	Entrada: relación $R$, conjunto de dependencias funcionales $F$, atributo $\alpha$
 
-Salida: $\alpha_{F}^{+}$
-\begin{enumerate}
-\item $a^{+}=a$
-\item Repetir hasta que $a^{+}$ no varíe:
+	Salida: $\alpha_{F}^{+}$
+	\begin{enumerate}
+		\item $a^{+} = a$
 
-\begin{enumerate}
-\item Para cada dependencia funcional $B\to Y\in F$:
-
-\begin{itemize}
-\item Si $B\subseteq a^{+}$:
-
-
-$a^{+}=a^{+}\cup Y$
-
-\end{itemize}
-\end{enumerate}
-\item Devolver $a^{+}$
-\end{enumerate}
-\protect\caption{Computar $\alpha^{+}$}
+		\item Repetir hasta que $a^{+}$ no varíe:
+		\begin{enumerate}
+			\item Para cada dependencia funcional $B\to Y\in F$:
+			\begin{itemize}
+				\item Si $B \subseteq a^{+}$: $a^{+} = a^{+}\cup Y$
+			\end{itemize}
+		\end{enumerate}
+		
+		\item Devolver $a^{+}$
+	\end{enumerate}
+	\caption{Computar $\alpha^{+}$}
 \end{algorithm}
-
 
 Usos del algoritmo de cálculo de la clausura de $a^{+}$:
 \begin{enumerate}
-\item Para determinar si $\alpha$ es una superclave de $R$: debe cumplirse
-que $\alpha^{+}=R$.
-\item Para determinar si la dependencia funcional $\alpha\to\beta\in F^{+}$
-: debe cumplirse que $\beta\subseteq\alpha^{+}$.
-\item Es una forma alternativa de calcular $F^{+}$
+	\item Para determinar si $\alpha$ es una superclave de $R$: debe cumplirse que $\alpha^{+}=R$.
+	\item Para determinar si la dependencia funcional $\alpha\to\beta\in F^{+}$: debe cumplirse que $\beta\subseteq\alpha^{+}$.
+	\item Es una forma alternativa de calcular $F^{+}$
 \end{enumerate}
+
 \begin{algorithm}[H]
-Entrada: relación $R$, conjunto de dependencias funcionales $F$
+	Entrada: relación $R$, conjunto de dependencias funcionales $F$
 
-Salida: claves candidatas de $R$
-\begin{enumerate}
-\item Dibujar el grafo de dependencias funcionales (si $X\to Y\in F$, dibujar
-una arista entre $X$ e $Y$)
-\item $V_{ni}=$ atributos sin aristas entrantes
-\item $V_{oi}=$ atributos que solo tienen aristas entrantes
-\item $K=\{\}$
-\item Repetir hasta que no se pueda agregar nada a $K$:
-
-\begin{enumerate}
-\item $CC=$ todos los atributos de $V_{ni}$
-\item Agregar a $CC$ un atributo de $R$ que no esté en $V_{oi}$ ni $V_{ni}$
-\item $K=K\cup CC$
-\end{enumerate}
-\item Devolver $K$
-\end{enumerate}
-\protect\caption{Cálculo de claves candidatas mediante un grafo}
+	Salida: claves candidatas de $R$
+	\begin{enumerate}
+		\item Dibujar el grafo de dependencias funcionales (si $X\to Y\in F$, dibujar una arista entre $X$ e $Y$)
+		\item $V_{ni}=$ atributos sin aristas entrantes
+		\item $V_{oi}=$ atributos que solo tienen aristas entrantes
+		\item $K=\{\}$
+		\item Repetir hasta que no se pueda agregar nada a $K$:
+		\begin{enumerate}
+			\item $CC=$ todos los atributos de $V_{ni}$
+			\item Agregar a $CC$ un atributo de $R$ que no esté en $V_{oi}$ ni $V_{ni}$
+			\item $K=K\cup CC$
+		\end{enumerate}
+		\item Devolver $K$
+	\end{enumerate}
+	\caption{Cálculo de claves candidatas mediante un grafo}
 \end{algorithm}
-
-
 
 \subsection{Cubrimiento minimal}
 \begin{description}
-\item [{Atributo~extráneo}] atributo de una dependencia funcional que
-se puede quitar de la misma sin cambiar\emph{ }la clausura del conjunto
-de dependencias funcionales. 
+	\item[Atributo extráneo:] atributo de una dependencia funcional que se puede quitar de la misma sin cambiar\emph{ }la clausura del conjunto de dependencias funcionales. 
 
+	Sea el conjunto de dependencias funcionales $F$ y la dependencia funcional $\alpha\to\beta$ en $F$.
+	\begin{itemize}
+		\item El atributo $A$ es extráneo en $\alpha$ si, cuando lo sacamos de $\alpha$, la dependencia funcional se sigue cumpliendo ($B\in(\alpha-A)_{F}^{+}$). Formalmente:
+		\begin{itemize}
+			\item $A\in\alpha$, y
+			\item $F$ implica lógicamente a $\left(F-\left\{ \alpha\to B\right\} \right)\cup\left\{ \left(\alpha-A\right)\to\beta\right\} $
+		\end{itemize}
 
-Sea el conjunto de dependencias funcionales $F$ y la dependencia
-funcional $\alpha\to\beta$ en $F$.
-\begin{itemize}
-\item El atributo $A$ es extráneo en $\alpha$ si, cuando lo sacamos de
-$\alpha$, la dependencia funcional se sigue cumpliendo ($B\in(\alpha-A)_{F}^{+}$).
-Formalmente:
+		\item El atributo $B$ es extráneo en $\beta$ si, cuando lo sacamos de $\beta$, la dependencia funcional se sigue cumpliendo ($\alpha\to(\beta-B)$) Formalmente:
+		\begin{itemize}
+			\item $B\in\beta$, y
+			\item El conjunto $\left(F-\left\{ \alpha\to\beta\right\} \right)\cup\left\{ \alpha\to\left(\beta-B\right)\right\}$ implica lógicamente a $F$
+		\end{itemize}
+	\end{itemize}
 
-\begin{itemize}
-\item $A\in\alpha$, y
-\item $F$ implica lógicamente a $\left(F-\left\{ \alpha\to B\right\} \right)\cup\left\{ \left(\alpha-A\right)\to\beta\right\} $
-\end{itemize}
-\item El atributo $B$ es extráneo en $\beta$ si, cuando lo sacamos de
-$\beta$, la dependencia funcional se sigue cumpliendo ($\alpha\to(\beta-B)$)
-Formalmente:
+	\item[Cubrimiento minimal:] El cubrimiento minimal $F_{min}$ para $F$ es un conjunto de dependencias funcionales tales que $F$ implica todas las dependencias en $F_{min}$, y $F_{min}$ implica todas las
+dependencias en $F$.
 
-\begin{itemize}
-\item $B\in\beta$, y
-\item El conjunto $\left(F-\left\{ \alpha\to\beta\right\} \right)\cup\left\{ \alpha\to\left(\beta-B\right)\right\} $
-implica lógicamente a $F$
-\end{itemize}
-\end{itemize}
-\item [{Cubrimiento~minimal}] El cubrimiento minimal $F_{min}$ para $F$
-es un conjunto de dependencias funcionales tales que $F$ implica
-todas las dependencias en $F_{min}$, y $F_{min}$ implica todas las
-dependencias en $F$. 
+	$F_{min}$ debe tener las propiedades siguientes:
+	\begin{itemize}
+		\item Ninguna dependencia funcional en $F_{min}$ contiene un atributo extráneo
+		\item No existen dos dependencias funcionales $\alpha_{1}\to\beta$ y $\alpha_{2}\to\gamma$ en $F_{min}$ tales que $\alpha_{1}=\alpha_{2}$. Es decir, los lados izquierdos deben ser únicos
+	\end{itemize}
 \end{description}
-$F_{min}$ debe tener las propiedades siguientes:
-\begin{itemize}
-\item Ninguna dependencia funcional en $F_{min}$ contiene un atributo extráneo
-\item No existen dos dependencias funcionales $\alpha_{1}\to\beta$ y $\alpha_{2}\to\gamma$
-en $F_{min}$ tales que $\alpha_{1}=\alpha_{2}$. Es decir, los lados
-izquierdos deben ser únicos
-\end{itemize}
+
 \begin{algorithm}[H]
-Entrada: conjunto de dependencias funcionales $F$
+	Entrada: conjunto de dependencias funcionales $F$
 
-Salida: cubrimiento minimal $F_{min}$
-\begin{enumerate}
-\item Usar el axioma de la descomposición para dejar un solo atributo en
-el lado derecho de cada dependencia funcional.
-\item Eliminar los atributos extráneos de los lados izquierdos.
+	Salida: cubrimiento minimal $F_{min}$
+	\begin{enumerate}
+		\item Usar el axioma de la descomposición para dejar un solo atributo en el lado derecho de cada dependencia funcional.
 
+		\item Eliminar los atributos extráneos de los lados izquierdos.
 
-Sea $Y\to B$ una dependencia funcional en $F$, con al menos dos
-atributos en $Y$. Sea $Z$ igual a $Y$ pero con algún atributo de
-menos. Si $F$ implica a $Z\to B$, entonces reemplazar $Y\to B$
-con $Z\to B$.
+		Sea $Y\to B$ una dependencia funcional en $F$, con al menos dos atributos en $Y$. Sea $Z$ igual a $Y$ pero con algún atributo de menos. Si $F$ implica a $Z\to B$, entonces reemplazar $Y\to B$ con $Z\to B$.
 
-\item Eliminar las dependencias funcionales redundantes (es decir, que se
-deducen de los axiomas de Armstrong).
-\end{enumerate}
-\protect\caption{Cálculo de cubrimiento minimal}
-
-
+		\item Eliminar las dependencias funcionales redundantes (es decir, que se deducen de los axiomas de Armstrong).
+	\end{enumerate}
+	\caption{Cálculo de cubrimiento minimal}
 \end{algorithm}
 
-
-\emph{Ejemplo: sea el conjunto de dependencias $F=\{A\to BD,B\to CD,AC\to E\}$.
-Calcular el cubrimiento minimal.}
+\emph{Ejemplo: sea el conjunto de dependencias $F=\{A\to BD,B\to CD,AC\to E\}$. Calcular el cubrimiento minimal.}
 \begin{enumerate}
-\item \emph{Dejar todos los lados derechos con un único atributo.}
+	\item \emph{Dejar todos los lados derechos con un único atributo.}
+	
+	\emph{$F_{min}=\{A\to B,A\to D,B\to C,B\to D,AC\to E\}$}
 
-
-\emph{$F_{min}=\{A\to B,A\to D,B\to C,B\to D,AC\to E\}$}
-
-\item \emph{Eliminar todos los atributos redundantes del lado izquierdo.}
-
-\begin{enumerate}
-\item \emph{Hay que analizar solamente la dependencia que tiene lado izquierdo
-compuesto: $AC\to E$.}
-\item \emph{¿$C$ es redundante en $AC\to E$? Hay que verificar si $E$
-está en $A_{F}^{+}$. Como $A_{F}^{+}=ABCDE$, entonces $C$ es redundante
-en $AC\to E$ y podemos reemplazar esta dependencia funcional por
+	\item \emph{Eliminar todos los atributos redundantes del lado izquierdo.}
+	\begin{enumerate}
+		\item \emph{Hay que analizar solamente la dependencia que tiene lado izquierdo compuesto: $AC\to E$.}
+		\item \emph{¿$C$ es redundante en $AC\to E$? Hay que verificar si $E$ está en $A_{F}^{+}$. Como $A_{F}^{+}=ABCDE$, entonces $C$ es redundante en $AC\to E$ y podemos reemplazar esta dependencia funcional por
 $A\to E$.}
-\end{enumerate}
+	\end{enumerate}
 
-\emph{$F_{min}=\{A\to B,A\to D,B\to C,B\to D,A\to E\}$}
+	\emph{$F_{min}=\{A\to B,A\to D,B\to C,B\to D,A\to E\}$}
 
-\item \emph{Eliminar las dependencias redundantes.}
+	\item \emph{Eliminar las dependencias redundantes.}
+	\begin{itemize}
+		\item \emph{Hay que revisar una por una todas las dependencias de $F_{min}$. En caso de que una sea redundante, se la elimina de $F_{min}$ y se sigue analizando el resto tomando como referencia el nuevo $F_{min}$. }
+		\item \emph{¿$A\to D$ es redundante en $F_{c}$? Hay que verificar si $D$ está en $A_{F_{c}-\{A\to D\}}^{+}$}
+		\begin{itemize}
+			\item \emph{$F_{min}-\{A\to D\}=\{A\to B,B\to C,B\to D,A\to E\}$}
+			\item \emph{$A_{F_{min}-\{A\to D\}}^{+}=ABCDE$}
+			\item \emph{Como $D\in F_{min}-\{A\to D\}$, $A\to D$ es redundante}
+		\end{itemize}
 
-\begin{itemize}
-\item \emph{Hay que revisar una por una todas las dependencias de $F_{min}$.
-En caso de que una sea redundante, se la elimina de $F_{min}$ y se
-sigue analizando el resto tomando como referencia el nuevo $F_{min}$. }
-\item \emph{¿$A\to D$ es redundante en $F_{c}$? Hay que verificar si $D$
-está en $A_{F_{c}-\{A\to D\}}^{+}$}
+		$F_{min}=\left\{ A\to B,B\to C,B\to D,A\to E\right\} $
+	\end{itemize}
 
-\begin{itemize}
-\item \emph{$F_{min}-\{A\to D\}=\{A\to B,B\to C,B\to D,A\to E\}$}
-\item \emph{$A_{F_{min}-\{A\to D\}}^{+}=ABCDE$}
-\item \emph{Como $D\in F_{min}-\{A\to D\}$, $A\to D$ es redundante}
-\end{itemize}
-
-$F_{min}=\left\{ A\to B,B\to C,B\to D,A\to E\right\} $
-
-\end{itemize}
-
-Puede comprobarse que el resto de las dependencias funcionales no
-es redundante.
-
+	Puede comprobarse que el resto de las dependencias funcionales no es redundante.
 \end{enumerate}
 
 \section{Primera forma normal (1FN)}
-\begin{description}
-\item [{Dominio~atómico}] los elementos del dominio se consideran unidades
-indivisibles.
-\end{description}
-Una relación con esquema $R$ está en 1FN si los dominios de sus atributos
-son atómicos, y si no hay atributos similares repetidos.
+\textbf{Dominio atómico:} los elementos del dominio se consideran unidades indivisibles.
 
-\textbf{\emph{Ejemplo}}: la siguiente relación no está en 1FN.
+Una relación con esquema $R$ está en 1FN si los dominios de sus atributos son atómicos, y si no hay atributos similares repetidos.
 
-\begin{tabular}{|c|c|c|c|}
-\hline 
-\uline{Título Libro} & Autor 1 & Autor 2 & Autor 3\\
-\hline 
-\hline 
-Database System Concepts & Avi Silberschatz & Henry Korth & S. Sudarshan\\
-\hline 
-Applied Cryptography & Bruce Schneier & NULL & NULL\\
-\hline 
-\end{tabular}
+\textbf{\emph{Ejemplo}}: la siguiente relación no está en 1FN.\\
 
-Para normalizarla, hay que dividirla en dos relaciones.
+\begin{center}
+	\begin{tabular}{|c|c|c|c|}
+		\hline 
+		\uline{Título Libro} & Autor 1 & Autor 2 & Autor 3\\
+		\hline 
+		\hline 
+		Database System Concepts & Avi Silberschatz & Henry Korth & S. Sudarshan\\
+		\hline 
+		Applied Cryptography & Bruce Schneier & NULL & NULL\\
+		\hline 
+	\end{tabular}
+\end{center}
 
-\begin{tabular}{|c|c|}
-\hline 
-\uline{ID libro} & Título Libro\\
-\hline 
-\hline 
-1 & Database System Concepts\\
-\hline 
-2 & Applied Cryptography\\
-\hline 
-\end{tabular}
+~\\
 
-\begin{tabular}{|c|c|}
-\hline 
-\uline{ID libro} & \uline{Autor}\\
-\hline 
-\hline 
-1 & Avi Silberschatz\\
-\hline 
-1 & Henry Korth\\
-\hline 
-1 & S. Sudarshan\\
-\hline 
-2 & Bruce Schneier\\
-\hline 
-\end{tabular}
+Para normalizarla, hay que dividirla en dos relaciones.\\
 
+\begin{minipage}{0.5\textwidth}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline 
+			\uline{ID libro} & Título Libro\\
+			\hline 
+			\hline 
+			1 & Database System Concepts\\
+			\hline 
+			2 & Applied Cryptography\\
+			\hline 
+		\end{tabular}
+	\end{center}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline 
+			\uline{ID libro} & \uline{Autor}\\
+			\hline 
+			\hline 
+			1 & Avi Silberschatz\\
+			\hline 
+			1 & Henry Korth\\
+			\hline 
+			1 & S. Sudarshan\\
+			\hline 
+			2 & Bruce Schneier\\
+			\hline 
+		\end{tabular}
+	\end{center}
+\end{minipage}
 
 \section{Descomposición de una relación}
-\begin{description}
-\item [{Descomposición~de~una~relación}] Sea el esquema relacional $R$.
-El conjunto de esquemas $\left\{ R_{1},R_{2},\dots,R_{n}\right\} $
-es una descomposición de $R$ si
-\end{description}
+Sea el esquema relacional $R$. El conjunto de esquemas $\left\{ R_{1},R_{2},\dots,R_{n}\right\}$ es una descomposición de $R$ si
 \[
-R=R_{1}\cup R_{2}\cup\dots\cup R_{n}
+	R = R_{1}\cup R_{2}\cup\dots\cup R_{n}
 \]
 
-
-Sea la relación $r(R)$. Sean $r_{i}=\pi_{R_{i}}(r)$ para $i=1,2,\dots,n$.
-Es decir, $\left\{ r_{1},r_{2},\dots,r_{n}\right\} $ es la base de
-datos que resulta de descomponer $R$ en $\left\{ R_{1},R_{2},\dots,R_{n}\right\} $.
-Siempre se verifica que
-
+Sea la relación $r(R)$. Sean $r_{i}=\pi_{R_{i}}(r)$ para $i=1,2,\dots,n$. Es decir, $\left\{ r_{1},r_{2},\dots,r_{n}\right\} $ es la base de datos que resulta de descomponer $R$ en $\left\{ R_{1},R_{2},\dots,R_{n}\right\} $. Siempre se verifica que
 \[
-r\subseteq r_{1}\bowtie r_{2}\bowtie\dots\bowtie r_{n}
+	r\subseteq r_{1}\bowtie r_{2}\bowtie\dots\bowtie r_{n}
 \]
 
-
-Es decir, $r$ es un subconjunto de la junta de la descomposición
-(la junta podría tener tuplas que no están en $r$).
+Es decir, $r$ es un subconjunto de la junta de la descomposición (la junta podría tener tuplas que no están en $r$).
 
 Propiedades deseadas de la descomposición:
 \begin{enumerate}
-\item \textbf{Sin pérdida de información: }verifica que\textbf{ }\textbf{\emph{$r=\pi_{R_{1}}(r)\bowtie\pi_{R_{2}}(r)\bowtie\dots\bowtie\pi_{R_{n}}(r)$. }}
-\item \textbf{Preservación de dependencias}
+	\item \textbf{Sin pérdida de información}
+	
+	Verifica que \textbf{\emph{$r=\pi_{R_{1}}(r)\bowtie\pi_{R_{2}}(r)\bowtie\dots\bowtie\pi_{R_{n}}(r)$.}}
 
+	\item \textbf{Preservación de dependencias}
 
-Una descomposición que verifica que $F'^{+}=F^{+}$ preserva dependencias,
-donde $F'=F_{1}\cup F_{2}\cup\dots\cup F_{n}$ son las dependencias
-proyectadas.
+	Una descomposición que verifica que $F'^{+}=F^{+}$ preserva dependencias, donde $F' = F_{1} \cup F_{2} \cup \dots \cup F_{n}$ son las dependencias proyectadas.
 
+	Esta propiedad es deseable porque significa que podemos chequear si se cumple la dependencia con solo verificarla en una relación individual, y no necesitamos hacer un \emph{join} de las relaciones de la descomposición.
 
-Esta propiedad es deseable porque significa que podemos chequear si
-se cumple la dependencia con solo verificarla en una relación individual,
-y no necesitamos hacer un \emph{join} de las relaciones de la descomposición.
-
-\item Poca o nula redundancia de información
+	\item \textbf{Poca o nula redundancia de información}
 \end{enumerate}
-\begin{algorithm}[H]
-Entrada: relación $R$, relación $R_{i}$, conjunto de dependencias
-funcionales $F$
-
-Salida: conjunto de dependencias funcionales que se verifican en $R_{i}$
-($F_{i}$)
-\begin{enumerate}
-\item $F_{i}=\{\}$
-\item Para cada conjunto de atributos $X$ que es un subconjunto de atributos
-de $R_{i}$:
-
-\begin{enumerate}
-\item Calcular $X_{F}^{+}$
-\item $F_{i}=F_{i}\cup\left\{ X\to A\right\} $, tal que $A\subseteq X_{F}^{+}$
-y $A\subseteq R_{i}$
-\end{enumerate}
-\item Devolver $F_{i}$
-\end{enumerate}
-\protect\caption{Cálculo de la proyección de dependencias $F_{i}$}
-
-
-\end{algorithm}
-
 
 \begin{algorithm}[H]
-Entrada: dependencia funcional $A\to B$, conjunto de dependencias
-funcionales $F$, descomposición $\left\{ R_{1},\ldots,R_{n}\right\} $
+	Entrada: relación $R$, relación $R_{i}$, conjunto de dependencias funcionales $F$
 
-Salida: ``verdadero'' si la descomposición preserva $A\to B$
-\begin{enumerate}
-\item $Z=A$
-\item Repetir hasta que $Z$ no varíe o hasta que $Z$ incluya a $B$:
-
-\begin{itemize}
-\item Para cada $R_{i}$: $Z=Z\cup\left[\left(Z\cap R_{i}\right)^{+}\cap R_{i}\right]$
-\end{itemize}
-\item Si $B\subseteq Z$: devolver ``verdadero''
-\item Si no: devolver ``falso''.
-\end{enumerate}
-\protect\caption{Cálculo para saber si una descomposición preserva una dependencia}
+	Salida: conjunto de dependencias funcionales que se verifican en $R_{i}$ ($F_{i}$)
+	\begin{enumerate}
+		\item $F_{i}=\{\}$
+		\item Para cada conjunto de atributos $X$ que es un subconjunto de atributos de $R_{i}$:
+		\begin{enumerate}
+			\item Calcular $X_{F}^{+}$
+			\item $F_{i}=F_{i}\cup\left\{ X\to A\right\} $, tal que $A\subseteq X_{F}^{+}$ y $A\subseteq R_{i}$
+		\end{enumerate}
+		\item Devolver $F_{i}$
+	\end{enumerate}
+	\caption{Cálculo de la proyección de dependencias $F_{i}$}
 \end{algorithm}
 
+\begin{algorithm}[H]
+	Entrada: dependencia funcional $A\to B$, conjunto de dependencias funcionales $F$, descomposición $\left\{ R_{1},\ldots,R_{n}\right\}$
 
+	Salida: ``verdadero'' si la descomposición preserva $A\to B$
+	\begin{enumerate}
+		\item $Z=A$
+		\item Repetir hasta que $Z$ no varíe o hasta que $Z$ incluya a $B$:
+		\begin{itemize}
+			\item Para cada $R_{i}$: $Z=Z\cup\left[\left(Z\cap R_{i}\right)^{+}\cap R_{i}\right]$
+		\end{itemize}
+		\item Si $B\subseteq Z$: devolver ``verdadero''
+		\item Si no: devolver ``falso''.
+	\end{enumerate}
+	\caption{Cálculo para saber si una descomposición preserva una dependencia}
+\end{algorithm}
 
 \subsection{Descomposición SPI en 2 relaciones}
-
-Sea el esquema relacional $R$, y sea $F$ el conjunto de dependencias
-funcionales sobre $R$. Sean $R_{1}$ y $R_{2}$ una descomposición
-de $R$. Esta descomposición es \emph{sin pérdida de información}
-(SPI) si al menos una de las siguientes dependencias funcionales está
-en $F^{+}$:
+Sea el esquema relacional $R$, y sea $F$ el conjunto de dependencias funcionales sobre $R$. Sean $R_{1}$ y $R_{2}$ una descomposición de $R$. Esta descomposición es \emph{sin pérdida de información} (SPI) si al menos una de las siguientes dependencias funcionales está en $F^{+}$:
 \begin{itemize}
-\item $R_{1}\cap R_{2}\to R_{1}-R_{2}$
-\item $R_{1}\cap R_{2}\to R_{2}-R_{1}$
+	\item $R_{1}\cap R_{2}\to R_{1}-R_{2}$
+	\item $R_{1}\cap R_{2}\to R_{2}-R_{1}$
 \end{itemize}
-\emph{Ejemplo: ¿La descomposición de $R(A,B,C,D,E,F)$ en $R_{1}=(A,D,E,F)$
-y $R_{2}=(B,C,D)$ es SPI respecto de $F=\{A\to BD,B\to CD,AC\to E\}$?}
+
+\emph{Ejemplo: ¿La descomposición de $R(A,B,C,D,E,F)$ en $R_{1}=(A,D,E,F)$ y $R_{2}=(B,C,D)$ es SPI respecto de $F=\{A\to BD,B\to CD,AC\to E\}$?}
 \begin{itemize}
-\item $R_{1}\cap R_{2}=D$
-\item $R_{1}-R_{2}=AEF$
-\item $R_{2}-R_{1}=BC$
-\item \emph{Como $D_{F}^{+}=\{D\}$, vemos que no se cumplen ni $R_{1}\cap R_{2}\to R_{1}-R_{2}$
-ni $R_{1}\cap R_{2}\to R_{2}-R_{1}$. Por lo tanto, esta descomposición
-no es SPI. }
+	\item $R_{1}\cap R_{2}=D$
+	\item $R_{1}-R_{2}=AEF$
+	\item $R_{2}-R_{1}=BC$
+	\item \emph{Como $D_{F}^{+}=\{D\}$, vemos que no se cumplen ni $R_{1}\cap R_{2}\to R_{1}-R_{2}$ ni $R_{1}\cap R_{2}\to R_{2}-R_{1}$. Por lo tanto, esta descomposición no es SPI.}
 \end{itemize}
 
 \subsection{Descomposición SPI en más de 2 relaciones}
 
-El algoritmo \textbf{Chase Tableau }se utiliza para verificar si una
-descomposición de $R$ en $R_{1},\ldots,R_{k}$ ($k>2)$ es SPI. Es
-decir, si la proyección de un esquema restringido por dependencias
-en una descomposición, puede recuperarse haciendo el \emph{join} de
-las proyecciones.
+El algoritmo \textbf{Chase Tableau} se utiliza para verificar si una descomposición de $R$ en $R_{1},\ldots,R_{k}$ ($k>2)$ es SPI. Es decir, si la proyección de un esquema restringido por dependencias en una descomposición, puede recuperarse haciendo el \emph{join} de las proyecciones.
 
 \begin{algorithm}[H]
-Entrada: esquema de relación $R$, conjunto de dependencias funcionales
-$F$, descomposición $\left\{ R_{1},\ldots,R_{k}\right\} $
+	Entrada: esquema de relación $R$, conjunto de dependencias funcionales $F$, descomposición $\left\{ R_{1},\ldots,R_{k}\right\}$
 
-Salida: ``verdadero'' si $\left\{ R_{1},\ldots,R_{n}\right\} $
-descompone SPI.
-\begin{enumerate}
-\item Armar una matriz $T^{(0)}$ con las relaciones $R_{i}$ en las filas
-($i=1,\ldots,k$) y los atributos $A_{j}$ en las columnas. Cada elemento
-de la matriz tendrá valor:
-
-
+	Salida: ``verdadero'' si $\left\{ R_{1},\ldots,R_{n}\right\} $ descompone SPI.
+	\begin{enumerate}
+		\item Armar una matriz $T^{(0)}$ con las relaciones $R_{i}$ en las filas ($i=1,\ldots,k$) y los atributos $A_{j}$ en las columnas. Cada elemento de la matriz tendrá valor:
 \[
-m_{ij}=\begin{cases}
-a_{j} & \text{ si }A_{j}\in R_{i}\text{ (variable distinguida)}\\
-b_{ij} & \text{ si }A_{j}\not\in R_{i}\text{ (variable ligada)}
-\end{cases}
+	m_{ij}=
+	\begin{cases}
+		a_{j} & \text{ si }A_{j}\in R_{i}\text{ (variable distinguida)}\\
+		b_{ij} & \text{ si }A_{j}\not\in R_{i}\text{ (variable ligada)}
+	\end{cases}
 \]
 
+		\item $i=1$
 
-\item $i=1$
-\item Obtener $T^{(i)}$:
+		\item Obtener $T^{(i)}$:
+		\begin{itemize}
+			\item Para cada dependencia funcional $X\to Y\in F$:
+			\begin{itemize}
+				\item Si $\exists$ tuplas $t_{1},t_{2}$ tal que $t_{1}[X]=t_{2}[x]$, realizar un cambio de variable en $t_{1}[Y]$ y en $t_{2}[Y]$
+				\begin{itemize}
+					\item Variables ligadas por distinguidas
+					\item Si hay dos ligadas, poner la de menor subíndice
+				\end{itemize}
+			\end{itemize}
+		\end{itemize}
 
-\begin{itemize}
-\item Para cada dependencia funcional $X\to Y\in F$:
+		\item Si hay una fila sólo con variables distinguidas, devolver ``verdadero''.
 
-\begin{itemize}
-\item Si $\exists$ tuplas $t_{1},t_{2}$ tal que $t_{1}[X]=t_{2}[x]$,
-realizar un cambio de variable en $t_{1}[Y]$ y en $t_{2}[Y]$
-
-\begin{itemize}
-\item Variables ligadas por distinguidas
-\item Si hay dos ligadas, poner la de menor subíndice
-\end{itemize}
-\end{itemize}
-\end{itemize}
-\item Si hay una fila sólo con variables distinguidas, devolver ``verdadero''.
-\item Si $T^{(i)}=T^{(i-1)}$ y además no hay una fila sólo con variables
-distinguidas, devolver ``falso''.
-\item Si no, $i\leftarrow i+1$ y volver a 3.
-\end{enumerate}
-\protect\caption{Algoritmo Chase Tableau}
-
-
+		\item Si $T^{(i)}=T^{(i-1)}$ y además no hay una fila sólo con variables distinguidas, devolver ``falso''.
+		
+		\item Si no, $i\leftarrow i+1$ y volver a 3.
+	\end{enumerate}
+	\caption{Algoritmo Chase Tableau}
 \end{algorithm}
 
+\emph{Ejemplo: sea el esquema de relación $R(A,B,C,D)$ con $F=\{A\to B,B\to C,CD\to A\}$. Sea la descomposición $R_{1}=(A,D)$, $R_{2}=(A,C)$, $R_{3}=(B,C,D)$. ¿La descomposición es SPI?}
 
-\emph{Ejemplo: sea el esquema de relación $R(A,B,C,D)$ con $F=\{A\to B,B\to C,CD\to A\}$.
-Sea la descomposición $R_{1}=(A,D)$, $R_{2}=(A,C)$, $R_{3}=(B,C,D)$.
-¿La descomposición es SPI?}
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline 
+		 & $A$ & $B$ & $C$ & $D$\\
+		\hline 
+		\hline 
+		$R_{1}(A,D)$ & \textbf{$a_{1}$} & \textbf{$b_{12}$} & $b_{13}$ & $a_{4}$\\
+		\hline 
+		$R_{2}(A,C)$ & $a_{1}$ & $b_{22}$ & $a_{3}$ & $b_{24}$\\
+		\hline 
+		$R_{3}(B,C,D)$ & $b_{31}$ & $a_{2}$ & $a_{3}$ & \textbf{$a_{4}$}\\
+		\hline 
+	\end{tabular}
+\end{center}
 
-\noindent \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
-\hline 
- & $A$ & $B$ & $C$ & $D$\\
-\hline 
-\hline 
-$R_{1}(A,D)$ & \textbf{$a_{1}$} & \textbf{$b_{12}$} & $b_{13}$ & $a_{4}$\\
-\hline 
-$R_{2}(A,C)$ & $a_{1}$ & $b_{22}$ & $a_{3}$ & $b_{24}$\\
-\hline 
-$R_{3}(B,C,D)$ & $b_{31}$ & $a_{2}$ & $a_{3}$ & \textbf{$a_{4}$}\\
-\hline 
-\end{tabular}
-\par\end{center}
+Aplicamos $A\to B$. Como $a_{1}$ es igual en las primeras dos filas, pero $b_{12}$ y $b_{22}$ no, cambiamos $b_{22}$ por $b_{12}$ en la segunda fila.
 
-Aplicamos $A\to B$. Como $a_{1}$ es igual en las primeras dos filas,
-pero $b_{12}$ y $b_{22}$ no, cambiamos $b_{22}$ por $b_{12}$ en
-la segunda fila.
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline 
+		 & $A$ & $B$ & $C$ & $D$\\
+		\hline 
+		\hline 
+		$R_{1}(A,D)$ & $a_{1}$ & $b_{12}$ & $b_{13}$ & $a_{4}$\\
+		\hline 
+		$R_{2}(A,C)$ & $a_{1}$ & $\mathbf{b_{12}}$ & $a_{3}$ & $b_{24}$\\
+		\hline 
+		$R_{3}(B,C,D)$ & $b_{31}$ & $a_{2}$ & $a_{3}$ & \textbf{$a_{4}$}\\
+		\hline 
+	\end{tabular}
+\end{center}
 
-\noindent \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
-\hline 
- & $A$ & $B$ & $C$ & $D$\\
-\hline 
-\hline 
-$R_{1}(A,D)$ & $a_{1}$ & $b_{12}$ & $b_{13}$ & $a_{4}$\\
-\hline 
-$R_{2}(A,C)$ & $a_{1}$ & $\mathbf{b_{12}}$ & $a_{3}$ & $b_{24}$\\
-\hline 
-$R_{3}(B,C,D)$ & $b_{31}$ & $a_{2}$ & $a_{3}$ & \textbf{$a_{4}$}\\
-\hline 
-\end{tabular}
-\par\end{center}
+Aplicamos $B\to C.$ Las filas 1 y 2 coinciden en $b_{12}$ pero no en $c$. Entonces, cambiamos $b_{13}$ por $a_{3}$ en la fila 1.
 
-Aplicamos $B\to C.$ Las filas 1 y 2 coinciden en $b_{12}$ pero no
-en $c$. Entonces, cambiamos $b_{13}$ por $a_{3}$ en la fila 1.
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline 
+		 & $A$ & $B$ & $C$ & $D$\\
+		\hline 
+		\hline 
+		$R_{1}(A,D)$ & $a_{1}$ & $b_{12}$ & $\mathbf{a_{3}}$ & $a_{4}$\\
+		\hline 
+		$R_{2}(A,C)$ & $a_{1}$ & $b_{12}$ & $a_{3}$ & $b_{24}$\\
+		\hline 
+		$R_{3}(B,C,D)$ & $b_{31}$ & $a_{2}$ & $a_{3}$ & \textbf{$a_{4}$}\\
+		\hline 
+	\end{tabular}
+\end{center}
 
-\noindent \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
-\hline 
- & $A$ & $B$ & $C$ & $D$\\
-\hline 
-\hline 
-$R_{1}(A,D)$ & $a_{1}$ & $b_{12}$ & $\mathbf{a_{3}}$ & $a_{4}$\\
-\hline 
-$R_{2}(A,C)$ & $a_{1}$ & $b_{12}$ & $a_{3}$ & $b_{24}$\\
-\hline 
-$R_{3}(B,C,D)$ & $b_{31}$ & $a_{2}$ & $a_{3}$ & \textbf{$a_{4}$}\\
-\hline 
-\end{tabular}
-\par\end{center}
+Aplicamos $CD\to A$. Las filas 1 y 3 tienen mismo valor para $c$ y $d$, pero distinto valor para $a$. Por lo tanto, cambiamos $b_{31}$ por $a_{1}$ en la tercera fila.
 
-Aplicamos $CD\to A$. Las filas 1 y 3 tienen mismo valor para $c$
-y $d$, pero distinto valor para $a$. Por lo tanto, cambiamos $b_{31}$
-por $a_{1}$ en la tercera fila.
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline 
+		 & $A$ & $B$ & $C$ & $D$\\
+		\hline 
+		\hline 
+		$R_{1}(A,D)$ & $a_{1}$ & $b_{12}$ & $a_{3}$ & $a_{4}$\\
+		\hline 
+		$R_{2}(A,C)$ & $a_{1}$ & $b_{12}$ & $a_{3}$ & $b_{24}$\\
+		\hline 
+		$R_{3}(B,C,D)$ & $\mathbf{a_{1}}$ & $a_{2}$ & $a_{3}$ & \textbf{$a_{4}$}\\
+		\hline 
+	\end{tabular}
+\end{center}
 
-\noindent \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
-\hline 
- & $A$ & $B$ & $C$ & $D$\\
-\hline 
-\hline 
-$R_{1}(A,D)$ & $a_{1}$ & $b_{12}$ & $a_{3}$ & $a_{4}$\\
-\hline 
-$R_{2}(A,C)$ & $a_{1}$ & $b_{12}$ & $a_{3}$ & $b_{24}$\\
-\hline 
-$R_{3}(B,C,D)$ & $\mathbf{a_{1}}$ & $a_{2}$ & $a_{3}$ & \textbf{$a_{4}$}\\
-\hline 
-\end{tabular}
-\par\end{center}
-
-En este punto notamos que la fila 3 tiene valores de la forma $a_{j}$.
-Como son todas variables distinguidas, la descomposición es sin pérdida
-de información.
-
+En este punto notamos que la fila 3 tiene valores de la forma $a_{j}$. Como son todas variables distinguidas, la descomposición es sin pérdida de información.
 
 \section{Segunda forma normal (2FN)}
-\begin{description}
-\item [{Atributo~primo}] atributo de $R$ que pertenece a una clave candidata.
-\end{description}
-Sea $R$ una relación y $F$ el conjunto de sus dependencias funcionales.
-$R$ estará en 2FN si para toda dependencia funcional $X\to Y$ que
-está en en $F^{+}$, se cumple al menos una de las siguientes condiciones:
-\begin{enumerate}
-\item $X\to Y$ es trivial
-\item $Y$ es un atributo primo,
-\item $X$ no es un subconjunto de una clave candidata
-\end{enumerate}
-\textbf{\emph{Ejemplo}}: la siguiente relación no está en 2FN porque
-\emph{Dirección de local} depende sólo de \emph{ID de local}, que
-no es una clave.
+\textbf{Atributo primo:} atributo de $R$ que pertenece a una clave candidata.
 
-\noindent \begin{center}
-\begin{tabular}{|c|c|c|}
-\hline 
-\uline{ID de cliente} & \uline{ID de local} & Dirección de local\\
-\hline 
-\hline 
-1 & 1 & Los Angeles\\
-\hline 
-1 & 3 & San Francisco\\
-\hline 
-2 & 1 & Los Angeles\\
-\hline 
-\end{tabular}
-\par\end{center}
+Sea $R$ una relación y $F$ el conjunto de sus dependencias funcionales. $R$ estará en 2FN si para toda dependencia funcional $X\to Y$ que está en en $F^{+}$, se cumple al menos una de las siguientes condiciones:
+\begin{enumerate}
+	\item $X\to Y$ es trivial
+	\item $Y$ es un atributo primo,
+	\item $X$ no es un subconjunto de una clave candidata
+\end{enumerate}
+
+\textbf{\emph{Ejemplo:}} la siguiente relación no está en 2FN porque \emph{Dirección de local} depende sólo de \emph{ID de local}, que no es una clave.
+
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+		\hline 
+		\uline{ID de cliente} & \uline{ID de local} & Dirección de local\\
+		\hline 
+		\hline 
+		1 & 1 & Los Angeles\\
+		\hline 
+		1 & 3 & San Francisco\\
+		\hline 
+		2 & 1 & Los Angeles\\
+		\hline 
+	\end{tabular}
+\end{center}
 
 $F=\{Id\, cliente,Id\, local\to Direccion\, local;Id\, local\to Direccion\, local\}$.
-\emph{La segunda dependencia funcional no es trivial, el lado derecho
-no pertenece a una clave candidata, y el lado izquierdo es un subconjunto
-de la clave candidata.}
 
-\emph{Para normalizarla, hay que dividirla en dos relaciones.}
+\emph{La segunda dependencia funcional no es trivial, el lado derecho no pertenece a una clave candidata, y el lado izquierdo es un subconjunto de la clave candidata.}
 
-\begin{tabular}{|c|c|}
-\hline 
-\uline{ID de cliente} & \uline{ID de local}\\
-\hline 
-\hline 
-1 & 1\\
-\hline 
-1 & 3\\
-\hline 
-2 & 1\\
-\hline 
-\end{tabular}
+\emph{Para normalizarla, hay que dividirla en dos relaciones.}\\
 
-\begin{tabular}{|c|c|}
-\hline 
-\uline{ID de local} & Dirección de local\\
-\hline 
-\hline 
-1 & Los Angeles\\
-\hline 
-3 & San Francisco\\
-\hline 
-\end{tabular}
-
+\begin{minipage}{0.5\textwidth}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline 
+			\uline{ID de cliente} & \uline{ID de local}\\
+			\hline 
+			\hline 
+			1 & 1\\
+			\hline 
+			1 & 3\\
+			\hline 
+			2 & 1\\
+			\hline 
+		\end{tabular}
+	\end{center}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline 
+			\uline{ID de local} & Dirección de local\\
+			\hline 
+			\hline 
+			1 & Los Angeles\\
+			\hline 
+			3 & San Francisco\\
+			\hline 
+		\end{tabular}
+	\end{center}
+\end{minipage}
 
 \section{Forma Normal Boyce-Codd (FNBC)}
-
-Un esquema de relación $R$ está en FNBC con respecto a un conjunto
-de dependencias funcionales $F$ si, para todas las dependencias funcionales
-en $F^{+}$ de la forma $\alpha\to\beta$, donde $\alpha\subseteq R$
-y $\beta\subseteq R$, se cumple alguna de las siguientes:
+Un esquema de relación $R$ está en FNBC con respecto a un conjunto de dependencias funcionales $F$ si, para todas las dependencias funcionales en $F^{+}$ de la forma $\alpha\to\beta$, donde $\alpha\subseteq R$ y $\beta\subseteq R$, se cumple alguna de las siguientes:
 \begin{itemize}
-\item $\alpha\to\beta$ es trivial (es decir, $\beta\subseteq\alpha$)
-\item $\alpha$ es una superclave para $R$ 
+	\item $\alpha\to\beta$ es trivial (es decir, $\beta\subseteq\alpha$)
+	\item $\alpha$ es una superclave para $R$ 
 \end{itemize}
+
 Propiedades:
 \begin{itemize}
-\item Cualquier relación de dos atributos está en FNBC
-\item Brinda eliminación de anomalías
-\item Brinda una descomposición SPI
-\item No garantiza que se preserven las dependencias funcionales
+	\item Cualquier relación de dos atributos está en FNBC
+	\item Brinda eliminación de anomalías
+	\item Brinda una descomposición SPI
+	\item No garantiza que se preserven las dependencias funcionales
 \end{itemize}
-Para verificar si una dependencia funcional $\alpha\to\beta$ viola
-FNBC, alcanza con computar $\alpha^{+}$ y ver si es $R$.
 
-Para verificar si una relación $R$ está en FNBC, alcanza con ver
-si las dependencias de $F$ no violan FNBC.
+Para verificar si una dependencia funcional $\alpha\to\beta$ viola FNBC, alcanza con computar $\alpha^{+}$ y ver si es $R$.
 
-Para verificar si una descomposición $R_{i}$ está en FNBC, para cada
-subconjunto $\alpha$ de atributos de $R_{i}$, verificar que $\alpha_{F}^{+}$
-o no incluya atributos de $R_{i}-\alpha$, o incluya todos los atributos
-de $R_{i}$.
+Para verificar si una relación $R$ está en FNBC, alcanza con ver si las dependencias de $F$ no violan FNBC.
+
+Para verificar si una descomposición $R_{i}$ está en FNBC, para cada subconjunto $\alpha$ de atributos de $R_{i}$, verificar que $\alpha_{F}^{+}$ o no incluya atributos de $R_{i}-\alpha$, o incluya todos los atributos de $R_{i}$.
 
 \begin{algorithm}[H]
-Entrada: una relación $R$, un conjunto de dependencias funcionales
-$F$
+	Entrada: una relación $R$, un conjunto de dependencias funcionales $F$
 
-Salida: una descomposición $\rho=\left\{ R_{1},\ldots,R_{n}\right\} $
-tal que $R_{i}$ está en FNBC con respecto a $F_{i}$
-\begin{enumerate}
-\item $\rho=R$
-\item Repetir hasta que no haya esquemas en $\rho$ que violen FNBC
-
-\begin{enumerate}
-\item Elegir una dependencia funcional $X\to Y$ que viole FNBC sobre $\rho_{i}$
-\item Descomponer $\rho_{i}$ en dos relaciones:
-
-\begin{itemize}
-\item $R_{1}(XY)$
-\item $R_{2}(X(R-XY))$
-\end{itemize}
-\item En $\rho$, reemplazar $\rho_{i}$ por $R_{1}$ y $R_{2}$
-\end{enumerate}
-\item Devolver $\rho$
-\end{enumerate}
-\protect\caption{Descomposición FNBC}
-
-
+	Salida: una descomposición $\rho=\left\{ R_{1},\ldots,R_{n}\right\}$ tal que $R_{i}$ está en FNBC con respecto a $F_{i}$
+	\begin{enumerate}
+		\item $\rho=R$
+		\item Repetir hasta que no haya esquemas en $\rho$ que violen FNBC
+		\begin{enumerate}
+			\item Elegir una dependencia funcional $X\to Y$ que viole FNBC sobre $\rho_{i}$
+			\item Descomponer $\rho_{i}$ en dos relaciones:
+			\begin{itemize}
+				\item $R_{1}(XY)$
+				\item $R_{2}(X(R-XY))$
+			\end{itemize}
+			\item En $\rho$, reemplazar $\rho_{i}$ por $R_{1}$ y $R_{2}$
+		\end{enumerate}
+	\item Devolver $\rho$
+	\end{enumerate}
+	\caption{Descomposición FNBC}
 \end{algorithm}
-
-
 
 \section{Tercera forma normal (3FN)}
 \begin{quote}
-\emph{A statement of Codd's definition of 3NF, paralleling the traditional
-pledge to give true evidence in a court of law, was given by Bill
-Kent: {[}Every{]} non-key {[}attribute{]} must provide
-a fact about the key, the whole key, and nothing but the key.
-A common variation supplements this definition with the oath: so
-help me Codd.}
+	\emph{A statement of Codd's definition of 3NF, paralleling the traditional pledge to give true evidence in a court of law, was given by Bill Kent: [Every] non-key [attribute] must provide a fact about the key, the whole key, and nothing but the key. A common variation supplements this definition with the oath: so help me Codd.}
 
-\emph{Requiring existence of the key
-ensures that the table is in 1NF; requiring that non-key attributes
-be dependent on the whole key ensures
-2NF; further requiring that non-key attributes be dependent on nothing
-but the key ensures 3NF.}
+	\emph{Requiring existence of the key ensures that the table is in 1NF; requiring that non-key attributes be dependent on the whole key ensures 2NF; further requiring that non-key attributes be dependent on nothing but the key ensures 3NF.}
 \end{quote}
-Un esquema de relación $R$ está en 3FN con respecto a un conjunto
-de dependencias funcionales $F$ si, para todas las dependencias funcionales
-en $F^{+}$ de la forma $\alpha\to\beta$, donde $\alpha\subseteq R$
-y $\beta\subseteq R$, se cumple alguna de las siguientes:
+
+Un esquema de relación $R$ está en 3FN con respecto a un conjunto de dependencias funcionales $F$ si, para todas las dependencias funcionales en $F^{+}$ de la forma $\alpha \to \beta$, donde $\alpha \subseteq R$ y $\beta \subseteq R$, se cumple alguna de las siguientes:
 \begin{itemize}
-\item $\alpha\to\beta$ es trivial (es decir, $\beta\subseteq\alpha$)
-\item $\alpha$ es una superclave para $R$ 
-\item $\beta$ es un atributo primo
+	\item $\alpha\to\beta$ es trivial (es decir, $\beta\subseteq\alpha$)
+	\item $\alpha$ es una superclave para $R$ 
+	\item $\beta$ es un atributo primo
 \end{itemize}
-Dicho de otra forma, $R$ no debe tener dependencias funcionales transitivas:
-todos los atributos que no son clave deben depender funcionalmente
-de la clave primaria.
+
+Dicho de otra forma, $R$ no debe tener dependencias funcionales transitivas: todos los atributos que no son clave deben depender funcionalmente de la clave primaria.
 
 Propiedades:
 \begin{itemize}
-\item No tiene pérdida de información
-\item No hay pérdida de dependencias
-\item No garantiza la eliminación de anomalías (es decir, tiene redundancia)
-\item Es menos estricta que FNBC (FNBC $\implies$3FN)
+	\item No tiene pérdida de información
+	\item No hay pérdida de dependencias
+	\item No garantiza la eliminación de anomalías (es decir, tiene redundancia)
+	\item Es menos estricta que FNBC (FNBC $\implies$3FN)
 \end{itemize}
+
 \begin{algorithm}[H]
-Entrada: una relación $R$, un cubrimiento minimal $F_{min}$
+	Entrada: una relación $R$, un cubrimiento minimal $F_{min}$
 
-Salida: una descomposición $\rho=\left\{ R_{1},\ldots,R_{n}\right\} $
-tal que $R_{i}$ está en 3FN con respecto a $F_{i}$
-\begin{enumerate}
-\item $\rho=\{\}$
-\item Para cada dependencia funcional $X\to Y\in F_{min}$:
+	Salida: una descomposición $\rho=\left\{ R_{1},\ldots,R_{n}\right\}$ tal que $R_{i}$ está en 3FN con respecto a $F_{i}$
+	\begin{enumerate}
+		\item $\rho=\{\}$
+		\item Para cada dependencia funcional $X\to Y\in F_{min}$:
+			
+		$\rho=\rho\cup R_{i}\left(XY\right)$
 
+		\item Si existen $R_{i},R_{j}\in\rho$ tal que $R_{i}\subseteq R_{j}$:
 
-$\rho=\rho\cup R_{i}\left(XY\right)$
+		$\rho=\rho-R_{i}$
 
-\item Si existen $R_{i},R_{j}\in\rho$ tal que $R_{i}\subseteq R_{j}$:
+		\item Si ninguna relación es una superclave de $R$, y $K$ es una clave para $R$
 
+		$\rho=\rho\cup K$
 
-$\rho=\rho-R_{i}$
-
-\item Si ninguna relación es una superclave de $R$, y $K$ es una clave
-para $R$
-
-
-$\rho=\rho\cup K$
-
-\item Devolver $\rho$\protect\caption{Descomposición 3FN}
-\end{enumerate}
+		\item Devolver $\rho$\protect\caption{Descomposición 3FN}
+	\end{enumerate}
 \end{algorithm}
 
+\textbf{\emph{Ejemplo:}} la siguiente relación no está en 3FN porque \emph{Fecha de nacimiento del ganador} depende sólo de \emph{Ganador}, que depende de la clave candidata \emph{\{Torneo, Año\}}.
 
-\textbf{\emph{Ejemplo}}: la siguiente relación no está en 3FN porque
-\emph{Fecha de nacimiento del ganador} depende sólo de \emph{Ganador},
-que depende de la clave candidata \emph{\{Torneo, Año\}}.
+\begin{center}
+	\begin{tabular}{|c|c|c|c|}
+		\hline 
+		\uline{Torneo} & \uline{Año} & Ganador & Fecha de nacimiento de ganador\\
+		\hline 
+		\hline 
+		Indiana Invitational  & 1998 & Al Fredrickson  & 21 Julio 1975\\
+		\hline 
+		Cleveland Open  & 1999 & Bob Albertson  & 28 Septiembre 1968\\
+		\hline 
+		Des Moines Masters  & 1999 & Al Fredrickson  & 21 Julio 1975\\
+		\hline 
+		Indiana Invitational  & 1999 & Chip Masterson  & 14 Marzo 1977\\
+		\hline 
+	\end{tabular}
+\end{center}
 
-\noindent \begin{center}
-\begin{tabular}{|c|c|c|c|}
-\hline 
-\uline{Torneo} & \uline{Año} & Ganador & Fecha de nacimiento de ganador\\
-\hline 
-\hline 
-Indiana Invitational  & 1998 & Al Fredrickson  & 21 Julio 1975\\
-\hline 
-Cleveland Open  & 1999 & Bob Albertson  & 28 Septiembre 1968\\
-\hline 
-Des Moines Masters  & 1999 & Al Fredrickson  & 21 Julio 1975\\
-\hline 
-Indiana Invitational  & 1999 & Chip Masterson  & 14 Marzo 1977\\
-\hline 
-\end{tabular}
-\par\end{center}
+$F=\{Torneo,A\tilde{n}o\to Ganador,Ganador\to Fecha\, nacimiento\, ganador\}$. La segunda dependencia funcional no es trivial, el lado derecho no pertenece a una clave candidata (no es atributo primo), y el lado izquierdo no es una superclave.
 
-$F=\{Torneo,A\tilde{n}o\to Ganador,Ganador\to Fecha\, nacimiento\, ganador\}$.
-La segunda dependencia funcional no es trivial, el lado derecho no
-pertenece a una clave candidata (no es atributo primo), y el lado
-izquierdo no es una superclave.
+Para normalizarla, hay que dividirla en dos relaciones.\\
 
-Para normalizarla, hay que dividirla en dos relaciones.
-
-\begin{tabular}{|c|c|c|}
-\hline 
-\uline{Torneo} & \uline{Año} & Ganador\\
-\hline 
-\hline 
-Indiana Invitational  & 1998 & Al Fredrickson \\
-\hline 
-Cleveland Open  & 1999 & Bob Albertson \\
-\hline 
-Des Moines Masters  & 1999 & Al Fredrickson \\
-\hline 
-Indiana Invitational  & 1999 & Chip Masterson \\
-\hline 
-\end{tabular}%
-\begin{tabular}{|c|c|}
-\hline 
-\uline{Ganador} & Fecha de nacimiento\\
-\hline 
-\hline 
-Chip Masterson  & 14 Marzo 1977\\
-\hline 
-Al Fredrickson  & 21 Julio 1975\\
-\hline 
-Bob Albertson  & 28 Septiembre 1968\\
-\hline 
-\end{tabular}
-
+\begin{minipage}{0.5\textwidth}
+	\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline 
+			\uline{Torneo} & \uline{Año} & Ganador\\
+			\hline 
+			\hline 
+			Indiana Invitational  & 1998 & Al Fredrickson \\
+			\hline 
+			Cleveland Open  & 1999 & Bob Albertson \\
+			\hline 
+			Des Moines Masters  & 1999 & Al Fredrickson \\
+			\hline 
+			Indiana Invitational  & 1999 & Chip Masterson \\
+			\hline 
+		\end{tabular}
+	\end{center}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline 
+			\uline{Ganador} & Fecha de nacimiento\\
+			\hline 
+			\hline 
+			Chip Masterson  & 14 Marzo 1977\\
+			\hline 
+			Al Fredrickson  & 21 Julio 1975\\
+			\hline 
+			Bob Albertson  & 28 Septiembre 1968\\
+			\hline 
+		\end{tabular}
+	\end{center}
+\end{minipage}
 
 \section{Dependencias multivaluadas}
+Una dependencia multivaluada expresa que dos conjuntos de atributos en un esquema son mutuamente independientes.
 
-Una dependencia multivaluada expresa que dos conjuntos de atributos
-en un esquema son mutuamente independientes.
-
-Sean los conjuntos de atributos \emph{disjuntos} $A$ y $B$ de la
-relación $R(A,B,U-A-B)$. Sean las tuplas $t_{1}$ y $t_{2}$. La
-dependencia multivaluada $A\twoheadrightarrow B$ indica que si $t_{1}[A]=t_{2}[A]$,
-entonces podemos encontrar tuplas $t_{3}$ y $t_{4}$ tales que:
+Sean los conjuntos de atributos \emph{disjuntos} $A$ y $B$ de la relación $R(A,B,U-A-B)$. Sean las tuplas $t_{1}$ y $t_{2}$. La dependencia multivaluada $A\twoheadrightarrow B$ indica que si $t_{1}[A]=t_{2}[A]$, entonces podemos encontrar tuplas $t_{3}$ y $t_{4}$ tales que:
 \begin{itemize}
-\item $t_{1}[A]=t_{2}[A]=t_{3}[A]=t_{4}[A]$
-\item $t_{3}[B]=t_{1}[B]$
-\item $t_{3}[U-A-B]=t_{2}[U-A-B]$
-\item $t_{4}[B]=t_{2}[B]$
-\item $t_{4}[U-A-B]=t_{1}[U-A-B]$
+	\item $t_{1}[A]=t_{2}[A]=t_{3}[A]=t_{4}[A]$
+	\item $t_{3}[B]=t_{1}[B]$
+	\item $t_{3}[U-A-B]=t_{2}[U-A-B]$
+	\item $t_{4}[B]=t_{2}[B]$
+	\item $t_{4}[U-A-B]=t_{1}[U-A-B]$
 \end{itemize}
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.8]{multivalued_dependency}
-\par\end{centering}
 
-\protect\caption{Dependencia multivaluada $\alpha\twoheadrightarrow\beta$}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{multivalued_dependency}
+	\caption{Dependencia multivaluada $\alpha \twoheadrightarrow \beta$}
 \end{figure}
 
+\textbf{\emph{Ejemplo:}} \emph{sea $R(curso, libro, profesor)$ una relación que indica una lista de cursos universitarios, los libros que se usan en el curso, y los profesores que la dictan.}
 
-\textbf{\emph{Ejemplo}}\emph{: sea $R(curso,libro,profesor)$ una
-relación que indica una lista de cursos universitarios, los libros
-que se usan en el curso, y los profesores que la dictan.}
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+		\hline 
+		\emph{Curso} & \emph{Libro} & \emph{Profesor}\\
+		\hline 
+		\hline 
+		Álgebra II & David Lay - Algebra Lineal & Acero\\
+		\hline 
+		Álgebra II & Strang - Algebra Lineal & Acero\\
+		\hline 
+		Álgebra II & David Lay - Algebra Lineal & Piortrowsky\\
+		\hline 
+		Algebra II & Strang - Algebra Lineal & Piortrowsky\\
+		\hline 
+	\end{tabular}
+\end{center}
 
-\noindent \begin{center}
-\begin{tabular}{|c|c|c|}
-\hline 
-\emph{Curso} & \emph{Libro} & \emph{Profesor}\\
-\hline 
-\hline 
-Álgebra II & David Lay - Algebra Lineal & Acero\\
-\hline 
-Álgebra II & Strang - Algebra Lineal & Acero\\
-\hline 
-Álgebra II & David Lay - Algebra Lineal & Piortrowsky\\
-\hline 
-Algebra II & Strang - Algebra Lineal & Piortrowsky\\
-\hline 
-\end{tabular}
-\par\end{center}
+\emph{Dado que los profesores de un curso y los libros de un curso son independientes entre sí, esta relación tiene una DMV. Si tuviésemos que agregar un nuevo libro al curso ``Álgebra II'', deberíamos agregar una tupla para cada profesor del curso. Es decir, formalmente, hay dos DMV en esta relación: $\{curso\} \twoheadrightarrow \{libro\}$
+y $\{curso\} \twoheadrightarrow \{profesor\}$. Esta relación exhibe redundancia.}\\
 
-\emph{Dado que los profesores de un curso y los libros de un curso
-son independientes entre sí, esta relación tiene una DMV. Si tuviésemos
-que agregar un nuevo libro al curso ``Álgebra II'', deberíamos agregar
-una tupla para cada profesor del curso. Es decir, formalmente, hay
-dos DMV en esta relación: $\{curso\}\twoheadrightarrow\{libro\}$
-y $\{curso\}\twoheadrightarrow\{profesor\}$. Esta relación exhibe
-redundancia.}
-\begin{description}
-\item [{Dependencia~multivaluada}] no existen en el esquema original pero
-son satisfechas por la descomposición del mismo.
-\end{description}
+\textbf{Dependencia multivaluada:} no existen en el esquema original pero son satisfechas por la descomposición del mismo.
 
 \subsection{Propiedades de las DMVs}
 \begin{itemize}
-\item $\alpha\twoheadrightarrow\beta$ es \textbf{trivial} si $\beta\subseteq\alpha$
-ó si $R=\alpha\beta$.
-\item Una dependencia multivaluada garantiza que ciertas tuplas existan.
-\item \textbf{Regla de transitividad} \textbf{multivaluada}: Si $\alpha\twoheadrightarrow\beta$
-y $\beta\twoheadrightarrow c$, entonces $\alpha\twoheadrightarrow c-\beta$
-\item \textbf{Regla de replicación}: si $\alpha\to\beta$, entonces $\alpha\twoheadrightarrow\beta$.
-La inversa \textbf{no} es cierta.
-\item \textbf{Regla de interacción}%
-\footnote{Esta regla puede agregar dependencias funcionales a $M$%
-}: si $\begin{cases}
-\alpha\twoheadrightarrow\beta\\
-\gamma\to Z
-\end{cases}$ y existe un $\gamma$ tal que $\begin{cases}
-Z\subseteq\beta\\
-\gamma\cap\beta=\emptyset
-\end{cases}$, entonces $\alpha\to Z$
-\item \textbf{Regla de aumentación}: si $\alpha\twoheadrightarrow\beta$
-entonces $\alpha w\twoheadrightarrow\beta$.
-\item \textbf{Regla del complemento}: si $\alpha\twoheadrightarrow\beta$,
-entonces $\alpha\twoheadrightarrow R-\alpha\beta$
-\item \textbf{Regla de unión}: si $\alpha\twoheadrightarrow\beta$, y $\alpha\twoheadrightarrow c$,
-entonces $\alpha\twoheadrightarrow\beta c$
-\item \textbf{Regla de descomposición}: si $\alpha\twoheadrightarrow\beta$,
-y $\alpha\twoheadrightarrow c$, entonces $\begin{cases}
-\alpha\twoheadrightarrow\beta-c\\
-\alpha\twoheadrightarrow c-\beta\\
-\alpha\twoheadrightarrow\beta\cap c
-\end{cases}$
-\item \textbf{Regla de pseudotransitividad:} si $\alpha\twoheadrightarrow\beta$
-y $\beta c\twoheadrightarrow\gamma$, entonces $\alpha c\twoheadrightarrow\gamma-\beta c$
-\item Si $R=\left\{ A_{1},\ldots,A_{n},B_{1},\ldots,B_{m}\right\} $, entonces
-$\left\{ A_{1},\ldots,A_{n}\right\} \twoheadrightarrow\left\{ B_{1},\ldots,B_{m}\right\} $
+	\item $\alpha\twoheadrightarrow\beta$ es \textbf{trivial} si $\beta\subseteq\alpha$ ó si $R=\alpha\beta$.
+	\item Una dependencia multivaluada garantiza que ciertas tuplas existan.
+	\item \textbf{Regla de transitividad} \textbf{multivaluada}: Si $\alpha\twoheadrightarrow\beta$ y $\beta\twoheadrightarrow c$, entonces $\alpha\twoheadrightarrow c-\beta$
+	\item \textbf{Regla de replicación}: si $\alpha\to\beta$, entonces $\alpha\twoheadrightarrow\beta$. La inversa \textbf{no} es cierta.
+	\item \textbf{Regla de interacción} \footnote{Esta regla puede agregar dependencias funcionales a $M$}: si 			$\begin{cases}
+		\alpha\twoheadrightarrow\beta\\
+		\gamma\to Z
+	\end{cases}$ y existe un $\gamma$ tal que
+	$\begin{cases}
+		Z\subseteq\beta\\
+		\gamma\cap\beta=\emptyset
+	\end{cases}$, entonces $\alpha\to Z$
+	\item \textbf{Regla de aumentación}: si $\alpha\twoheadrightarrow\beta$ entonces $\alpha w\twoheadrightarrow\beta$.
+	\item \textbf{Regla del complemento}: si $\alpha\twoheadrightarrow\beta$, entonces $\alpha\twoheadrightarrow R-\alpha\beta$
+	\item \textbf{Regla de unión}: si $\alpha\twoheadrightarrow\beta$, y $\alpha\twoheadrightarrow c$, entonces $\alpha\twoheadrightarrow\beta c$
+	\item \textbf{Regla de descomposición}: si $\alpha\twoheadrightarrow\beta$, y $\alpha\twoheadrightarrow c$, entonces 
+	$\begin{cases}
+		\alpha\twoheadrightarrow\beta-c\\
+		\alpha\twoheadrightarrow c-\beta\\
+		\alpha\twoheadrightarrow\beta\cap c
+	\end{cases}$
+	\item \textbf{Regla de pseudotransitividad:} si $\alpha\twoheadrightarrow\beta$ y $\beta c\twoheadrightarrow\gamma$, entonces $\alpha c\twoheadrightarrow\gamma-\beta c$
+	\item Si $R=\left\{ A_{1},\ldots,A_{n},B_{1},\ldots,B_{m}\right\} $, entonces $\left\{ A_{1}, \ldots, A_{n} \right\} \twoheadrightarrow \left\{ B_{1}, \ldots, B_{m} \right\}$
 \end{itemize}
-\textbf{Teorema}: las únicas DMVs implicadas por un conjunto de DFs
-son de la forma $X\twoheadrightarrow Y$, donde $Y\subseteq X^{+}$
-o $R-XY\subseteq X^{+}$.
 
-\textbf{Teorema}: las únicas DFs implicadas por un conjunto de DMVs
-son las triviales.
+\textbf{Teorema}: las únicas DMVs implicadas por un conjunto de DFs son de la forma $X \twoheadrightarrow Y$, donde $Y \subseteq X^{+}$ o $R - XY \subseteq X^{+}$.
 
-\textbf{Teorema}: un conjunto de DFs de tipo $x_{i}\to y_{i}$ sólo
-implica DMVs de tipo $x_{i}\twoheadrightarrow y_{i}$.
+\textbf{Teorema}: las únicas DFs implicadas por un conjunto de DMVs son las triviales.
 
-\textbf{Teorema}: sea $r$ una instancia del esquema de relación $R$,
-$X,Y$ subconjuntos de $R$, y $Z=R-XY$. La relación $r$ satisface
-la DMV $X\twoheadrightarrow Y$ sí y solo sí $R_{1}=XY$ y $R_{2}=X\cup Z$
-descomponen sin pérdida de información a $r$.
+\textbf{Teorema}: un conjunto de DFs de tipo $x_{i} \to y_{i}$ sólo implica DMVs de tipo $x_{i} \twoheadrightarrow y_{i}$.
+
+\textbf{Teorema}: sea $r$ una instancia del esquema de relación $R$, $X, Y$ subconjuntos de $R$, y $Z = R - XY$. La relación $r$ satisface la DMV $X \twoheadrightarrow Y$ sí y solo sí $R_{1} = XY$ y $R_{2} = X \cup Z$ descomponen sin pérdida de información a $r$.
 
 \begin{algorithm}[H]
-Entrada: relación $r(R)$
+	Entrada: relación $r(R)$
 
-Salida: ``verdadero'' si la dependencia multivaluada $X\twoheadrightarrow Y$
-se satisface
-\begin{enumerate}
-\item Proyectar $r$ en $R_{1}(XY)$ y $R_{2}(X,R-XY)$
-\item Calcular $R_{1}\bowtie R_{2}$
-\item Si $r=R_{1}\bowtie R_{2}$ devolver ``verdadero''
-\end{enumerate}
-\protect\caption{Verificar si $r$ satisface la dependencia multivaluada $X\twoheadrightarrow Y$}
+	Salida: ``verdadero'' si la dependencia multivaluada $X \twoheadrightarrow Y$ se satisface
+	\begin{enumerate}
+		\item Proyectar $r$ en $R_{1}(XY)$ y $R_{2}(X,R-XY)$
+		\item Calcular $R_{1}\bowtie R_{2}$
+		\item Si $r=R_{1}\bowtie R_{2}$ devolver ``verdadero''
+	\end{enumerate}
+	\caption{Verificar si $r$ satisface la dependencia multivaluada $X\twoheadrightarrow Y$}
 \end{algorithm}
-
 
 \begin{algorithm}[H]
-Entrada: conjunto de dependencias funcionales y multivaluadas $D^{+}$,
-descomposición $\left\{ R_{1},\ldots,R_{n}\right\} $
+	Entrada: conjunto de dependencias funcionales y multivaluadas $D^{+}$, descomposición $\left\{ R_{1},\ldots,R_{n}\right\}$
 
-Salida: conjunto de dependencia funcionales y multivaluadas $D_{i}$
-que se satisfacen en $R_{i}$
-\begin{enumerate}
-\item $Z=\{\}$
-\item Agregar a $Z$ las dependencias funcionales de $D^{+}$ que solo incluyan
-atributos de $R_{i}$
-\item Agregar a $Z$ las dependencias multivaluadas de la forma $A\to B\cap R_{i}$,
-donde $A\twoheadrightarrow B$ esté en $D^{+}$ y $A\subseteq R_{i}$
-\item Devolver $Z$
-\end{enumerate}
-\protect\caption{Proyección de dependencias funcionales y multivaluadas}
+	Salida: conjunto de dependencia funcionales y multivaluadas $D_{i}$ que se satisfacen en $R_{i}$
+	\begin{enumerate}
+		\item $Z=\{\}$
+		\item Agregar a $Z$ las dependencias funcionales de $D^{+}$ que solo incluyan atributos de $R_{i}$
+		\item Agregar a $Z$ las dependencias multivaluadas de la forma $A\to B\cap R_{i}$, donde $A \twoheadrightarrow B$ esté en $D^{+}$ y $A\subseteq R_{i}$
+		\item Devolver $Z$
+	\end{enumerate}
+	\caption{Proyección de dependencias funcionales y multivaluadas}
 \end{algorithm}
-
-
 
 \subsection{Preservación de dependencias multivaluadas}
-
-Una descomposición de $R$ en los esquemas $R_{1},\ldots,R_{n}$ es
-una descomposición que \textbf{preserva las dependencias} con respecto
-a un conjunto $D$ de dependencias funcionales y multivaluadas si,
-para cada relación $r_{1}(R_{1}),\ldots,r_{n}(R_{n})$ tal que para
-cada $i$, $r_{i}$ satisface $D_{i}$, entonces existe una relación
-$r(R)$ que satisface $D$ y para el cual $r_{i}=\pi_{R_{i}}(r)$
-para todo $i$.
-
+Una descomposición de $R$ en los esquemas $R_{1}, \ldots, R_{n}$ es una descomposición que \textbf{preserva las dependencias} con respecto a un conjunto $D$ de dependencias funcionales y multivaluadas si, para cada relación $r_{1}(R_{1}), \ldots, r_{n}(R_{n})$ tal que para cada $i$, $r_{i}$ satisface $D_{i}$, entonces existe una relación
+$r(R)$ que satisface $D$ y para el cual $r_{i} = \pi_{R_{i}}(r)$ para todo $i$.
 
 \subsection{Base minimal de Dependencias e Implicación de DMVs}
-
-\textbf{Base~minimal} sea la colección de conjuntos $S=\left\{ S_{1},\ldots,S_{p}\right\} $
-donde $U=S_{1}\cup\ldots\cup S_{p}$. La base minimal de $S$ es $Base(S)$
-y es una partición de $U$ $\left\{ T_{1},\ldots,T_{q}\right\} $
-tal que:
+\textbf{Base~minimal} sea la colección de conjuntos $S = \left\{ S_{1}, \ldots, S_{p} \right\}$ donde $U = S_{1} \cup \ldots \cup S_{p}$. La base minimal de $S$ es $Base(S)$ y es una partición de $U$ $\left\{ T_{1}, \ldots, T_{q}\right\}$ tal que:
 \begin{enumerate}
-\item Cada $S_{i}$ es la unión de algunos de los $T_{j}$.
-\item No existe una partición de $U$ con menos elementos que cumpla la
-primera propiedad.
+	\item Cada $S_{i}$ es la unión de algunos de los $T_{j}$.
+	\item No existe una partición de $U$ con menos elementos que cumpla la primera propiedad.
 \end{enumerate}
-\emph{Ejemplo: sea $S=\left\{ ABCD,CDE,AE\right\} $ y $U=ABCDE$.
-Entonces la base de $S$ es $Base(S)=\left\{ A,B,CD,E\right\} $.}
 
-\textbf{Base de dependencias}: sea $M$ un conjunto de dependencias
-multivaluadas sobre $R$, y sea $X\subseteq R$. Sea $G=\left\{ Y/M\models X\twoheadrightarrow Y\right\} $La
-base de dependencias de $X$ con respecto a $M$ es:
+\emph{Ejemplo: sea $S=\left\{ ABCD,CDE,AE\right\} $ y $U=ABCDE$. Entonces la base de $S$ es $Base(S)=\left\{ A,B,CD,E\right\}$.}
 
+\textbf{Base de dependencias}: sea $M$ un conjunto de dependencias multivaluadas sobre $R$, y sea $X\subseteq R$. Sea $G=\left\{ Y/M\models X\twoheadrightarrow Y\right\} $La base de dependencias de $X$ con respecto a $M$ es:
 \[
-Bdep(X)=Base\left(G\right)
+	Bdep(X)=Base\left(G\right)
 \]
 
-
-\emph{Ejemplo: sea $M=\left\{ A\twoheadrightarrow BC,DE\twoheadrightarrow C\right\} $
-un conjunto de dependencias multivaluadas sobre $R(ABCDE)$. Entonces
-$G=\left\{ A,BC,DE,C,BDE,B,BCDE,CDE\right\} $y la base de $A$ es
+\emph{Ejemplo: sea $M=\left\{ A\twoheadrightarrow BC,DE\twoheadrightarrow C\right\}$ un conjunto de dependencias multivaluadas sobre $R(ABCDE)$. Entonces $G=\left\{ A,BC,DE,C,BDE,B,BCDE,CDE\right\} $y la base de $A$ es}
 \[
-Base(A)=\left\{ A,B,C,DE\right\} 
+	Base(A)=\left\{ A,B,C,DE\right\} 
 \]
-.}
 
 \begin{algorithm}[H]
-Entrada: conjunto de dependencias multivaluadas $M$, conjunto de
-atributos $X$
+	Entrada: conjunto de dependencias multivaluadas $M$, conjunto de atributos $X$
 
-Salida: $Bdep(X)$
-\begin{enumerate}
-\item $T=R-X$
-\item Mientras $T$ varíe:
+	Salida: $Bdep(X)$
+	\begin{enumerate}
+		\item $T=R-X$
+		\item Mientras $T$ varíe:
+		\begin{itemize}
+			\item Si $\exists V\in T$ y $Y\twoheadrightarrow Z\in M$ tal que ($V\cap Y=\emptyset)$ y ($V\cap Z\neq\emptyset$)
 
-\begin{itemize}
-\item Si $\exists V\in T$ y $Y\twoheadrightarrow Z\in M$ tal que ($V\cap Y=\emptyset)$
-y ($V\cap Z\neq\emptyset$)
-
-
-Reemplazar $V$ por $\{V\cap Z\}$ y $\{V-Z\}$
-
-\end{itemize}
-\item $Bdep(X)=T\cup\left\{ A/A\in X\right\} $\protect\caption{Cálculo de la base de dependencias de $X$}
-\end{enumerate}
+			Reemplazar $V$ por $\{V\cap Z\}$ y $\{V-Z\}$
+		\end{itemize}
+		\item $Bdep(X)=T\cup\left\{ A/A\in X\right\} $\protect\caption{Cálculo de la base de dependencias de $X$}
+	\end{enumerate}
 \end{algorithm}
 
-
-\textbf{Implicación de dependencias}: dado un conjunto $M$ de dependencias
-multivaluadas, una dependencia multivaluada $X\twoheadrightarrow Y$
-pertenece a $M^{+}$ sí y solo sí $Y$ se puede expresar como la unión
+\textbf{Implicación de dependencias}: dado un conjunto $M$ de dependencias multivaluadas, una dependencia multivaluada $X\twoheadrightarrow Y$ pertenece a $M^{+}$ sí y solo sí $Y$ se puede expresar como la unión
 de algunos componentes de $Bdep(X)$.
 
-\emph{Ejemplo: sea $R(A,B,C,D,E,I)$, $M=\left\{ A\twoheadrightarrow EI,C\twoheadrightarrow AB\right\} $.
-¿Se cumple }$AC\twoheadrightarrow BI$ \emph{?}
+\emph{Ejemplo: sea $R(A,B,C,D,E,I)$, $M=\left\{ A\twoheadrightarrow EI,C\twoheadrightarrow AB\right\} $. ¿Se cumple $AC\twoheadrightarrow BI$?}
 
 \emph{La base de dependencias de $AC$ es:}
 \begin{enumerate}
-\item $T^{(0)}=BDEI$
-
-\begin{enumerate}
-\item $V=BDEI$. Entonces $A\twoheadrightarrow EI$, $Y=A$, $Z=EI$
-\item $V\cap Z=EI$
-\item $V-Z=BD$
+	\item $T^{(0)}=BDEI$
+	\begin{enumerate}
+		\item $V=BDEI$. Entonces $A\twoheadrightarrow EI$, $Y=A$, $Z=EI$
+		\item $V\cap Z=EI$
+		\item $V-Z=BD$
+	\end{enumerate}
+	\item $T^{(1)}=\{EI,BD\}$
+	\begin{enumerate}
+		\item Si $V=EI$, $Y=A$, $Z=EI$, $V\cap Z=EI$, $V-Z=\{\}$ y no nos aporta nada.
+		\item $V=BD$. Entonces $C\twoheadrightarrow AB$, $Y=C$, $Z=AB$
+		\item $V\cap Z=B$
+		\item $V-Z=D$
+	\end{enumerate}
+	\item $T^{(2)}=\{EI,B,D\}$
 \end{enumerate}
-\item $T^{(1)}=\{EI,BD\}$
 
-\begin{enumerate}
-\item Si $V=EI$, $Y=A$, $Z=EI$, $V\cap Z=EI$, $V-Z=\{\}$ y no nos aporta
-nada.
-\item $V=BD$. Entonces $C\twoheadrightarrow AB$, $Y=C$, $Z=AB$
-\item $V\cap Z=B$
-\item $V-Z=D$
-\end{enumerate}
-\item $T^{(2)}=\{EI,B,D\}$
-\end{enumerate}
-$Bdep(AC)=\{EI,B,D,A,C\}$ y entonces $AC\twoheadrightarrow BI$ no
-se cumple porque$BI$ no se puede expresar como la unión de componentes
-de $Bdep(AC)$.
-
+$Bdep(AC)=\{EI,B,D,A,C\}$ y entonces $AC\twoheadrightarrow BI$ no se cumple porque $BI$ no se puede expresar como la unión de componentes de $Bdep(AC)$.
 
 \section{Cuarta forma normal (4FN)}
-
-Un esquema de relación $R$ está en 4FN con respecto a un conjunto
-de dependencias funcionales y multivaluadas $M$ si, para todas las
-dependencias multivaluadas en $M^{+}$ de la forma $\alpha\twoheadrightarrow\beta$,
-donde $\alpha\subseteq R$ y $\beta\subseteq R$, se cumple alguna
-de las siguientes:
+Un esquema de relación $R$ está en 4FN con respecto a un conjunto de dependencias funcionales y multivaluadas $M$ si, para todas las dependencias multivaluadas en $M^{+}$ de la forma $\alpha \twoheadrightarrow \beta$, donde $\alpha\subseteq R$ y $\beta\subseteq R$, se cumple alguna de las siguientes:
 \begin{itemize}
-\item $\alpha\twoheadrightarrow\beta$ es trivial
-\item $\alpha$ es una superclave para $R$ 
+	\item $\alpha\twoheadrightarrow\beta$ es trivial
+	\item $\alpha$ es una superclave para $R$ 
 \end{itemize}
+
 Propiedades:
 \begin{itemize}
-\item No tiene pérdida de información
-\item Una descomposición 4FN no garantiza la preservación de dependencias
+	\item No tiene pérdida de información
+	\item Una descomposición 4FN no garantiza la preservación de dependencias
 \end{itemize}
-\textbf{\emph{Ejemplo}}: la siguiente relación no está en 4FN. La
-clave es $\left\{ N\text{\textdegree\,}Vuelo,Dia\, de\, la\, semana,Tipo\, de\, avi\acute{o}n\right\} $. 
 
-\noindent \begin{center}
-\begin{tabular}{|c|c|c|}
-\hline 
-\uline{N\textdegree{} Vuelo} & \uline{Dia de la semana} & \uline{Tipo de avión}\\
-\hline 
-\hline 
-106 & Lunes & B737\\
-\hline 
-106 & Martes  & B737\\
-\hline 
-106 & Lunes & A380\\
-\hline 
-106 & Martes & A380\\
-\hline 
-\end{tabular}
-\par\end{center}
+\textbf{\emph{Ejemplo:}} la siguiente relación no está en 4FN. La clave es $\left\{ N \text{\textdegree}\, Vuelo, Dia\, de\, la\, semana, Tipo\, de\, avi\acute{o}n \right\}$. 
 
-$F=\left\{ N\text{\textdegree\,}Vuelo\twoheadrightarrow Dia\, de\, la\, semana,N\text{\textdegree\ }Vuelo\twoheadrightarrow Tipo\, de\, avi\acute{o}n\right\} $.
-La primera dependencia multivaluada no es trivial, y el lado izquierdo
-no es una superclave de $R$.
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+		\hline 
+		\uline{N\textdegree{} Vuelo} & \uline{Dia de la semana} & \uline{Tipo de avión}\\
+		\hline 
+		\hline 
+		106 & Lunes & B737\\
+		\hline 
+		106 & Martes  & B737\\
+		\hline 
+		106 & Lunes & A380\\
+		\hline 
+		106 & Martes & A380\\
+		\hline 
+	\end{tabular}
+\end{center}
 
-Para normalizarla, hay que dividirla en dos relaciones.
+$F = \left\{ N \text{\textdegree}\, Vuelo \twoheadrightarrow Dia\, de\, la\, semana, N \text{\textdegree}\, Vuelo \twoheadrightarrow Tipo\, de\, avi\acute{o}n\right\}$. La primera dependencia multivaluada no es trivial, y el lado izquierdo no es una superclave de $R$.
 
-\noindent \begin{center}
-\begin{tabular}{|c|c|}
-\hline 
-\uline{N\textdegree{} Vuelo} & \uline{Dia de la semana}\\
-\hline 
-\hline 
-106 & Lunes\\
-\hline 
-106 & Martes \\
-\hline 
-\end{tabular}%
-\begin{tabular}{|c|c|}
-\hline 
-\uline{N\textdegree{} Vuelo} & \uline{Tipo de avión}\\
-\hline 
-\hline 
-106 & B737\\
-\hline 
-106 & A380\\
-\hline 
-\end{tabular}
-\par\end{center}
+Para normalizarla, hay que dividirla en dos relaciones.\\
 
+\begin{minipage}{0.5\textwidth}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline 
+			\uline{N\textdegree Vuelo} & \uline{Dia de la semana}\\
+			\hline 
+			\hline 
+			106 & Lunes\\
+			\hline 
+			106 & Martes \\
+			\hline 
+		\end{tabular}
+	\end{center}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline 
+			\uline{N\textdegree{} Vuelo} & \uline{Tipo de avión}\\
+			\hline 
+			\hline 
+			106 & B737\\
+			\hline 
+			106 & A380\\
+			\hline 
+		\end{tabular}
+	\end{center}
+\end{minipage}
 
 \subsection{Descomposición SPI en 2 relaciones}
-
-Sea el esquema relacional $R$, y sea $M$ el conjunto de dependencias
-funcionales y multivaluadas sobre $R$. Sean $R_{1}$ y $R_{2}$ una
-descomposición de $R$. Esta descomposición es \emph{sin pérdida de
-información} (SPI) si al menos una de las siguientes dependencias
-multivaluadas está en $M^{+}$:
+Sea el esquema relacional $R$, y sea $M$ el conjunto de dependencias funcionales y multivaluadas sobre $R$. Sean $R_{1}$ y $R_{2}$ una descomposición de $R$. Esta descomposición es \emph{sin pérdida de información} (SPI) si al menos una de las siguientes dependencias multivaluadas está en $M^{+}$:
 \begin{enumerate}
-\item $R_{1}\cap R_{2}\twoheadrightarrow R_{1}-R_{2}$
-\item $R_{1}\cap R_{2}\twoheadrightarrow R_{2}-R_{1}$
+	\item $R_{1}\cap R_{2}\twoheadrightarrow R_{1}-R_{2}$
+	\item $R_{1}\cap R_{2}\twoheadrightarrow R_{2}-R_{1}$
 \end{enumerate}
 
 \subsection{Descomposición SPI en más de 2 relaciones}
-
-El algoritmo es idéntico al de descomposición en BCFN, excepto que
-se usan dependencias multivaluadas y se restringe $R_{i}$ al conjunto
-$M^{+}$.
+El algoritmo es idéntico al de descomposición en BCFN, excepto que se usan dependencias multivaluadas y se restringe $R_{i}$ al conjunto $M^{+}$.
 
 \begin{algorithm}[H]
-Entrada: una relación $R$, un conjunto de dependencias multivaluadas
-$M^{+}$
+	Entrada: una relación $R$, un conjunto de dependencias multivaluadas $M^{+}$
 
-Salida: una descomposición $\rho=\left\{ R_{1},\ldots,R_{n}\right\} $
-tal que $R_{i}$ está en 4FN con respecto a $M_{i}$
-\begin{enumerate}
-\item $\rho=R$
-\item Repetir hasta que no haya esquemas en $\rho$ que violen 4FN
-
-\begin{enumerate}
-\item Elegir una dependencia multivaluada $X\twoheadrightarrow Y$ que viole
-4FN sobre $\rho_{i}$
-\item Descomponer $\rho_{i}$ en 2 relaciones:
-
-\begin{itemize}
-\item $R_{1}\left(XY\right)$
-\item $R_{2}\left(X(R-XY)\right)$
-\end{itemize}
-\item En $\rho$, reemplazar $\rho_{i}$ por $R_{1},R_{2}$
-\end{enumerate}
-\item Devolver $\rho$\protect\caption{Descomposición 4FN}
-\end{enumerate}
+	Salida: una descomposición $\rho=\left\{ R_{1},\ldots,R_{n}\right\}$ tal que $R_{i}$ está en 4FN con respecto a $M_{i}$
+	\begin{enumerate}
+		\item $\rho=R$
+		\item Repetir hasta que no haya esquemas en $\rho$ que violen 4FN
+		\begin{enumerate}
+			\item Elegir una dependencia multivaluada $X\twoheadrightarrow Y$ que viole 4FN sobre $\rho_{i}$
+			\item Descomponer $\rho_{i}$ en 2 relaciones:
+			\begin{itemize}
+				\item $R_{1}\left(XY\right)$
+				\item $R_{2}\left(X(R-XY)\right)$
+			\end{itemize}
+			\item En $\rho$, reemplazar $\rho_{i}$ por $R_{1},R_{2}$
+		\end{enumerate}
+		\item Devolver $\rho$
+	\end{enumerate}
+	\caption{Descomposición 4FN}
 \end{algorithm}
 
-
-
 \section{Dependencias de junta}
-\begin{description}
-\item [{Dependencia~de~junta}] sea un esquema de relación $R$ y sea
-la descomposición $R_{1},\ldots,R_{n}$. La dependencia de junta $*\left(R_{1},\ldots,R_{n}\right)$
-restringe el conjunto de relaciones posibles a aquellas para las cuales
-$R_{1},\ldots R_{n}$ es una descomposición sin pérdida de información.
-\end{description}
-Formalmente, si $R=R_{1}\cup\cdots\cup R_{n}$, una relación $r(R)$
-satisface la dependencia de junta $*\left(R_{1},\ldots,R_{n}\right)$
-si 
+Sea un esquema de relación $R$ y sea la descomposición $R_{1},\ldots,R_{n}$. La dependencia de junta $*\left(R_{1},\ldots,R_{n}\right)$ restringe el conjunto de relaciones posibles a aquellas para las cuales $R_{1},\ldots R_{n}$ es una descomposición sin pérdida de información.
 
+Formalmente, si $R=R_{1}\cup\cdots\cup R_{n}$, una relación $r(R)$ satisface la dependencia de junta $*\left(R_{1},\ldots,R_{n}\right)$ si 
 \[
-r=\pi_{R_{1}}(r)\bowtie\cdots\bowtie\pi_{R_{n}}(r)
+	r=\pi_{R_{1}}(r)\bowtie\cdots\bowtie\pi_{R_{n}}(r)
 \]
 
-
-La dependencia de junta $*\left(R_{1},\ldots,R_{k}\right)$ se satisface
-para $R$ si restringe los valores de toda instancia $r(R)$ tal que,
-si existen $k$ tuplas $t_{1},\ldots,t_{k}$ que satisfacen $t_{i}\left[R_{i}\cap R_{j}\right]=t_{j}\left[R_{i}\cap R_{j}\right]$,
-luego también existe en $r$ otra tupla $t_{k+1}$ definida por $t_{k+1}\left[R_{i}\right]=t_{i}\left[R_{i}\right]$
-para $1\leq i\leq k$.
+La dependencia de junta $*\left(R_{1},\ldots,R_{k}\right)$ se satisface para $R$ si restringe los valores de toda instancia $r(R)$ tal que, si existen $k$ tuplas $t_{1},\ldots,t_{k}$ que satisfacen $t_{i}\left[R_{i}\cap R_{j}\right]=t_{j}\left[R_{i}\cap R_{j}\right]$, luego también existe en $r$ otra tupla $t_{k+1}$ definida por $t_{k+1}\left[R_{i}\right]=t_{i}\left[R_{i}\right]$ para $1\leq i\leq k$.
 
 Propiedades:
 \begin{itemize}
-\item Si una de las $R_{i}$ es $R$, la dependencia de junta es trivial.
-\item Toda dependencia de junta $*(R_{1},R_{2})$ es equivalente a la dependencia
-multivaluada $R_{1}\cap R_{2}\twoheadrightarrow R_{2}$.
-\item No existen un conjunto de reglas para inferir dependencias de juntas.
+	\item Si una de las $R_{i}$ es $R$, la dependencia de junta es trivial.
+	\item Toda dependencia de junta $*(R_{1},R_{2})$ es equivalente a la dependencia multivaluada $R_{1}\cap R_{2}\twoheadrightarrow R_{2}$.
+	\item No existen un conjunto de reglas para inferir dependencias de juntas.
 \end{itemize}
-\textbf{Teorema}: $R$ satisface la dependencia multivaluada $X\twoheadrightarrow Y$
-sí y sólo sí $R$ descompone sin pérdida sobre los esquemas $X\cup Y$
-y $X(R-XY)$, es decir, si $R$ satisface la dependencia de junta
+
+\textbf{Teorema:} $R$ satisface la dependencia multivaluada $X\twoheadrightarrow Y$ sí y sólo sí $R$ descompone sin pérdida sobre los esquemas $X\cup Y$ y $X(R-XY)$, es decir, si $R$ satisface la dependencia de junta
 $*\left(XY,X(R-XY)\right)$
 
-\textbf{Teorema}: si una relación $R$ puede descomponerse SPI en
-3 esquemas, pero no puede hacerlo sobre 2, esa relación solo satisface
-DMVs triviales.
+\textbf{Teorema:} si una relación $R$ puede descomponerse SPI en 3 esquemas, pero no puede hacerlo sobre 2, esa relación solo satisface DMVs triviales.
 
-\textbf{\emph{Ejemplo}}\emph{: sea la relación $R(A,B,C)$ y la dependencia
-de junta $*\left(\underset{R_{1}}{\underbrace{AB}},\underset{R_{2}}{\underbrace{BC}},\underset{R_{3}}{\underbrace{AC}}\right)$.
-¿Qué tupla debe tener $r$ para satisfacer la misma? }
+\textbf{\emph{Ejemplo:}} \emph{sea la relación $R(A,B,C)$ y la dependencia de junta $*\left(\underset{R_{1}}{\underbrace{AB}},\underset{R_{2}}{\underbrace{BC}},\underset{R_{3}}{\underbrace{AC}}\right)$. ¿Qué tupla debe tener $r$ para satisfacer la misma?}
 
-\noindent \begin{center}
-\emph{}%
-\begin{tabular}{|c|c|c|c|}
-\hline 
-$r$ & \emph{$A$} & \emph{$B$} & \emph{$C$}\\
-\hline 
-\hline 
-\emph{$t_{1}$} & \emph{1} & \emph{2} & \emph{3}\\
-\hline 
- & \emph{4} & \emph{5} & \emph{6}\\
-\hline 
-\emph{$t_{2}$} & \emph{4} & \emph{2} & \emph{7}\\
-\hline 
-\emph{$t_{3}$} & \emph{1} & \emph{8} & \emph{7}\\
-\hline 
-\end{tabular}
-\par\end{center}
+\begin{center}
+	\begin{tabular}{|c|c|c|c|}
+		\hline 
+		$r$ & \emph{$A$} & \emph{$B$} & \emph{$C$}\\
+		\hline 
+		\hline 
+		\emph{$t_{1}$} & \emph{1} & \emph{2} & \emph{3}\\
+		\hline 
+		 & \emph{4} & \emph{5} & \emph{6}\\
+		\hline 
+		\emph{$t_{2}$} & \emph{4} & \emph{2} & \emph{7}\\
+		\hline 
+		\emph{$t_{3}$} & \emph{1} & \emph{8} & \emph{7}\\
+		\hline 
+	\end{tabular}
+\end{center}
 
 \emph{Dado que se cumplen:}
 \begin{itemize}
-\item \emph{$t_{1}\left[R_{1}\cap R_{2}\right]=t_{2}\left[R_{1}\cap R_{2}\right]=2$}
-\item \emph{$t_{1}\left[R_{1}\cap R_{3}\right]=t_{3}\left[R_{1}\cap R_{3}\right]=1$}
-\item \emph{$t_{2}\left[R_{2}\cap R_{3}\right]=t_{3}\left[R_{2}\cap R_{3}\right]=7$}
+	\item \emph{$t_{1}\left[R_{1}\cap R_{2}\right]=t_{2}\left[R_{1}\cap R_{2}\right]=2$}
+	\item \emph{$t_{1}\left[R_{1}\cap R_{3}\right]=t_{3}\left[R_{1}\cap R_{3}\right]=1$}
+	\item \emph{$t_{2}\left[R_{2}\cap R_{3}\right]=t_{3}\left[R_{2}\cap R_{3}\right]=7$}
 \end{itemize}
-\emph{Entonces para que se satisfaga la dependencia de junta deberá
-existir una tupla $t_{4}$ tal que:}
+
+\emph{Entonces para que se satisfaga la dependencia de junta deberá existir una tupla $t_{4}$ tal que:}
 \begin{itemize}
-\item \emph{$t_{4}\left[R_{1}\right]=t_{1}\left[R_{1}\right]=\{1,2\}$}
-\item \emph{$t_{4}\left[R_{2}\right]=t_{2}\left[R_{2}\right]=\{2,7\}$}
-\item \emph{$t_{4}\left[R_{3}\right]=t_{3}\left[R_{3}\right]=\{1,7\}$}
+	\item \emph{$t_{4}\left[R_{1}\right]=t_{1}\left[R_{1}\right]=\{1,2\}$}
+	\item \emph{$t_{4}\left[R_{2}\right]=t_{2}\left[R_{2}\right]=\{2,7\}$}
+	\item \emph{$t_{4}\left[R_{3}\right]=t_{3}\left[R_{3}\right]=\{1,7\}$}
 \end{itemize}
+
 \emph{Es decir, deberá existir la tupla $\left(1,2,7\right)$.}
 
-
 \subsection{Dependencias de junta embebidas}
-\begin{description}
-\item [{Dependencia~de~junta~embebida}] Un esquema de relación $r(R)$
-satisface la dependencia de junta embebida $DJE*\left(R_{1},\ldots,R_{p}\right)$
-si $\pi_{S}(r)$ satisface la dependencia de junta $*\left(R_{1},\ldots,R_{p}\right)$,
-donde $S=R_{1}R_{2}\ldots R_{p}$.
-
+Un esquema de relación $r(R)$ satisface la dependencia de junta embebida $DJE*\left(R_{1},\ldots,R_{p}\right)$ si $\pi_{S}(r)$ satisface la dependencia de junta $*\left(R_{1},\ldots,R_{p}\right)$, donde $S=R_{1}R_{2}\ldots R_{p}$.
 
 Notar que $r$ puede no satisfacer la DJE.
 
-\end{description}
-
 \section{Quinta forma normal (5FN)}
-
-Una relación $R$ está en 5FN con respecto a un conjunto de dependencias
-funcionales, multivaluadas y de junta $D$, si para todas las dependencias
-de junta en $D^{+}$ de la forma $*\left(R_{1},\ldots,R_{n}\right)$
-donde cada $R_{i}\subseteq R$ y $R=R_{1}\cup\cdots\cup R_{n}$, al
-menos una de las siguientes condiciones se cumple:
+Una relación $R$ está en 5FN con respecto a un conjunto de dependencias funcionales, multivaluadas y de junta $D$, si para todas las dependencias de junta en $D^{+}$ de la forma $*\left(R_{1},\ldots,R_{n}\right)$ donde cada $R_{i}\subseteq R$ y $R=R_{1}\cup\cdots\cup R_{n}$, al menos una de las siguientes condiciones se cumple:
 \begin{itemize}
-\item La dependencia de junta $*\left(R_{1},\ldots,R_{n}\right)$ es trivial
-\item Cada $R_{i}$ es una superclave de $R$
+	\item La dependencia de junta $*\left(R_{1},\ldots,R_{n}\right)$ es trivial
+	\item Cada $R_{i}$ es una superclave de $R$
 \end{itemize}
+
 Propiedades:
 \begin{itemize}
-\item Toda relación que está en 5FN está en 4FN, y está en BCNF.
-\item Una descomposición 5FN no garantiza la preservación de dependencias.
+	\item Toda relación que está en 5FN está en 4FN, y está en BCNF.
+	\item Una descomposición 5FN no garantiza la preservación de dependencias.
 \end{itemize}
+
 \begin{algorithm}[H]
-Entrada: una relación $R$, un conjunto de dependencias $D^{+}$
+	Entrada: una relación $R$, un conjunto de dependencias $D^{+}$
 
-Salida: una descomposición $\rho=\left\{ R_{1},\ldots,R_{n}\right\} $
-tal que $R_{i}$ está en 5FN con respecto a $D_{i}$
-\begin{enumerate}
-\item $\rho=R$
-\item Repetir hasta que no haya esquemas en $\rho Z$ que violen 5FN
-
-\begin{enumerate}
-\item Elegir una dependencia de junta $*\left(DJ_{1},\ldots DJ_{k}\right)$que
-viole 5FN sobre $\rho_{i}$
-\item Descomponer $\rho_{i}$ en $k$ relaciones:
-
-\begin{itemize}
-\item $R_{1}\left(DJ_{1}\right)$
-\item $R_{k}\left(DJ_{k}\right)$
-\end{itemize}
-\item En $\rho$, reemplazar $\rho$ por $R_{1},\ldots,R_{k}$
-\end{enumerate}
-\item Devolver $\rho$
-\end{enumerate}
-\protect\caption{Descomposición 5FN}
+	Salida: una descomposición $\rho=\left\{ R_{1},\ldots,R_{n}\right\} $ tal que $R_{i}$ está en 5FN con respecto a $D_{i}$
+	\begin{enumerate}
+		\item $\rho=R$
+		\item Repetir hasta que no haya esquemas en $\rho Z$ que violen 5FN
+		\begin{enumerate}
+			\item Elegir una dependencia de junta $*\left(DJ_{1},\ldots DJ_{k}\right)$que viole 5FN sobre $\rho_{i}$
+			\item Descomponer $\rho_{i}$ en $k$ relaciones:
+			\begin{itemize}
+				\item $R_{1}\left(DJ_{1}\right)$
+				\item $R_{k}\left(DJ_{k}\right)$
+			\end{itemize}
+			\item En $\rho$, reemplazar $\rho$ por $R_{1},\ldots,R_{k}$
+		\end{enumerate}
+		\item Devolver $\rho$
+	\end{enumerate}
+	\caption{Descomposición 5FN}
 \end{algorithm}
 
+\textbf{\emph{Ejemplo:}} \emph{sea $D = 
+\begin{cases}
+	*\left(ABCD,CDE,BDI\right)\\
+	*\left(AB,BCD,AD\right)\\
+	A\to BCDE\\
+	BC\to AI
+\end{cases}$ sobre el esquema de relación $R=ABCDEI$.}
 
-\textbf{\emph{Ejemplo}}\emph{: sea $D=\begin{cases}
-*\left(ABCD,CDE,BDI\right)\\
-*\left(AB,BCD,AD\right)\\
-A\to BCDE\\
-BC\to AI
-\end{cases}$ sobre el esquema de relación $R=ABCDEI$. }
+\emph{Las clave candidata de $R$ son, por las dependencias funcionales, $\{A,BC\}$.}
 
-\emph{Las clave candidata de $R$ son, por las dependencias funcionales,
-$\{A,BC\}$.}
+\emph{$R$ no está en 5FN porque la dependencia de junta $*\left(ABCD,CDE,BDI\right)$ no es trivial, y $CDE,\, BDI$ no son superclaves de $R$.}
 
-\emph{$R$ no está en 5FN porque la dependencia de junta $*\left(ABCD,CDE,BDI\right)$
-no es trivial, y $CDE,\, BDI$ no son superclaves de $R$.}
-
-\emph{La descomposición $R=\begin{cases}
-R_{1}= & ABCD\\
-R_{2}= & CDE\\
-R_{3}= & BDI
+\emph{La descomposición $R = 
+\begin{cases}
+	R_{1}= & ABCD\\
+	R_{2}= & CDE\\
+	R_{3}= & BDI
 \end{cases}$ sí está en 5FN porque:}
 \begin{itemize}
-\item \emph{Para $R_{1}$ aplica la dependencia de junta $*\left(AB,BCD,AD\right)$,
-y todos los miembros son superclaves de $R$, por lo tanto está en
-5FN.}
-\item \emph{Para $R_{2}$ solo aplican dependencias de junta triviales.}
-\item \emph{Para $R_{3}$ solo aplican dependencias de junta triviales.}
+	\item \emph{Para $R_{1}$ aplica la dependencia de junta $*\left(AB,BCD,AD\right)$, y todos los miembros son superclaves de $R$, por lo tanto está en 5FN.}
+	\item \emph{Para $R_{2}$ solo aplican dependencias de junta triviales.}
+	\item \emph{Para $R_{3}$ solo aplican dependencias de junta triviales.}
 \end{itemize}
 
 \subsection{Implicación de dependencias}
-
 Utilizar el algoritmo Chase Tableau.
 
-\noindent \begin{center}
-\includegraphics[scale=0.7]{chase_tableau_dmv_1}
-\par\end{center}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{chase_tableau_dmv_1}
+\end{figure}
 
-\noindent \begin{center}
-\includegraphics[scale=0.7]{chase_tableau_dmv_2}
-\par\end{center}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{chase_tableau_dmv_2}
+\end{figure}
 
-\pagebreak{}
-
-
+\newpage
 \part{SQL}
-
 Componentes: 
 \begin{enumerate}
-\item DDL (\emph{Data Definition Language})
-\item DML (\emph{Data Manipulation Language})
-\item CL (\emph{Control Language})
+	\item DDL (\emph{Data Definition Language})
+	\item DML (\emph{Data Manipulation Language})
+	\item CL (\emph{Control Language})
 \end{enumerate}
-Para identificar unívocamente a una relación, se utiliza el formato
-\texttt{<catalogo>.<esquema>.<relación>}
 
+Para identificar unívocamente a una relación, se utiliza el formato \texttt{<catalogo>.<esquema>.<relación>}
 
 \section{DDL}
 \begin{description}
-\item [{DDL}] Lenguaje de definición de datos para especificar el esquema
-de la base de datos, eliminar relaciones, modificar esquemas, crear
-vistas, crear restricciones de integridad, especificar derechos de
-acceso, etc.
+\item[DDL] Lenguaje de definición de datos para especificar el esquema de la base de datos, eliminar relaciones, modificar esquemas, crear vistas, crear restricciones de integridad, especificar derechos de acceso, etc.
 \end{description}
 
 \subsection{Tipos de dominios}
