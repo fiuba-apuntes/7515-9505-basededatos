@@ -20,7 +20,7 @@
 \usepackage{textcomp}
 \usepackage{multirow}
 \usepackage[normalem]{ulem}
-\usepackage{listings}
+\usepackage{listingsutf8}
 
 % Defino la ruta de los paquetes personalizados para el apunte
 \newcommand{\rutapaquetes}{./paquetes-apunte}
@@ -40,6 +40,7 @@
 }
 
 \newcommand{\imgdir}{../resources/images} % Ruta de las imágenes
+\newcommand{\codedir}{../resources/code} % Ruta del código de ejemplo
 
 % Define los directorios de las imágenes y gráficos
 \graphicspath{ {\imgdir/} {\rutapaquetes/} }
@@ -87,16 +88,32 @@
 
 % Configuro el lst
 \lstset{
-	breakatwhitespace=false,
-  	breaklines=true,  
-	commentstyle=\color{red},	
+%	breakatwhitespace=true,
+% 	breaklines=true,
+	commentstyle=\color{red},
 	basicstyle={\small \ttfamily},
-	frame=single,
+%	frame=single,
+	keywordstyle=\color{blue},
+%	language=SQL,
+%	numbers=left,
+%	numbersep=5pt,
+%	numberstyle=\scriptsize\color{gray},
+%	xleftmargin=0.5cm
+}
+
+\lstdefinestyle{sqlstyle}{
+	breakatwhitespace=true,
+  	breaklines=true,
+	commentstyle=\color{red},
+	basicstyle={\small \ttfamily},
+	frame=l,
 	keywordstyle=\color{blue},
 	language=SQL,
+	morekeywords={REFERENCES, TO, WITH, OPTION, BEFORE, AFTER, OF, BEGIN, CLUSTERED, EXPLAIN},
 	numbers=left,
 	numbersep=5pt,
-	numberstyle=\scriptsize\color{gray},
+	numberstyle=\scriptsize\color{black!10!gray},
+	xleftmargin=0.8cm
 }
 \renewcommand{\lstlistingname}{Listado de código}
 
@@ -866,9 +883,7 @@ En álgebra relacional se expresa como $r\leftarrow\pi_{F_{1},\dots,F_{n}}(r)$, 
 	\item[Vista] relación que no es parte del modelo lógico de la base de datos, pero que es visible para el usuario como una relación ``virtual''.
 \end{description}
 
-\begin{lstlisting}
-CREATE VIEW v AS <expresion de consulta>
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/crear-vista.sql}
 
 Limitaciones:
 \begin{itemize}
@@ -917,47 +932,16 @@ En SQL, tenemos las siguientes restricciones:
 \end{itemize}
 
 \subsection{Restricciones de dominio}
-\begin{lstlisting}
-CREATE DOMAIN color AS VARCHAR(10)
-	DEFAULT 'SinColor'
-	CHECK (value IN ('SinColor', 'Azul', 'Rojo'));
-
-CAST relacion.Atributo AS <dominio>;
-
-DROP DOMAIN <dominio>;
-
-ALTER DOMAIN <dominio>;
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/restriccion-dominio.sql}
 
 \subsection{Restricciones de integridad referencial}
 Ejemplo: 
-\begin{lstlisting}
-CREATE TABLE hospital (
-	IdHosp SMALLINT,
-	PRIMARY KEY (IdHosp));
-
-CREATE TABLE medico (
-	IdHosp SMALLINT,
-	IdMedico SMALLINT,
-	Nombre VARCHAR(40)
-	PRIMARY KEY (IdMedico));
-
-ALTER TABLE medico
-	ADD CONSTRAINT FK_medico 
-	FOREIGN KEY IdHosp 
-	REFERENCES hospital(IdHosp);
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/restriccion-integridad-referencial.sql}
 
 \subsubsection{Acciones referenciales}
 Son llamadas SQL que se ejecutan de forma automática ante la eliminación o actualización de una restricción de integridad referencial, para mantener la misma.
 
-\begin{lstlisting}
-ALTER TABLE medico 
-	ADD CONSTRAINT FK_medico 
-	FOREIGN KEY IdHosp 
-	REFERENCES hospital(IdHosp)
-		ON [DELETE|UPDATE] [SET DEFAULT|SET NULL|CASCADE|NO ACTION];
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/accion-referencial.sql}
 
 De esta forma, cuando se elimine o actualice una fila en la tabla \texttt{Hospital}, el sistema de base de datos ejecutará la acción especificada en la tabla \texttt{Medico}:
 \begin{itemize}
@@ -972,39 +956,19 @@ Con la opción \texttt{WITH GRANT OPTION} se permite que el usuario que recibe e
 
 Un usuario tiene autorización sí y solo sí existe un camino desde la raíz del grafo hacia el nodo usuario.
 
-\begin{lstlisting}
-GRANT <privilegios>
-	ON <[relacion|vista]>
-	TO <[usuario|rol]>
-	[WITH GRANT OPTION];
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/privilegios-conceder.sql}
 
 Para eliminar autorizaciones se usa el comando \texttt{REVOKE}. Por defecto, este comando tiene el efecto de revocar los privilegios que el usuario le brindó a otros. Para evitar este efecto cascada, se usa la opción \texttt{RESTRICT}.
 
-\begin{lstlisting}
-REVOKE <privilegios>
-	ON <[relacion|vista]>
-	FROM <[usuario|rol]>
-	[RESTRICT];
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/privilegios-revocar.sql}
 
 Para crear roles:
-
-\begin{lstlisting}
-CREATE ROLE instructor;
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/crear-rol.sql}
 
 \section{Triggers}
 \textbf{Trigger:} comando que el sistema ejecuta automáticamente si un \emph{evento} satisface cierta \emph{condición}. Son un conjunto de acciones; por ejemplo, enviar un e-mail, ejecutar el \emph{rollback} de una transacción, o crear una copia de la base de datos.
 
-\begin{lstlisting}
-CREATE TRIGGER chequear_horario
-[BEFORE|AFTER] [UPDATE|INSERT|DELETE] [OF atributo] ON curso
-WHEN condicion
-BEGIN
-	acciones
-END
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/trigger.sql}
 
 \newpage
 \part{Diseño de bases de datos}
@@ -2161,12 +2125,7 @@ Para identificar unívocamente a una relación, se utiliza el formato \texttt{<c
 \end{itemize}
 
 \subsection{Create table}
-\begin{lstlisting}
-CREATE TABLE r(A1 D1, A2 D2, ..., An Dn,
-		<restriccion-integridad1>,
-		...,
-		<restriccion-integridadK>);
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/table-create.sql}
 
 La instrucción anterior crea una tabla llamada \emph{r} con atributos $A_{i}$, y $D_{i}$ es el dominio del atributo $A_{i}$.
 
@@ -2175,10 +2134,7 @@ Las restricciones de integridad pueden ser:
 	\item \texttt{primary key ($A_{j1},A_{j2},\dots,A_{jm})$}: los atributos $A_{ji}$, con $i\in[1,m]$ forman la clave primaria de cada tupla. No pueden ser \emph{null}, y deben ser únicos.
 	\item \texttt{check ($P$)}: todas las tuplas de $r$ deben satisfacer el predicado $P$.
 	\item \texttt{foreign key}:
-	\begin{lstlisting}
-FOREIGN KEY (atr) REFERENCES rel
-	ON [update|delete] [cascade|set null|set default];
-	\end{lstlisting}
+	\lstinputlisting[style=sqlstyle]{\codedir/sql/foreign-key.sql}
 
 	Se establece que el atributo \texttt{atr} es una clave primaria en la relación \texttt{rel}. Se puede especificar lo que sucede si se produce una actualización o un borrado de dicho valor en la relación \texttt{rel}:
 	\begin{itemize}
@@ -2186,11 +2142,9 @@ FOREIGN KEY (atr) REFERENCES rel
 		\item \textbf{Set null}: la clave foránea se establece en \emph{null}
 		\item \textbf{Set default}: la clave foránea se establece en su valor por default
 	\end{itemize}
+
 	\item \texttt{assert}: define una restricción aplicable a varias tablas.
-	\begin{lstlisting}
-CREATE ASSERTION nombre_asercion
-	CHECK P
-	\end{lstlisting}
+	\lstinputlisting[style=sqlstyle]{\codedir/sql/assertion.sql}
 \end{itemize}
 
 \subsection{Drop table}
@@ -2199,12 +2153,7 @@ La instrucción \texttt{DROP TABLE r} elimina todas las tuplas de la tabla $r$ y
 \subsection{Alter table}
 La instrucción puede utilizarse para agregar atributos nuevos (con valor \emph{null}) o para eliminarlos.
 
-\begin{lstlisting}
-ALTER TABLE r 
-	ADD <Atributo> <Dominio>;
-ALTER TABLE r 
-	DROP <Atributo>;
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/table-alter.sql}
 
 \textbf{Diccionario de datos:} contiene \textbf{metadatos} (información sobre los datos), en particular, sobre el esquema de la misma.
 
@@ -2229,12 +2178,7 @@ Operaciones CRUD (\emph{Create}, \emph{Read}, \emph{Update}, \emph{Delete})
 \end{center}
 
 La expresión
-
-\begin{lstlisting}
-SELECT a1, a2, ..., an
-FROM r1, r2, ..., rm
-WHERE p;
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/operaciones-crud.sql}
 
 es equivalente a la expresión $\pi_{a_{1},a_{2},\dots,a_{n}}\left(\sigma_{p}\left(r_{1}\times r_{2}\times\dots\times r_{m}\right)\right)$.
 \begin{itemize}
@@ -2255,33 +2199,13 @@ es equivalente a la expresión $\pi_{a_{1},a_{2},\dots,a_{n}}\left(\sigma_{p}\le
 		\item \texttt{Except}
 	\end{itemize}
 	\item El operador \texttt{group by} permite agrupar tuplas en base a uno o más atributos (las tuplas con el mismo valor para los atributos en esta cláusula se ponen en un mismo grupo). Los atributos en la cláusula \texttt{select}, por fuera de las funciones agregadas, deben estar en el operador \texttt{group by}. La sintaxis es:
-	\begin{lstlisting}
-SELECT expr1, ..., exprN, funcionAgregada(expr)
-FROM tablas
-WHERE condiciones
-GROUP BY expr1, ..., exprN;
-	\end{lstlisting}
+	\lstinputlisting[style=sqlstyle]{\codedir/sql/group-by.sql}
 	\emph{Ejemplo: encontrar el promedio del saldo de las cuentas en cada sucursal de un banco.}
-	\begin{lstlisting}
-SELECT sucursal-nombre, avg(saldo)
-FROM cuentas
-GROUP BY sucursal-nombre;
-	\end{lstlisting}
+	\lstinputlisting[style=sqlstyle]{\codedir/sql/group-by-ejemplo.sql}
 	\item El operador \texttt{having} permite seleccionar a grupos formados con \texttt{group by }que cumplan una condición. Cualquier atributo que esté presente en la cláusula \texttt{having} sin agregar, debe aparecer en el operador \texttt{group by}.
-	\begin{lstlisting}
-SELECT columna, funcion_agregada(columna) 
-FROM tabla 
-WHERE columna operator value 
-GROUP BY columna
-HAVING funcion_agregada(columna) operator value;
-	\end{lstlisting}
+	\lstinputlisting[style=sqlstyle]{\codedir/sql/group-by-having.sql}
 	\emph{Ejemplo: encontrar los nombres de las sucursales del banco que tengan un promedio general de saldo mayor a \$1200.}
-	\begin{lstlisting}
-SELECT sucursal-nombre
-FROM cuentas
-GROUP BY sucursal-nombre
-HAVING avg(saldo) > 1200
-	\end{lstlisting}
+	\lstinputlisting[style=sqlstyle]{\codedir/sql/group-by-having-ejemplo.sql}
 \end{itemize}
 
 \textbf{Nota}: si se utilizan el operador \texttt{where} y el operador \texttt{having}, primero se aplica el \texttt{where} y luego se filtra por \texttt{having}.
@@ -2293,61 +2217,33 @@ En una consulta anidada, el \texttt{select} interno puede tener variables de tup
 
 	\emph{Ejemplo: encontrar los nombres de los clientes que tienen un préstamo y una cuenta en el banco.}
 
-	\begin{lstlisting}
-SELECT DISTINCT cliente-nombre
-FROM pidio-prestamo
-WHERE cliente-nombre IN (SELECT cliente-nombre
-			FROM tiene-cuenta);
-	\end{lstlisting}
+	\lstinputlisting[style=sqlstyle]{\codedir/sql/consulta-anidada-in.sql}
 
 	\item El operador de comparación \texttt{some} en una cláusula \texttt{where} de un \texttt{select} externo devuelve verdadero si el valor del atributo en cuestión es mayor o menor que al menos un valor de la cláusula
 \texttt{select} interna.
 
 	\emph{Ejemplo: encontrar los nombres de las sucursales del banco que tienen activos mayores que los de al menos una sucursal en Brooklyn.}
 
-	\begin{lstlisting}
-SELECT sucursal-nombre
-FROM sucursales
-WHERE activos > SOME (SELECT activos
-			FROM sucursales
-			WHERE sucursal-nombre = 'Brooklyn');
-	\end{lstlisting}
+	\lstinputlisting[style=sqlstyle]{\codedir/sql/consulta-anidada-some.sql}
 
 	\item El operador de comparación \texttt{all} en una cláusula \texttt{where} de un \texttt{select} externo devuelve verdadero si el valor del atributo en cuestión es mayor a todos los valores de la cláusula \texttt{select}
 interna.
 
 	\emph{Ejemplo: encontrar los nombres de las sucursales del banco que tienen activos mayores que los todas las sucursales en Brooklyn.}
 
-	\begin{lstlisting}
-SELECT sucursal-nombre
-FROM sucursales
-WHERE activos > ALL (SELECT activos
-			FROM sucursales
-			WHERE sucursal-nombre = 'Brooklyn');
-	\end{lstlisting}
+	\lstinputlisting[style=sqlstyle]{\codedir/sql/consulta-anidada-all.sql}
 
 	\item El operador \texttt{any} devuelve verdadero si existe al menos un valor para
 
 	\emph{Ejemplo: encontrar los clientes que pidieron un préstamo de monto mayor a al menos los activos de una sucursal.}
 
-	\begin{lstlisting}
-SELECT cliente-nombre
-FROM pidio-prestamo
-WHERE cantidad > ANY (SELECT activos
-			FROM sucursales);
-	\end{lstlisting}
+	\lstinputlisting[style=sqlstyle]{\codedir/sql/consulta-anidada-any.sql}
 
 	\item El operador \texttt{exists} devuelve verdadero si la consulta interna no es vacía.
 
 	\emph{Ejemplo: encontrar los clientes que tienen una cuenta y un préstamo en el banco.}
 
-	\begin{lstlisting}
-SELECT cliente-nombre
-FROM pidio-prestamo
-WHERE EXISTS (SELECT *
-		FROM tiene-cuenta
-            WHERE pidio-prestamo.cliente-nombre = tiene-cuenta.cliente-nombre);
-	\end{lstlisting}
+	\lstinputlisting[style=sqlstyle]{\codedir/sql/consulta-anidada-exists.sql}
 
 	\item El operador \texttt{unique} devuelve verdadero si la consulta interna no contiene tuplas duplicadas.
 \end{itemize}
@@ -2357,32 +2253,20 @@ SQL no ofrece en forma nativa la posibilidad de ejecutar el operador división. 
 \emph{Ejemplo: dados los siguientes esquemas relacionales}
 
 \begin{lstlisting}
-Estudiante (Enro, Enombre, Carrera, Anio_cursa, Edad) 
-Curso (Cnombre, Horario, Aula, Pid) 
-Cursa (Enro, Cnombre) 
-Profesor (Pid, Pnombre, departamento) 
+Estudiante (Enro, Enombre, Carrera, Anio_cursa, Edad)
+Curso (Cnombre, Horario, Aula, Pid)
+Cursa (Enro, Cnombre)
+Profesor (Pid, Pnombre, departamento)
 \end{lstlisting}
 
 \emph{Hallar los nombres de todos los profesores que enseñan en todas las aulas en las que se dicta algún curso.}
 
-\begin{lstlisting}
-SELECT P.Pnombre 
-FROM Profesor P 
-WHERE NOT EXISTS (SELECT C.Aula                   
-		FROM Curso C1                  
-		WHERE NOT EXISTS (SELECT *                                    
-				FROM Curso C2                                    
-				WHERE C2.Aula = c1.Aula AND      
-					C2.Pid = P.Pid));
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/consulta-anidada-division.sql}
 
 \subsection{Delete}
 Sintaxis para el borrado de tuplas de la relación $r$ para las cuales $P$ es verdadera:
 
-\begin{lstlisting}
-DELETE FROM r
-WHERE P
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/delete.sql}
 
 \begin{itemize}
 	\item Sólo se borra de una relación.
@@ -2393,15 +2277,9 @@ WHERE P
 \subsection{Insert}
 Sintaxis para la inserción de tuplas en la relación $r$:
 
-\begin{lstlisting}
-INSERT INTO r (nombreAtributo1, ..., nombreAtributoN)
-VALUES (valor1, ..., valorN)
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/insert1.sql}
 
-\begin{lstlisting}
-INSERT INTO r 
-	SELECT (...)
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/insert2.sql}
 
 \begin{itemize}
 \item Primero se buscan todas las tuplas que satisfacen el \texttt{select}, y luego se insertan todas ellas.
@@ -2410,20 +2288,9 @@ INSERT INTO r
 \subsection{Update}
 Sintaxis para la actualización de un atributo de una tupla de $r$:
 
-\begin{lstlisting}
-UPDATE r
-SET atributo = valor
-WHERE condicion
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/update1.sql}
 
-\begin{lstlisting}
-UPDATE r
-SET atributo = CASE
-			WHEN condicion1 THEN valor1
-			WHEN condicion2 THEN valor2
-			ELSE valor3
-		 END
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/update2.sql}
 
 \newpage
 \part{Procesamiento de Consultas}
@@ -2467,13 +2334,7 @@ Ciertas consultas sobre algunos atributos son más frecuentes que otras. Para ac
 Un registro de un índice tiene un valor de la clave de búsqueda, y punteros a uno o más tuplas con esa clave de búsqueda.
 \end{description}
 
-\begin{lstlisting}
-CREATE [CLUSTERED] INDEX estudianteID_indice
-	ON estudiante
-{
-	ID asc
-};
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/index-create.sql}
 
 Tipos de índices:
 \begin{itemize}
@@ -2744,9 +2605,7 @@ Uso de \emph{pipelining}:
 	\end{enumerate}
 \end{description}
 
-\begin{lstlisting}
-EXPLAIN consulta
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/explain.sql}
  
 \subsection{Reglas de equivalencia}
 Reglas relacionadas con la selección:
@@ -2886,11 +2745,7 @@ Los tipos de histogramas más frecuentes son:
 
 \emph{\uline{Ejemplo}}\emph{: sean las relaciones $Enero(dia,temp)$ y $Julio(dia,temp)$. Sea la consulta}
 
-\begin{lstlisting}
-SELECT Enero.dia, Julio.dia
-FROM Enero, Julio
-WHERE Enero.temp = Julio.temp
-\end{lstlisting}
+\lstinputlisting[style=sqlstyle]{\codedir/sql/consulta1.sql}
 
 \emph{Suponer los siguientes histogramas de igual ancho:}
 

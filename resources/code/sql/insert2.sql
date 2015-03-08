@@ -1,0 +1,2 @@
+INSERT INTO r 
+  SELECT (...)
