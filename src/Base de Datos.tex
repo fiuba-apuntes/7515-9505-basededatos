@@ -68,9 +68,10 @@
 %\tema{Tema de la Materia}
 %\subtema{Subtema}
 
+\cuadro{definicion}{gray}
+\cuadro{propiedades}{blue}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
-%% Because html converters don't know tabularnewline
-\floatstyle{ruled}
 \newfloat{algorithm}{tbp}{loa}
 \providecommand{\algorithmname}{Algoritmo}
 \floatname{algorithm}{\protect\algorithmname}
@@ -110,9 +111,9 @@
 Un fenómeno o idea usualmente refiere a un objeto y a algún aspecto del objeto, el cual captura un determinado valor en un cierto momento.
 
 \begin{description}
-	\item [Dato] tupla \textless nombre de objeto, propiedad de objeto, valor de la propiedad del objeto, instante \textgreater .
-	\item [Dato elemental] terna \textless nombre de objeto, propiedad de objeto, valor de la propiedad del objeto \textgreater .
-	\item [Modelo de datos] herramienta intelectual que provee una interpretación del mundo real. Es un dispositivo de abstracción.
+	\item[Dato] tupla \textless nombre de objeto, propiedad de objeto, valor de la propiedad del objeto, instante\textgreater .
+	\item[Dato elemental] terna \textless nombre de objeto, propiedad de objeto, valor de la propiedad del objeto\textgreater .
+	\item[Modelo de datos] herramienta intelectual que provee una interpretación del mundo real. Es un dispositivo de abstracción.
 \end{description}
 
 \begin{figure}[H]
@@ -286,6 +287,7 @@ Tipos de restricciones sobre una base de datos:
 	\item De objetos: existe una persistencia de los objetos más allá de la existencia en memoria
 \end{enumerate}
 
+\newpage
 \section{Modelo Entidad-Interrelación (E-R)}
 \uline{Nota importante}: no podemos tener nombres de entidades o interrelaciones repetidos.
 
@@ -295,38 +297,38 @@ El modelo entidad-interrelación se basa en la idea de que el mundo real está c
 \begin{description}
 	\item[Entidad] algo que existe, concreto o abstracto. \emph{Ejemplo: una persona Juan, la cuenta bancaria n\textdegree 4500011.}
 	\item[Conjunto de entidades / tipo de entidad] conjunto de entidades del mismo tipo. \emph{Ejemplo: el conjunto de entidades ``cliente'' abarca todas las personas que tienen cuenta en un banco.}
-
-	Un conjunto de entidades $E$ tiene un predicado asociado $p$ para probar si una entidad $e$ pertenece al conjunto.
-	\[
-		E = \left\{ e/p(e)\right\} 
-	\]
-
-	Los conjuntos de entidades no necesitan ser disjuntos. \emph{Ejemplo: ``animales'' y ``mamíferos'' no son disjuntos.}
-
-	Un tipo de entidad queda definido por:
-	\begin{enumerate}
-		\item \textbf{Nombre}: en singular o frase simple en singular. \emph{Ejemplos: ``cliente'', ``cuenta corriente''}
-		\item \textbf{Significado}: texto preciso, conciso y claro. Debe indicar, si existieran, dependencias con otros tipos de entidades
-		\item \textbf{Atributos}: características de todas las entidades de ese tipo. \emph{Ejemplo: para el conjunto de entidades ``cliente'', posibles atributos son ``nombre'', ``DNI'', ``calle'', ``ciudad'', etc.} Cada atributo tiene un conjunto de \textbf{valores} permitidos, denominado el \textbf{dominio }del atributo. \emph{Ejemplo: el DNI debe ser un número positivo.} Los atributos deben ser \textbf{atómicos} (es decir, que no se pueden descomponer), y no pueden estar repetidos.
-
-		Formalmente, un \textbf{atributo} es una función que hace corresponder un conjunto de entidades a un dominio o producto cartesiano de dominios. \emph{Ejemplo: una entidad ``empleado'' está descrita por el conjunto \{(nombre, Juan), (apellido, Cancela), (DNI, 5.678.901)\}.}
-
-		Un atributo puede tener el valor \textbf{nulo}, por varias razones:
-		\begin{enumerate}
-			\item No aplica
-			\item Faltante
-			\item Desconocido
-		\end{enumerate}
-
-		Tipos de atributos:
-		\begin{enumerate}
-			\item \emph{Simple vs compuesto. Ejemplo: nombre puede descomponerse en primer nombre, segundo nombre, y apellido.}
-			\item \emph{Un valor vs Multivaluado}: se repite varias veces en la entidad. \emph{Ejemplo: número de teléfono.}
-			\item \emph{Derivable}: su valor puede calcularse a partir de otros atributos. Debe evitarse. \emph{Ejemplo: si tengo el atributo ``fecha de nacimiento'', ``edad'' es un atributo derivable.}
-		\end{enumerate}
-		\item \textbf{Identificador}: atributo o conjunto de atributos que permiten distinguir a cada entidad dentro del conjunto de entidades del mismo tipo.
-	\end{enumerate}
 \end{description}
+
+Un conjunto de entidades $E$ tiene un predicado asociado $p$ para probar si una entidad $e$ pertenece al conjunto.
+\[
+	E = \left\{ e/p(e)\right\} 
+\]
+
+Los conjuntos de entidades no necesitan ser disjuntos. \emph{Ejemplo: ``animales'' y ``mamíferos'' no son disjuntos.}
+
+Un tipo de entidad queda definido por:
+\begin{enumerate}
+	\item \textbf{Nombre}: en singular o frase simple en singular. \emph{Ejemplos: ``cliente'', ``cuenta corriente''}
+	\item \textbf{Significado}: texto preciso, conciso y claro. Debe indicar, si existieran, dependencias con otros tipos de entidades
+	\item \textbf{Atributos}: características de todas las entidades de ese tipo. \emph{Ejemplo: para el conjunto de entidades ``cliente'', posibles atributos son ``nombre'', ``DNI'', ``calle'', ``ciudad'', etc.} Cada atributo tiene un conjunto de \textbf{valores} permitidos, denominado el \textbf{dominio }del atributo. \emph{Ejemplo: el DNI debe ser un número positivo.} Los atributos deben ser \textbf{atómicos} (es decir, que no se pueden descomponer), y no pueden estar repetidos.
+
+	Formalmente, un \textbf{atributo} es una función que hace corresponder un conjunto de entidades a un dominio o producto cartesiano de dominios. \emph{Ejemplo: una entidad ``empleado'' está descrita por el conjunto \{(nombre, Juan), (apellido, Cancela), (DNI, 5.678.901)\}.}
+
+	Un atributo puede tener el valor \textbf{nulo}, por varias razones:
+	\begin{enumerate}
+		\item No aplica
+		\item Faltante
+		\item Desconocido
+	\end{enumerate}
+
+	Tipos de atributos:
+	\begin{enumerate}
+		\item \emph{Simple vs compuesto. Ejemplo: nombre puede descomponerse en primer nombre, segundo nombre, y apellido.}
+		\item \emph{Un valor vs Multivaluado}: se repite varias veces en la entidad. \emph{Ejemplo: número de teléfono.}
+		\item \emph{Derivable}: su valor puede calcularse a partir de otros atributos. Debe evitarse. \emph{Ejemplo: si tengo el atributo ``fecha de nacimiento'', ``edad'' es un atributo derivable.}
+	\end{enumerate}
+	\item \textbf{Identificador}: atributo o conjunto de atributos que permiten distinguir a cada entidad dentro del conjunto de entidades del mismo tipo.
+\end{enumerate}
 
 \subsection{Interrelaciones}
 \begin{description}
@@ -412,7 +414,9 @@ La estructura de la clave primaria de una interrelación $R$ depende de las rest
 Se dice que la participación de un conjunto de entidades $E$ en un conjunto de interrelaciones $R$ es \textbf{total} cuando cada entidad en $E$ participa en al menos una interrelación en $R$. Si solo algunas entidades participan, la participación es \textbf{parcial}.
 
 \subsubsection{Restricciones de cardinalidad de correspondencia}
-\textbf{Cardinalidad de correspondencia:} cantidad mínima y máxima de entidades a las cuales puede asociarse una entidad a través de un tipo de interrelación.\\
+\begin{description}
+	\item[Cardinalidad de correspondencia] cantidad mínima y máxima de entidades a las cuales puede asociarse una entidad a través de un tipo de interrelación.
+\end{description}
 
 Para una interrelación \emph{binaria} $R$ entre dos tipos de entidades $A$ y $B$, la cardinalidad puede ser:
 \begin{enumerate}
@@ -595,6 +599,7 @@ Para cada entidad y para cada interrelación, se construye una única tabla. Cad
 	La tabla de la interrelación $R$ entre la agregación $A$ y el conjunto de entidades $B$ incluye una columna por cada clave primaria de $B$ y $A$.
 \end{itemize}
 
+\newpage
 \section{Modelo Relacional}
 \subsection{Estructura del modelo relacional}
 El modelo relacional es un ejemplo de modelo basado en registros. Usa un grupo de tablas para representar los datos y las relaciones entre los datos. Cada tabla tiene múltiples columnas. Cada tabla contiene registros de un tipo en particular. Cada registro tiene atributos (las columnas).
@@ -638,65 +643,84 @@ El modelo relacional es un ejemplo de modelo basado en registros. Usa un grupo d
 Es un lenguaje\textbf{ formal }y \textbf{procedural }que\textbf{ }permite realizar consultas sobre un conjunto de relaciones, y produce relaciones como resultado.
 
 \subsubsection{Operadores básicos}
-Los siguientes operadores son linealmente independientes. Se utilizan para filtrar,\emph{ }cortar y combinar relaciones.
+Los siguientes operadores son linealmente independientes. Se utilizan para filtrar,\emph{ }cortar y combinar relaciones.\\
 
-\begin{enumerate}
-	\item Operaciones unarias:
+{\Large \textsc{Operaciones unarias}}\\
+
+\begin{definicion}[0.9\textwidth]{Proyección}
+	\[
+		\text{Proyección: } \pi_{a_{1},\dots,a_{n}}(r)
+	\] 
+
+	Dados los atributos $a_{1}, \dots, a_{n}$ que pertenecen a $r$, devuelve una relación de esquema $\{a_{1}, \dots, a_{n}\}$.
+
+	Se eliminan las tuplas repetidas.
+\end{definicion}
+
+\begin{definicion}[0.9\textwidth]{Selección}
+	\[
+		\text{Selección: } \sigma_{p}(r)
+	\] 
+
+	Devuelve una relación $r'$ con el mismo esquema que $r$, en la que las tuplas son aquellas pertenecientes a $r$ que satisfacen la condición o el predicado $p$. La condición puede ser de dos estilos:
 	\begin{enumerate}
-		\item \textbf{Proyección} ($\pi_{a_{1},\dots,a_{n}}(r)$). 
-
-		Dados los atributos $a_{1},\dots,a_{n}$ que pertenecen a $r$, devuelve una relación de esquema $\{a_{1},\dots,a_{n}\}$.
-
-		Se eliminan las tuplas repetidas.
-
-		\item \textbf{Selección} ($\sigma_{p}(r)$). 
-
-		Devuelve una relación $r'$ con el mismo esquema que $r$, en la que las tuplas son aquellas pertenecientes a $r$ que satisfacen la condición o el predicado $p$. La condición puede ser de dos estilos:
+		\item \emph{Atómica}: expresión lógica simple del tipo que utiliza un operador de comparación $\theta$, tal que $\theta\in\left\{ =,\neq,<,>,\leq,\geq\right\} $. Se permiten dos tipos de expresiones:
 		\begin{enumerate}
-			\item \emph{Atómica}: expresión lógica simple del tipo que utiliza un operador de comparación $\theta$, tal que $\theta\in\left\{ =,\neq,<,>,\leq,\geq\right\} $. Se permiten dos tipos de expresiones:
-			\begin{enumerate}
-				\item Atributo $\theta$ atributo
-				\item Atributo $\theta$ constante
-			\end{enumerate}
-
-			\item \emph{Compuesta}: utiliza conectores \emph{and, or, not}.
+			\item Atributo $\theta$ atributo
+			\item Atributo $\theta$ constante
 		\end{enumerate}
-
-		\item \textbf{Renombre} ($\rho_{R(A_{1},A_{2},\dots,A_{n})}(E)$). 
-
-		Cambia el nombre de la relación $E$ a $R$, y también cambia el nombre de sus atributos a $A_{1},A_{2},\dots,A_{n}$.
+		\item \emph{Compuesta}: utiliza conectores \emph{and, or, not}.
 	\end{enumerate}
+\end{definicion}
 
-	\item Operaciones binarias:
-	\begin{enumerate}
-		\item \textbf{Unión} ($r\bigcup s$).
+		
+\begin{definicion}[0.9\textwidth]{Renombre}
+	\[
+		\text{Renombre: } \rho_{R(A_{1},A_{2},\dots,A_{n})}(E)
+	\]
 
-		Sean $r$ y $s$ instancias \emph{homogéneas}%
-		\footnote{Las relaciones homogéneas tienen: (a) la misma cantidad de atributos, y (b) para todo $i$, el dominio del atributo $i$ de $r$ es el mismo que el dominio del atributo $i$ de $s$}%
-		de las relaciones $R$ y $S$ respectivamente. $r$ contiene $m$ tuplas y $s$ contiene $n$ tuplas. La unión se define como:
-		\[
-			r\bigcup s=\left\{ x:\, x\in r\vee x\in s\right\} 
-		\]
+	Cambia el nombre de la relación $E$ a $R$, y también cambia el nombre de sus atributos a $A_{1}, A_{2}, \dots, A_{n}$.
+\end{definicion}
 
-		Las tuplas repetidas se eliminan.
+\newpage
+{\Large \textsc{Operaciones binarias}}\\
 
-		\item \textbf{Diferencia} ($r-s$).
+\begin{definicion}[0.9\textwidth]{Unión}
+	\[
+		\text{Unión: } r \bigcup s
+	\]
 
-		Sean $r$ y $s$ instancias \emph{homogéneas }de las relaciones $R$ y $S$ respectivamente. La diferencia se define como:
-		\[
-			r-s=\left\{ x:\, x\in r\wedge x\not\in s\right\} 
-		\]
+	Sean $r$ y $s$ instancias \emph{homogéneas}\footnote{Las relaciones homogéneas tienen: (a) la misma cantidad de atributos, y (b) para todo $i$, el dominio del atributo $i$ de $r$ es el mismo que el dominio del atributo $i$ de $s$} de las relaciones $R$ y $S$ respectivamente. $r$ contiene $m$ tuplas y $s$ contiene $n$ tuplas. La unión se define como:
+	\[
+		r \bigcup s = \left\{ x:\, x\in r\vee x\in s\right\} 
+	\]
 
-		\item \textbf{Producto cartesiano} ($r\times s$). 
+	Las tuplas repetidas se eliminan.
+\end{definicion}
 
-		Sean $r$ y $s$ instancias de las relaciones $R$ y $S$ respectivamente. El producto cartesiano es el conjunto de tuplas que resulta de concatenar cada tupla de $r$ con cada tupla de $s$.
-		\[
-			r\times s = \left\{ \left(r_{1},s_{1}\right);\ldots;\left(r_{1},s_{m}\right);\ldots;\left(r_{n},s_{1}\right)\ldots,\left(r_{n},s_{m}\right)\right\} 
-		\]
+\begin{definicion}[0.9\textwidth]{Diferencia}
+	\[
+		\text{Diferencia: } r-s
+	\]
 
-		Si $r$ tiene $n$ tuplas y $s$ tiene $m$ tuplas, $r\times s$ tendrá $n\cdot m$ tuplas. El grado de $r\times s$ es la suma de los grados de $r$ y $s$.
-	\end{enumerate}
-\end{enumerate}
+	Sean $r$ y $s$ instancias \emph{homogéneas }de las relaciones $R$ y $S$ respectivamente. La diferencia se define como:
+	\[
+		r-s=\left\{ x:\, x\in r\wedge x\not\in s\right\} 
+	\]
+\end{definicion}
+
+\begin{definicion}[0.9\textwidth]{Producto cartesiano}
+	\[
+		\text{Producto cartesiano: } r \times s
+	\] 
+
+	Sean $r$ y $s$ instancias de las relaciones $R$ y $S$ respectivamente. El producto cartesiano es el conjunto de tuplas que resulta de concatenar cada tupla de $r$ con cada tupla de $s$.
+	\[
+		r\times s = \left\{ \left( r_{1}, s_{1} \right); \ldots; \left( r_{1}, s_{m} \right); \ldots;\left( r_{n}, s_{1} \right) \ldots, \left( r_{n}, s_{m} \right) \right\}
+	\]
+
+	Si $r$ tiene $n$ tuplas y $s$ tiene $m$ tuplas, $r\times s$ tendrá $n\cdot m$ tuplas. El grado de $r\times s$ es la suma de los grados de $r$ y $s$.
+\end{definicion}
 
 \subsubsection{Operadores secundarios}
 No proporcionan nuevas funcionalidades, solo simplifican las consultas.
@@ -830,7 +854,9 @@ En álgebra relacional se expresa como $r\leftarrow r\cup E$, donde $r$ es una r
 En álgebra relacional se expresa como $r\leftarrow\pi_{F_{1},\dots,F_{n}}(r)$, donde $r$ es una relación y cada $F_{i}$ es, o el atributo i-ésimo de $r$, o una expresión que involucra solo constantes y el nuevo valor de $r$, que da el nuevo valor del atributo i-ésimo.
 
 \subsection{Vistas (\emph{views})}
-\textbf{Vista:} relación que no es parte del modelo lógico de la base de datos, pero que es visible para el usuario como una relación ``virtual''.
+\begin{description}
+	\item[Vista] relación que no es parte del modelo lógico de la base de datos, pero que es visible para el usuario como una relación ``virtual''.
+\end{description}
 
 \begin{lstlisting}
 CREATE VIEW v AS <expresion de consulta>
@@ -853,13 +879,17 @@ Limitaciones:
 	\item Si las relaciones subyacentes son modificadas, la vista queda desactualizada. Por eso, en los motores, en una expresión que involucra una vista, la relación de la vista se recalcula al evaluar la expresión.
 \end{itemize}
 
-\textbf{Vista materializada:} vista que se evalúa y se almacena físicamente. Los cambios a estas vistas se realizan de forma \emph{incremental}(no se reconstruye toda la vista desde cero).
+\begin{description}
+	\item[Vista materializada] vista que se evalúa y se almacena físicamente. Los cambios a estas vistas se realizan de forma \emph{incremental}(no se reconstruye toda la vista desde cero)
+\end{description}
 
 \section{Cálculo relacional}
 COMPLETAR
 
 \section{Lenguajes de consulta}
-\textbf{Query:} expresión que solicita una porción de información.
+\begin{description}
+	\item[Query] expresión que solicita una porción de información.
+\end{description}
 
 Hay dos tipos de lenguajes de consulta (\emph{query languages}):
 \begin{enumerate}
@@ -970,26 +1000,28 @@ END
 
 \newpage
 \part{Diseño de bases de datos}
-Objetivos:
-\begin{itemize}
-	\item Reducir la redundancia de la información (porque ocupa espacio y es más difícil de actualizar): repetición de información en varias tuplas
-	\item Eliminar las anomalías:
+\begin{definicion}[0.9\textwidth]{Objetivos de diseño de base de datos}
 	\begin{itemize}
-		\item De actualización: podría darse el caso de que actualizamos una tupla y no actualizamos otra tupla con el mismo dato
-		\item De inserción: no es posible insertar ciertos datos sin insertar otros (posiblemente no relacionados)
-		\item De eliminación: podría darse el caso de que eliminamos una tupla y, sin querer, borramos un dato importante
+		\item Reducir la redundancia de la información (porque ocupa espacio y es más difícil de actualizar): repetición de información en varias tuplas
+		\item Eliminar las anomalías:
+		\begin{itemize}
+			\item De actualización: podría darse el caso de que actualizamos una tupla y no actualizamos otra tupla con el mismo dato
+			\item De inserción: no es posible insertar ciertos datos sin insertar otros (posiblemente no relacionados)
+			\item De eliminación: podría darse el caso de que eliminamos una tupla y, sin querer, borramos un dato importante
+		\end{itemize}
+		\item Devolver información rápidamente
 	\end{itemize}
-	\item Devolver información rápidamente
-\end{itemize}
+\end{definicion}
 
-Notación:
-\begin{itemize}
-	\item Nombre de esquemas: $R,S,R_{1},\dots,R_{n},S_{1},\dots,S_{n}$
-	\item Instancias de esquemas: $r,s,r_{1},\dots r_{n},s_{1},\dots,s_{n}$
-	\item Conjuntos de atributos: $\alpha,\beta,\gamma$
-	\item Atributos: $A,B,C$
-	\item Tuplas: $t_{1},t_{2}$
-\end{itemize}
+\begin{definicion}[0.9\textwidth]{Notación}
+	\begin{itemize}
+		\item Nombre de esquemas: $R,S,R_{1},\dots,R_{n},S_{1},\dots,S_{n}$
+		\item Instancias de esquemas: $r,s,r_{1},\dots r_{n},s_{1},\dots,s_{n}$
+		\item Conjuntos de atributos: $\alpha,\beta,\gamma$
+		\item Atributos: $A,B,C$
+		\item Tuplas: $t_{1},t_{2}$
+	\end{itemize}
+\end{definicion}
 
 \section{Dependencias funcionales}
 \begin{description}
@@ -1009,34 +1041,38 @@ Notación:
 \subsection{Axiomas de Armstrong}
 Se utilizan para hallar las dependencias funcionales implicadas, es
 decir, $F^{+}$ de un conjunto $F$.
-\begin{enumerate}
-	\item Regla de reflexividad
-	
-	Si $\alpha$ es un conjunto de atributos y $\beta\subseteq\alpha,$ entonces $(\alpha\to\beta)\in F^{+}$
 
-	\item Regla de augmentación
+\begin{definicion}[0.9\textwidth]{Axiomas de Armstrong}
+	\begin{enumerate}
+		\item Regla de reflexividad
 
-	Si $\alpha\to\beta$ es una dependencia funcional y $\gamma$ es un conjunto de atributos, entonces $(\gamma\alpha\to\gamma\beta)\in F^{+}$
+		Si $\alpha$ es un conjunto de atributos y $\beta\subseteq\alpha,$ entonces $(\alpha\to\beta)\in F^{+}$
 
-	\item Regla de transitividad
+		\item Regla de augmentación
 
-	Si $\alpha\to\beta$ es una dependencia funcional y $\beta\to\gamma$ es otra dependencia funcional, entonces $(\alpha\to\gamma)\in F^{+}$
-\end{enumerate}
+		Si $\alpha \to \beta$ es una dependencia funcional y $\gamma$ es un conjunto de atributos, entonces $(\gamma \alpha \to \gamma \beta) \in F^{+}$
 
-Propiedades deducidas:
-\begin{enumerate}
-	\item Regla de unión
+		\item Regla de transitividad
 
-	Si se cumplen $\alpha\to\beta$ y $\alpha\to\gamma$, entonces también se cumple $\alpha\to\beta\gamma$
+		Si $\alpha \to \beta$ es una dependencia funcional y $\beta \to \gamma$ es otra dependencia funcional, entonces $(\alpha \to \gamma) \in F^{+}$
+	\end{enumerate}
+\end{definicion}
 
-	\item Regla de descomposición
+\begin{propiedades}[0.9\textwidth]{Propiedades deducidas de los axiomas de Armstrong}
+	\begin{enumerate}
+		\item Regla de unión
 
-	Si se cumple $\alpha\to\beta\gamma$, entonces también se cumplen $\alpha\to\beta$ y $\alpha\to\gamma$
+		Si se cumplen $\alpha\to\beta$ y $\alpha\to\gamma$, entonces también se cumple $\alpha\to\beta\gamma$
 
-	\item Regla de pseudotransitividad
+		\item Regla de descomposición
 
-	Si se cumplen $\alpha\to\beta$ y $\gamma\beta\to\delta$, entonces también se cumple $\gamma\alpha\to\delta$
-\end{enumerate}
+		Si se cumple $\alpha\to\beta\gamma$, entonces también se cumplen $\alpha\to\beta$ y $\alpha\to\gamma$
+
+		\item Regla de pseudotransitividad
+
+		Si se cumplen $\alpha\to\beta$ y $\gamma\beta\to\delta$, entonces también se cumple $\gamma\alpha\to\delta$
+	\end{enumerate}
+\end{propiedades}
 
 \textbf{Teorema}: $R$ satisface la dependencia funcional $X\to Y$ sí y sólo sí $R$ descompone sin pérdida sobre los esquemas $XY$ y $X(R-XY)$, es decir, si $R$ satisface la dependencia de junta $*\left( XY, X(R-XY) \right)$
 
@@ -1274,7 +1310,7 @@ Sea la relación $r(R)$. Sean $r_{i}=\pi_{R_{i}}(r)$ para $i=1,2,\dots,n$. Es de
 	r\subseteq r_{1}\bowtie r_{2}\bowtie\dots\bowtie r_{n}
 \]
 
-Es decir, $r$ es un subconjunto de la junta de la descomposición (la junta podría tener tuplas que no están en $r$).
+Es decir, $r$ es un subconjunto de la junta de la descomposición (la junta podría tener tuplas que no están en $r$).\\
 
 Propiedades deseadas de la descomposición:
 \begin{enumerate}
