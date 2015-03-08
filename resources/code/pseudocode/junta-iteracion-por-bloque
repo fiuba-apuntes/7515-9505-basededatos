@@ -1,0 +1,7 @@
+desde i=1 hasta i=(bR / m-1):
+	leer R en memoria (ocupar M-1 buffers)
+	para cada bloque bs en S:
+		leer bs en memoria (ocupar 1 buffer)
+		para cada tupla t en bs:
+			buscar las tuplas de R en que hacen join con t
+			devolver t

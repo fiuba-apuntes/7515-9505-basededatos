@@ -1,0 +1,17 @@
+transacciones_completas = {}
+transacciones_incompletas = {}
+
+desde el fin del log hasta el comienzo: // o hasta que se encuentre un registro <CHECKPOINT>
+	si hay un registro <COMMIT T> o <ABORT T>:
+		transacciones_completas += T
+	si hay un registro <UPDATE <T,X,Valor_Viejo>:
+		si T esta en "transacciones_completas":
+			no hacer nada
+		sino:
+			transacciones_incompletas += T
+			escribir "Valor_Viejo" en "X"
+
+para cada T en "transacciones_incompletas":
+	escribir <ABORT T>
+
+flush_log()

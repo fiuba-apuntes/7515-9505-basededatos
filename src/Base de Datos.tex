@@ -88,17 +88,8 @@
 
 % Configuro el lst
 \lstset{
-%	breakatwhitespace=true,
-% 	breaklines=true,
-	commentstyle=\color{red},
 	basicstyle={\small \ttfamily},
-%	frame=single,
-	keywordstyle=\color{blue},
-%	language=SQL,
-%	numbers=left,
-%	numbersep=5pt,
-%	numberstyle=\scriptsize\color{gray},
-%	xleftmargin=0.5cm
+	xleftmargin=0.8cm
 }
 
 \lstdefinestyle{sqlstyle}{
@@ -115,6 +106,19 @@
 	numberstyle=\scriptsize\color{black!10!gray},
 	xleftmargin=0.8cm
 }
+
+\lstdefinestyle{numberingpseudocodestyle}{
+	breakatwhitespace=true,
+  	breaklines=true,
+	basicstyle={\small \ttfamily},
+	frame=l,
+	numbers=left,
+	numbersep=5pt,
+	numberstyle=\scriptsize\color{black!10!gray},
+	tabsize=2,
+	xleftmargin=0.5cm
+}
+
 \renewcommand{\lstlistingname}{Listado de código}
 
 %------------------------- Inicio del documento ---------------------------
@@ -281,14 +285,7 @@ La \textbf{potencia semántica} de un modelo de datos está determinada por su c
 		\item De actualización (modifican el estado de la base de datos)
 	\end{enumerate}
 	\item[Transacción] conjunto de operaciones elementales. \emph{Ejemplo: la transferencia a una cuenta.}
-	\begin{lstlisting}
-leer(cuenta_a)
-cuenta_a <- cuenta_a + 100
-escribir(cuenta_a)
-leer(cuenta_b)
-cuenta_b <- cuenta_b - 100
-escribir(cuenta_b)
-	\end{lstlisting}
+	\lstinputlisting{\codedir/pseudocode/transaccion}
 \end{description}
 
 \subsubsection{Restricciones}
@@ -811,15 +808,8 @@ el predicado $P$.
 
 	donde $E$ es una expresión de álgebra relacional, y $F_{i}$ es una expresión aritmética que involucra constantes y atributos del esquema $E$.
 
-	\item \textbf{Funciones agregadas}: son funciones que toman como parámetro un multiconjunto%
-	\footnote{Un \textbf{multiconjunto} es un conjunto en el que un valor puede aparecer muchas veces.}.
-	\begin{lstlisting}
-sum
-count
-min
-max
-avg
-	\end{lstlisting}
+	\item \textbf{Funciones agregadas}: son funciones que toman como parámetro un multiconjunto \footnote{Un \textbf{multiconjunto} es un conjunto en el que un valor puede aparecer muchas veces.}.
+	\lstinputlisting{\codedir/pseudocode/funciones-agregadas}
 
 	La forma general es: 
 	\[
@@ -2454,12 +2444,7 @@ $R(X,Y)\bowtie S(Y,Z)$, donde $R$ es la relación más pequeña. Suponemos que l
 		\item costo $n_{s}\times n_{r}$
 	\end{itemize}
 
-	\begin{lstlisting}
-para cada tupla s en S:
-	para cada tupla r en R:
-		si (s join r = t):
-			devolver t
-	\end{lstlisting}
+	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/junta-iteracion-ingenua}
 
 	\item Iteración por bloques (\emph{block based nested-loop join}): 
 	\begin{itemize}
@@ -2467,15 +2452,7 @@ para cada tupla s en S:
 		\item Conviene que la relación del ciclo externo sea la más pequeña
 	\end{itemize}
 
-	\begin{lstlisting}
-desde i=1 hasta i=(bR / m-1):
-	leer R en memoria (ocupar M-1 buffers)
-	para cada bloque bs en S:
-		leer bs en memoria (ocupar 1 buffer)
-		para cada tupla t en bs:
-			buscar las tuplas de R en que hacen join con t
-			devolver t
-	\end{lstlisting}
+	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/junta-iteracion-por-bloque}
 
 	\item \emph{Indexed nested-loop join}: suponer que se tiene un índice sobre $S$ del atributo $Y$.
 	\begin{itemize}
@@ -2484,56 +2461,21 @@ desde i=1 hasta i=(bR / m-1):
 		\item Este método es eficiente cuando $S$ no está almacenada en forma contigua en disco.
 	\end{itemize}
 
-	\begin{lstlisting}
-para cada bloque br de R:
-	para cada tupla t de br:
-		buscar con el indice las tuplas de S que hacen join con t
-		para cada tupla s join t:
-			agregar <s,t> al resultado
-	\end{lstlisting}
+	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/junta-iteracion-indexada}
 
 	\item Sort-merge (\emph{sort based join}): 
 	\begin{itemize}
 		\item Costo $b_{s}+b_{r}+b_{s}\log(b_{s})+b_{r}\log(b_{r})$
 	\end{itemize}
 
-	\begin{lstlisting}
-ordenar R con respecto a Y
-ordenar S con respecto a Y
-mergear R y S:
-	encontrar min(R) y min(S)
-	si min(R) > min(S)
-		quitar las tuplas de S con Y como atributo
-		leer S
-	si min(R) < min(S)
-		quitar las tuplas de R con Y como atributo
-		leer R
-	si min(R) == min(S)
-		agregar r join s al resultado
-		leer R
-		leer S
-	\end{lstlisting}
+	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/junta-sort-merge}
 
 	\item Método Simple de Junta Hash: utiliza una función de hash $h$. Requiere que la relación $R$ entre en memoria. $h\to[0,M-1]$.
 	\begin{itemize}
 		\item Costo: $2\left(b_{r}+b_{s}\right)$
 	\end{itemize}
 
-	\begin{lstlisting}
-TH = {} // en memoria
-
-// fase constructiva
-para cada bloque de R:
-	para cada tupla r del bloque:
-		calcular h(r[Y])
-		guardar TH[Y] = r
-
-// fase exploratoria
-para cada bloque de S:
-	para cada tupla s del bloque:
-		calcular h(s[Y])
-		agregar al resultado las tuplas de TH[Y] join "s"
-	\end{lstlisting}
+	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/junta-hash-simple}
 
 	\item Método GRACE:
 
@@ -2548,31 +2490,7 @@ para cada bloque de S:
 		\item Costo: $3\left(b_{s}+b_{r}\right)$
 	\end{itemize}
 
-	\begin{lstlisting}
-// particionamiento de R. Costo: 2*bR
-para cada tupla r de R:
-	num buffer = calcular h1(r[Y])
-	guardar "r" en el buffer
-	si (buffer completo)
-		guardarlo en disco Ri
-// particionamiento de S. Costo: 2*bS
-para cada tupla s de S:
-	num buffer = calcular h1(s[Y])
-	guardar "s" en el buffer
-	si (buffer completo)
-		guardarlo en disco Si
-
-// metodo simple de hash. Costo: bR + bS
-para i desde 0 a M-1:
-	leer Ri
-	para cada tupla r en Ri:
-		calcular h2(r[Y])
-		guardar TH[r[Y]] = r
-	leer Si
-	para cada tupla s en Si:
-		calcular h2(s[Y])
-		agregar al resultado las tuplas de TH[r[Y]] join "s"
-	\end{lstlisting}
+	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/junta-hash-grace}
 \end{itemize}
 
 \section{Evaluación de expresiones}
@@ -2986,25 +2904,8 @@ Para verificar si un \emph{schedule $S$ }es conflicto-serializable se utiliza un
 \end{itemize}
 
 \begin{algorithm}[H]
-	\begin{lstlisting}
-Entrada: schedule S
-Salida: "verdadero" si es conflicto serializable
-
-	para cada transaccion Ti en S:
-		crear un nodo Ti en el grafo de precedencia
-	para cada caso donde Ti ejecuta READ(X) y luego Tj ejecuta WRITE(X):
-		agregar una arista (Ti -> Tj) en el grafo de precedencia
-	para cada caso donde Ti ejecuta WRITE(X) y luego Tj ejecuta READ(X):
-		agregar una arista (Ti -> Tj) en el grafo de precedencia
-	para cada caso donde Ti ejecuta WRITE(X) y luego Tj ejecuta WRITE(X):
-		agregar una arista (Ti -> Tj) en el grafo de precedencia
-	
-	si el grafo es aciclico:
-		devolver "verdadero"
-	si el gafo es ciclico:
-		devolver "falso"
-\end{lstlisting}
-\caption{Verificación de serializabilidad de un \emph{schedule}}
+	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/schedule-verificacion-serializabilidad}
+	\caption{Verificación de serializabilidad de un \emph{schedule}}
 \end{algorithm}
 
 Si el grafo de precedencia es acíclico, el \emph{schedule} serial equivalente puede construirse utilizando un \textbf{orden topológico} de la siguiente forma: siempre que exista una arista $T_{i}\to T_{j}$, $T_{i}$ debe preceder a $T_{j}$ en el \emph{schedule }serial.
@@ -3340,51 +3241,13 @@ Las transacciones y el manejador de buffers obedecen 1 regla:
 \end{itemize}
 
 \begin{algorithm}[H]
-	\begin{lstlisting}
-transacciones_commiteadas = identificarlas
-transacciones_incompletas = identificarlas
-
-desde el comienzo del log hasta el fin:
-	si hay un registro <UPDATE <T,X,Valor_Nuevo>:
-		si T esta en ``transacciones_commiteadas'':
-			escribir ``Valor_Nuevo'' en X
-		si no:
-			no hacer nada
-
-para cada T en ``transacciones_incompletas'':
-	escribir <ABORT T>
-
-flush_log()
-	\end{lstlisting}
-	\caption{Procedimiento de recuperación \textbf{REDO }sin checkpoints}
+	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/recuperacion-redo-sin-checkpoints}
+	\caption{Procedimiento de recuperación \textbf{REDO} sin checkpoints}
 \end{algorithm}
 
 \begin{algorithm}[H]
-	\begin{lstlisting}
-transacciones_commiteadas = identificarlas
-transacciones_incompletas = identificarlas
-
-desde el comienzo del log hasta el fin:
-	si hay un registro <UPDATE <T,X,Valor_Nuevo>:
-		si T esta en "transacciones_commiteadas":
-			escribir "Valor_Nuevo" en X
-		si no:
-			no hacer nada
-	si el ultimo registro de checkpoint es <END CHECKPOINT>:
-		// se debe mirar el log hasta el <START Ti> que se ejecuto primero
-	si el ultimo registro de checkpoint es <START CHECKPOINT T1,...,TK>:
-		// la caida se produjo durante el checkpointing
-		// buscar el registro <END CHECKPOINT> anterior y su par <START CHECKPOINT S1,...,SK>
-		// rehacer todas las transacciones commiteadas que empezaron despues de ese START 
-		//	o son Si
-		// (si no hay, rehacer desde el principio del log)
-
-para cada T en transacciones_incompletas:
-	escribir <ABORT T>
-
-flush_log()
-	\end{lstlisting}
-	\caption{Procedimiento de recuperación \textbf{REDO }con checkpoints no bloqueantes}
+	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/recuperacion-redo-con-checkpoints-no-bloqueantes}
+	\caption{Procedimiento de recuperación \textbf{REDO} con checkpoints no bloqueantes}
 \end{algorithm}
 
 El algoritmo anterior puede ser más eficiente si se ejecuta, para cada item de dato, sólo el último REDO existente (porque todos los anteriores serían sobrescritos por éste).
@@ -3417,17 +3280,7 @@ Las transacciones y el manejador de buffer obedecen 1 regla:
 \end{itemize}
 				
 \begin{algorithm}[H]
-	\begin{lstlisting}
-mantener dos listas de transacciones:
-1) transacciones commiteadas desde el ultimo checkpoint
-2) transacciones activas
-
-ejecutar REDO de todos los ESCRIBIR de las transacciones de la primera lista, 
-en el orden en que fueron escritos en el log
-
-ejecutar UNDO de todos los ESCRIBIR de las transacciones de la segunda lista, 
-en el orden inverso en que fueron escritos en el log
-	\end{lstlisting}
+	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/recuperacion-undo-redo}
 	\caption{Procedimiento de recuperación \textbf{UNDO/REDO}}
 \end{algorithm}
 
@@ -3447,54 +3300,13 @@ Las transacciones y el manejador de buffer obedecen 2 reglas:
 \end{itemize}
 
 \begin{algorithm}[H]
-	\begin{lstlisting}
-transacciones_completas = {}
-transacciones_incompletas = {}
-
-desde el fin del log hasta el comienzo: // o hasta que se encuentre un registro <CHECKPOINT>
-	si hay un registro <COMMIT T> o <ABORT T>:
-		transacciones_completas += T
-	si hay un registro <UPDATE <T,X,Valor_Viejo>:
-		si T esta en "transacciones_completas":
-			no hacer nada
-		sino:
-			transacciones_incompletas += T
-			escribir "Valor_Viejo" en "X"
-
-para cada T en "transacciones_incompletas":
-	escribir <ABORT T>
-
-flush_log()
-	\end{lstlisting}
-	\caption{Procedimiento de recuperación \textbf{UNDO }con checkpoint bloqueante}
+	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/recuperacion-undo-con-checkpoints-bloqueantes}
+	\caption{Procedimiento de recuperación \textbf{UNDO} con checkpoints bloqueantes}
 \end{algorithm}
 
 \begin{algorithm}[H]
-	\begin{lstlisting}
-transacciones_completas = {}
-transacciones_incompletas = {}
-
-desde el fin del log: 
-	si hay un registro <COMMIT T> o <ABORT T>:
-		transacciones_completas += T
-	si hay un registro <UPDATE <T,X,Valor_Viejo>:
-		si T esta en "transacciones_completas":
-			no hacer nada
-		sino:
-			transacciones_incompletas += T
-			escribir "Valor_Viejo" en "X"
-	si hay un registro <END CHECKPOINT>:
-		// se debe mirar el log hasta el <START CHECKPOINT> correspondiente
-	si hay un registro <START CHECKPOINT T1,...,TK> pero no un <END CHECKPOINT>:
-		// la caida se produjo durante el checkpointing
-		// se debe mirar el log hasta el comienzo de la primera transaccion incompleta
-
-para cada T en "transacciones_incompletas":
-	escribir <ABORT T>
-
-flush_log()
-	\end{lstlisting}
-	\caption{Procedimiento de recuperación \textbf{UNDO }con checkpoint no bloqueante}
+	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/recuperacion-undo-con-checkpoints-no-bloqueantes}
+	\caption{Procedimiento de recuperación \textbf{UNDO} con checkpoints no bloqueantes}
 \end{algorithm}
 		
 Es necesario que las operaciones de UNDO y REDO sean \textbf{idempotentes}: ejecutarlas muchas veces debe ser igual a ejecutarlas muchas veces. De hecho, todo el proceso de recuperación debe ser idempotente para garantizar que si existe una falla durante la recuperación de una falla, la misma se pueda recuperar también.
@@ -3547,6 +3359,7 @@ Es necesario que el DBMS mantenga:
 
 % Nombres de las personas que han colaborado en la creación del apunte
 \colaborador{María Inés Parnisari (maineparnisari@gmail.com)}
+\colaborador{Ezequiel Pérez Dittler}
 \makeseccioncolaboradores % Crea la seccion de colaboradres
 
 % Incluir el historial de cambios

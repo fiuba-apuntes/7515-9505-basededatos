@@ -1,0 +1,5 @@
+para cada bloque br de R:
+	para cada tupla t de br:
+		buscar con el indice las tuplas de S que hacen join con t
+		para cada tupla s join t:
+			agregar <s,t> al resultado

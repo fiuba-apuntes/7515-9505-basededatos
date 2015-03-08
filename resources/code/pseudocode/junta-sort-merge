@@ -1,0 +1,14 @@
+ordenar R con respecto a Y
+ordenar S con respecto a Y
+mergear R y S:
+	encontrar min(R) y min(S)
+	si min(R) > min(S)
+		quitar las tuplas de S con Y como atributo
+		leer S
+	si min(R) < min(S)
+		quitar las tuplas de R con Y como atributo
+		leer R
+	si min(R) == min(S)
+		agregar r join s al resultado
+		leer R
+		leer S

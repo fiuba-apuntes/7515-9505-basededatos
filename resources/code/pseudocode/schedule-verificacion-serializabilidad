@@ -1,0 +1,16 @@
+Entrada: schedule S
+Salida: "verdadero" si es conflicto serializable
+
+	para cada transaccion Ti en S:
+		crear un nodo Ti en el grafo de precedencia
+	para cada caso donde Ti ejecuta READ(X) y luego Tj ejecuta WRITE(X):
+		agregar una arista (Ti -> Tj) en el grafo de precedencia
+	para cada caso donde Ti ejecuta WRITE(X) y luego Tj ejecuta READ(X):
+		agregar una arista (Ti -> Tj) en el grafo de precedencia
+	para cada caso donde Ti ejecuta WRITE(X) y luego Tj ejecuta WRITE(X):
+		agregar una arista (Ti -> Tj) en el grafo de precedencia
+
+	si el grafo es aciclico:
+		devolver "verdadero"
+	si el gafo es ciclico:
+		devolver "falso"

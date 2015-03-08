@@ -1,0 +1,9 @@
+mantener dos listas de transacciones:
+1) transacciones commiteadas desde el ultimo checkpoint
+2) transacciones activas
+
+ejecutar REDO de todos los ESCRIBIR de las transacciones de la primera lista, 
+en el orden en que fueron escritos en el log
+
+ejecutar UNDO de todos los ESCRIBIR de las transacciones de la segunda lista, 
+en el orden inverso en que fueron escritos en el log

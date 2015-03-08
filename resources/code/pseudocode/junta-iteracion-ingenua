@@ -1,0 +1,4 @@
+para cada tupla s en S:
+	para cada tupla r en R:
+		si (s join r = t):
+			devolver t

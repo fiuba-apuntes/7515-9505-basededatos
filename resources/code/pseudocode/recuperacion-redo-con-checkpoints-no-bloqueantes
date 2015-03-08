@@ -1,0 +1,22 @@
+transacciones_commiteadas = identificarlas
+transacciones_incompletas = identificarlas
+
+desde el comienzo del log hasta el fin:
+	si hay un registro <UPDATE <T,X,Valor_Nuevo>:
+		si T esta en "transacciones_commiteadas":
+			escribir "Valor_Nuevo" en X
+		si no:
+			no hacer nada
+	si el ultimo registro de checkpoint es <END CHECKPOINT>:
+		// se debe mirar el log hasta el <START Ti> que se ejecuto primero
+	si el ultimo registro de checkpoint es <START CHECKPOINT T1,...,TK>:
+		// la caida se produjo durante el checkpointing
+		// buscar el registro <END CHECKPOINT> anterior y su par <START CHECKPOINT S1,...,SK>
+		// rehacer todas las transacciones commiteadas que empezaron despues de ese START 
+		//	o son Si
+		// (si no hay, rehacer desde el principio del log)
+
+para cada T en transacciones_incompletas:
+	escribir <ABORT T>
+
+flush_log()

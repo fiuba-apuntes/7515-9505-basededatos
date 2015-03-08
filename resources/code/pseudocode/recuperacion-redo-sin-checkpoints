@@ -1,0 +1,14 @@
+transacciones_commiteadas = identificarlas
+transacciones_incompletas = identificarlas
+
+desde el comienzo del log hasta el fin:
+	si hay un registro <UPDATE <T,X,Valor_Nuevo>:
+		si T esta en ``transacciones_commiteadas'':
+			escribir ``Valor_Nuevo'' en X
+		si no:
+			no hacer nada
+
+para cada T en ``transacciones_incompletas'':
+	escribir <ABORT T>
+
+flush_log()

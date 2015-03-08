@@ -1,0 +1,22 @@
+transacciones_completas = {}
+transacciones_incompletas = {}
+
+desde el fin del log: 
+	si hay un registro <COMMIT T> o <ABORT T>:
+		transacciones_completas += T
+	si hay un registro <UPDATE <T,X,Valor_Viejo>:
+		si T esta en "transacciones_completas":
+			no hacer nada
+		sino:
+			transacciones_incompletas += T
+			escribir "Valor_Viejo" en "X"
+	si hay un registro <END CHECKPOINT>:
+		// se debe mirar el log hasta el <START CHECKPOINT> correspondiente
+	si hay un registro <START CHECKPOINT T1,...,TK> pero no un <END CHECKPOINT>:
+		// la caida se produjo durante el checkpointing
+		// se debe mirar el log hasta el comienzo de la primera transaccion incompleta
+
+para cada T en "transacciones_incompletas":
+	escribir <ABORT T>
+
+flush_log()

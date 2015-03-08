@@ -1,0 +1,6 @@
+leer(cuenta_a)
+cuenta_a <- cuenta_a + 100
+escribir(cuenta_a)
+leer(cuenta_b)
+cuenta_b <- cuenta_b - 100
+escribir(cuenta_b)

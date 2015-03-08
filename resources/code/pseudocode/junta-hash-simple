@@ -1,0 +1,13 @@
+TH = {} // en memoria
+
+// fase constructiva
+para cada bloque de R:
+	para cada tupla r del bloque:
+		calcular h(r[Y])
+		guardar TH[Y] = r
+
+// fase exploratoria
+para cada bloque de S:
+	para cada tupla s del bloque:
+		calcular h(s[Y])
+		agregar al resultado las tuplas de TH[Y] join "s"
