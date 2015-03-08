@@ -1,5 +1,6 @@
 \documentclass[a4paper, twoside]{article}
 \usepackage[utf8]{inputenc} % Especifica la codificación de caracteres de los documentos.
+\usepackage[T1]{fontenc}
 \usepackage[spanish]{babel} % Indica que el documento se escribirá en español.
 \usepackage[top=3cm, bottom=2.5cm, inner=1.5cm, outer=2.5cm]{geometry} % Márgenes personalizados
 \usepackage{subfiles} % Paquete para incluir el preambulo en los sub archivos.
@@ -71,24 +72,31 @@
 \cuadro{definicion}{gray}
 \cuadro{propiedades}{blue}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+% Configuro el entorno algorithm
+\floatstyle{ruled}
 \newfloat{algorithm}{tbp}{loa}
 \providecommand{\algorithmname}{Algoritmo}
 \floatname{algorithm}{\protect\algorithmname}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
-
+% Defino algunos elementos
 \def\ojoin{\setbox0=\hbox{$\bowtie$}%
   \rule[-.02ex]{.25em}{.4pt}\llap{\rule[\ht0]{.25em}{.4pt}}}
 \def\leftouterjoin{\mathbin{\ojoin\mkern-5.8mu\bowtie}}
 \def\rightouterjoin{\mathbin{\bowtie\mkern-5.8mu\ojoin}}
 \def\fullouterjoin{\mathbin{\ojoin\mkern-5.8mu\bowtie\mkern-5.8mu\ojoin}}
 
+% Configuro el lst
 \lstset{
-	language=SQL,
+	breakatwhitespace=false,
+  	breaklines=true,  
+	commentstyle=\color{red},	
 	basicstyle={\small \ttfamily},
-	keywordstyle={\color{blue}},
-	commentstyle={\color{red}}
+	frame=single,
+	keywordstyle=\color{blue},
+	language=SQL,
+	numbers=left,
+	numbersep=5pt,
+	numberstyle=\scriptsize\color{gray},
 }
 \renewcommand{\lstlistingname}{Listado de código}
 
@@ -1077,11 +1085,12 @@ decir, $F^{+}$ de un conjunto $F$.
 \textbf{Teorema}: $R$ satisface la dependencia funcional $X\to Y$ sí y sólo sí $R$ descompone sin pérdida sobre los esquemas $XY$ y $X(R-XY)$, es decir, si $R$ satisface la dependencia de junta $*\left( XY, X(R-XY) \right)$
 
 \subsection{Clausura y superclaves}
-\textbf{Clausura de F:} sea $F$ un conjunto de dependencias funcionales sobre el esquema $R$. $F^{+}$ es el conjunto de dependencias funcionales implicadas por $F$.
-
-\[
-	F^{+}=\left\{ \alpha\to\beta/F\vDash\alpha\to\beta\right\} 
-\]
+\begin{description}
+	\item[Clausura de F] sea $F$ un conjunto de dependencias funcionales sobre el esquema $R$. $F^{+}$ es el conjunto de dependencias funcionales implicadas por $F$.
+	\[
+		F^{+}=\left\{ \alpha\to\beta/F\vDash\alpha\to\beta\right\} 
+	\]
+\end{description}
 
 \begin{algorithm}[H]
 	Entrada: relación $R$, conjunto de dependencias funcionales $F$
@@ -1113,11 +1122,12 @@ decir, $F^{+}$ de un conjunto $F$.
 
 Para un esquema $R$ con $n$ atributos, hay $2^{n+1}$ posibles dependencias funcionales.
 
-\textbf{Clausura de $\alpha$ bajo $F$}: es el conjunto de atributos de $R$ que dependen funcionalmente de $\alpha$.
-
-\[
-	\alpha_{F}^{+}=\left\{ \beta/\beta\subset R\,\wedge\, F\vDash\alpha\to\beta\right\} 
-\]
+\begin{description}
+	\item[Clausura de $\alpha$ bajo $F$] es el conjunto de atributos de $R$ que dependen funcionalmente de $\alpha$.
+	\[
+		\alpha_{F}^{+}=\left\{ \beta/\beta\subset R\,\wedge\, F\vDash\alpha\to\beta\right\} 
+	\]
+\end{description}
 
 \begin{algorithm}[H]
 	Entrada: relación $R$, conjunto de dependencias funcionales $F$, atributo $\alpha$
@@ -1139,7 +1149,7 @@ Para un esquema $R$ con $n$ atributos, hay $2^{n+1}$ posibles dependencias funci
 	\caption{Computar $\alpha^{+}$}
 \end{algorithm}
 
-Usos del algoritmo de cálculo de la clausura de $a^{+}$:
+\paragraph{Usos del algoritmo de cálculo de la clausura de $a^{+}$}
 \begin{enumerate}
 	\item Para determinar si $\alpha$ es una superclave de $R$: debe cumplirse que $\alpha^{+}=R$.
 	\item Para determinar si la dependencia funcional $\alpha\to\beta\in F^{+}$: debe cumplirse que $\beta\subseteq\alpha^{+}$.
@@ -1168,7 +1178,7 @@ Usos del algoritmo de cálculo de la clausura de $a^{+}$:
 
 \subsection{Cubrimiento minimal}
 \begin{description}
-	\item[Atributo extráneo:] atributo de una dependencia funcional que se puede quitar de la misma sin cambiar\emph{ }la clausura del conjunto de dependencias funcionales. 
+	\item[Atributo extráneo] atributo de una dependencia funcional que se puede quitar de la misma sin cambiar\emph{ }la clausura del conjunto de dependencias funcionales. 
 
 	Sea el conjunto de dependencias funcionales $F$ y la dependencia funcional $\alpha\to\beta$ en $F$.
 	\begin{itemize}
@@ -1243,11 +1253,15 @@ $A\to E$.}
 \end{enumerate}
 
 \section{Primera forma normal (1FN)}
-\textbf{Dominio atómico:} los elementos del dominio se consideran unidades indivisibles.
+\begin{description}
+	\item[Dominio atómico] los elementos del dominio se consideran unidades indivisibles.
+\end{description}
 
-Una relación con esquema $R$ está en 1FN si los dominios de sus atributos son atómicos, y si no hay atributos similares repetidos.
+\begin{definicion}[0.9\textwidth]{Primera forma normal (1FN)}
+	Una relación con esquema $R$ está en 1FN si los dominios de sus atributos son atómicos, y si no hay atributos similares repetidos.
+\end{definicion}
 
-\textbf{\emph{Ejemplo}}: la siguiente relación no está en 1FN.\\
+\textbf{\emph{Ejemplo:}} la siguiente relación no está en 1FN.\\
 
 \begin{center}
 	\begin{tabular}{|c|c|c|c|}
@@ -1300,32 +1314,35 @@ Para normalizarla, hay que dividirla en dos relaciones.\\
 \end{minipage}
 
 \section{Descomposición de una relación}
-Sea el esquema relacional $R$. El conjunto de esquemas $\left\{ R_{1},R_{2},\dots,R_{n}\right\}$ es una descomposición de $R$ si
-\[
-	R = R_{1}\cup R_{2}\cup\dots\cup R_{n}
-\]
+\begin{definicion}[0.9\textwidth]{Descomposición de una relación}
+	Sea el esquema relacional $R$. El conjunto de esquemas $\left\{ R_{1},R_{2},\dots,R_{n}\right\}$ es una descomposición de $R$ si
+	\[
+		R = R_{1}\cup R_{2}\cup\dots\cup R_{n}
+	\]
 
-Sea la relación $r(R)$. Sean $r_{i}=\pi_{R_{i}}(r)$ para $i=1,2,\dots,n$. Es decir, $\left\{ r_{1},r_{2},\dots,r_{n}\right\} $ es la base de datos que resulta de descomponer $R$ en $\left\{ R_{1},R_{2},\dots,R_{n}\right\} $. Siempre se verifica que
-\[
-	r\subseteq r_{1}\bowtie r_{2}\bowtie\dots\bowtie r_{n}
-\]
+	Sea la relación $r(R)$. Sean $r_{i} = \pi_{R_{i}}(r)$ para $i = 1, 2, \dots, n$. Es decir, $\left\{ r_{1}, r_{2}, \dots, r_{n} \right\}$ es la base de datos que resulta de descomponer $R$ en $\left\{ R_{1}, R_{2}, \dots, R_{n} \right\}$. Siempre se verifica que
+	\[
+		r \subseteq r_{1} \bowtie r_{2} \bowtie \dots \bowtie r_{n}
+	\]
 
-Es decir, $r$ es un subconjunto de la junta de la descomposición (la junta podría tener tuplas que no están en $r$).\\
+	Es decir, $r$ es un subconjunto de la junta de la descomposición (la junta podría tener tuplas que no están en $r$).
+\end{definicion}
 
-Propiedades deseadas de la descomposición:
-\begin{enumerate}
-	\item \textbf{Sin pérdida de información}
-	
-	Verifica que \textbf{\emph{$r=\pi_{R_{1}}(r)\bowtie\pi_{R_{2}}(r)\bowtie\dots\bowtie\pi_{R_{n}}(r)$.}}
+\begin{propiedades}[0.9\textwidth]{Propiedades deseadas de la descomposición}
+	\begin{enumerate}
+		\item \textbf{Sin pérdida de información}
 
-	\item \textbf{Preservación de dependencias}
+		Verifica que \textbf{\emph{$r=\pi_{R_{1}}(r)\bowtie\pi_{R_{2}}(r)\bowtie\dots\bowtie\pi_{R_{n}}(r)$.}}
 
-	Una descomposición que verifica que $F'^{+}=F^{+}$ preserva dependencias, donde $F' = F_{1} \cup F_{2} \cup \dots \cup F_{n}$ son las dependencias proyectadas.
+		\item \textbf{Preservación de dependencias}
 
-	Esta propiedad es deseable porque significa que podemos chequear si se cumple la dependencia con solo verificarla en una relación individual, y no necesitamos hacer un \emph{join} de las relaciones de la descomposición.
+		Una descomposición que verifica que $F'^{+} = F^{+}$ preserva dependencias, donde $F' = F_{1} \cup F_{2} \cup \dots \cup F_{n}$ son las dependencias proyectadas.
 
-	\item \textbf{Poca o nula redundancia de información}
-\end{enumerate}
+		Esta propiedad es deseable porque significa que podemos chequear si se cumple la dependencia con solo verificarla en una relación individual, y no necesitamos hacer un \emph{join} de las relaciones de la descomposición.
+
+		\item \textbf{Poca o nula redundancia de información}
+	\end{enumerate}
+\end{propiedades}
 
 \begin{algorithm}[H]
 	Entrada: relación $R$, relación $R_{i}$, conjunto de dependencias funcionales $F$
@@ -1486,14 +1503,19 @@ Aplicamos $CD\to A$. Las filas 1 y 3 tienen mismo valor para $c$ y $d$, pero dis
 En este punto notamos que la fila 3 tiene valores de la forma $a_{j}$. Como son todas variables distinguidas, la descomposición es sin pérdida de información.
 
 \section{Segunda forma normal (2FN)}
-\textbf{Atributo primo:} atributo de $R$ que pertenece a una clave candidata.
+\begin{description}
+	\item[Atributo primo] atributo de $R$ que pertenece a una clave candidata.
+\end{description}
 
-Sea $R$ una relación y $F$ el conjunto de sus dependencias funcionales. $R$ estará en 2FN si para toda dependencia funcional $X\to Y$ que está en en $F^{+}$, se cumple al menos una de las siguientes condiciones:
-\begin{enumerate}
-	\item $X\to Y$ es trivial
-	\item $Y$ es un atributo primo,
-	\item $X$ no es un subconjunto de una clave candidata
-\end{enumerate}
+\begin{definicion}[0.9\textwidth]{Segunda forma normal (2FN)}
+	Sea $R$ una relación y $F$ el conjunto de sus dependencias funcionales. $R$ estará en 2FN si para toda dependencia funcional $X\to Y$ que está en en $F^{+}$, se cumple al menos una de las siguientes condiciones:
+	\begin{enumerate}
+		\item $X\to Y$ es trivial
+		\item $Y$ es un atributo primo,
+		\item $X$ no es un subconjunto de una clave candidata
+	\end{enumerate}
+\end{definicion}
+
 
 \textbf{\emph{Ejemplo:}} la siguiente relación no está en 2FN porque \emph{Dirección de local} depende sólo de \emph{ID de local}, que no es una clave.
 
@@ -1549,20 +1571,23 @@ $F=\{Id\, cliente,Id\, local\to Direccion\, local;Id\, local\to Direccion\, loca
 	\end{center}
 \end{minipage}
 
-\section{Forma Normal Boyce-Codd (FNBC)}
-Un esquema de relación $R$ está en FNBC con respecto a un conjunto de dependencias funcionales $F$ si, para todas las dependencias funcionales en $F^{+}$ de la forma $\alpha\to\beta$, donde $\alpha\subseteq R$ y $\beta\subseteq R$, se cumple alguna de las siguientes:
-\begin{itemize}
-	\item $\alpha\to\beta$ es trivial (es decir, $\beta\subseteq\alpha$)
-	\item $\alpha$ es una superclave para $R$ 
-\end{itemize}
+\section{Forma normal Boyce-Codd (FNBC)}
+\begin{definicion}[0.9\textwidth]{Forma normal Boyce-Codd (FNBC)}
+	Un esquema de relación $R$ está en FNBC con respecto a un conjunto de dependencias funcionales $F$ si, para todas las dependencias funcionales en $F^{+}$ de la forma $\alpha \to \beta$, donde $\alpha \subseteq R$ y $\beta \subseteq R$, se cumple alguna de las siguientes:
+	\begin{itemize}
+		\item $\alpha \to \beta$ es trivial (es decir, $\beta \subseteq \alpha$)
+		\item $\alpha$ es una superclave para $R$ 
+	\end{itemize}
+\end{definicion}
 
-Propiedades:
-\begin{itemize}
-	\item Cualquier relación de dos atributos está en FNBC
-	\item Brinda eliminación de anomalías
-	\item Brinda una descomposición SPI
-	\item No garantiza que se preserven las dependencias funcionales
-\end{itemize}
+\begin{propiedades}[0.9\textwidth]{Propiedades de la forma normal Boyce-Codd (FNBC)}
+	\begin{itemize}
+		\item Cualquier relación de dos atributos está en FNBC
+		\item Brinda eliminación de anomalías
+		\item Brinda una descomposición SPI
+		\item No garantiza que se preserven las dependencias funcionales
+	\end{itemize}
+\end{propiedades}
 
 Para verificar si una dependencia funcional $\alpha\to\beta$ viola FNBC, alcanza con computar $\alpha^{+}$ y ver si es $R$.
 
@@ -1598,22 +1623,24 @@ Para verificar si una descomposición $R_{i}$ está en FNBC, para cada subconjun
 	\emph{Requiring existence of the key ensures that the table is in 1NF; requiring that non-key attributes be dependent on the whole key ensures 2NF; further requiring that non-key attributes be dependent on nothing but the key ensures 3NF.}
 \end{quote}
 
-Un esquema de relación $R$ está en 3FN con respecto a un conjunto de dependencias funcionales $F$ si, para todas las dependencias funcionales en $F^{+}$ de la forma $\alpha \to \beta$, donde $\alpha \subseteq R$ y $\beta \subseteq R$, se cumple alguna de las siguientes:
-\begin{itemize}
-	\item $\alpha\to\beta$ es trivial (es decir, $\beta\subseteq\alpha$)
-	\item $\alpha$ es una superclave para $R$ 
-	\item $\beta$ es un atributo primo
-\end{itemize}
+\begin{definicion}[0.9\textwidth]{Tercera forma normal (3FN)}
+	Un esquema de relación $R$ está en 3FN con respecto a un conjunto de dependencias funcionales $F$ si, para todas las dependencias funcionales en $F^{+}$ de la forma $\alpha \to \beta$, donde $\alpha \subseteq R$ y $\beta \subseteq R$, se cumple alguna de las siguientes:
+	\begin{itemize}
+		\item $\alpha\to\beta$ es trivial (es decir, $\beta\subseteq\alpha$)
+		\item $\alpha$ es una superclave para $R$ 
+		\item $\beta$ es un atributo primo
+	\end{itemize}
+	Dicho de otra forma, $R$ no debe tener dependencias funcionales transitivas: todos los atributos que no son clave deben depender funcionalmente de la clave primaria.
+\end{definicion}
 
-Dicho de otra forma, $R$ no debe tener dependencias funcionales transitivas: todos los atributos que no son clave deben depender funcionalmente de la clave primaria.
-
-Propiedades:
+\begin{propiedades}[0.9\textwidth]{Propiedades de la tercera forma normal (3FN)}
 \begin{itemize}
 	\item No tiene pérdida de información
 	\item No hay pérdida de dependencias
 	\item No garantiza la eliminación de anomalías (es decir, tiene redundancia)
 	\item Es menos estricta que FNBC (FNBC $\implies$3FN)
 \end{itemize}
+\end{propiedades}
 
 \begin{algorithm}[H]
 	Entrada: una relación $R$, un cubrimiento minimal $F_{min}$
@@ -1802,18 +1829,22 @@ Una descomposición de $R$ en los esquemas $R_{1}, \ldots, R_{n}$ es una descomp
 $r(R)$ que satisface $D$ y para el cual $r_{i} = \pi_{R_{i}}(r)$ para todo $i$.
 
 \subsection{Base minimal de Dependencias e Implicación de DMVs}
-\textbf{Base~minimal} sea la colección de conjuntos $S = \left\{ S_{1}, \ldots, S_{p} \right\}$ donde $U = S_{1} \cup \ldots \cup S_{p}$. La base minimal de $S$ es $Base(S)$ y es una partición de $U$ $\left\{ T_{1}, \ldots, T_{q}\right\}$ tal que:
-\begin{enumerate}
-	\item Cada $S_{i}$ es la unión de algunos de los $T_{j}$.
-	\item No existe una partición de $U$ con menos elementos que cumpla la primera propiedad.
-\end{enumerate}
+\begin{description}
+	\item[Base minimal] sea la colección de conjuntos $S = \left\{ S_{1}, \ldots, S_{p} \right\}$ donde $U = S_{1} \cup \ldots \cup S_{p}$. La base minimal de $S$ es $Base(S)$ y es una partición de $U$ $\left\{ T_{1}, \ldots, T_{q}\right\}$ tal que:
+	\begin{enumerate}
+		\item Cada $S_{i}$ es la unión de algunos de los $T_{j}$.
+		\item No existe una partición de $U$ con menos elementos que cumpla la primera propiedad.
+	\end{enumerate}
+\end{description}
 
 \emph{Ejemplo: sea $S=\left\{ ABCD,CDE,AE\right\} $ y $U=ABCDE$. Entonces la base de $S$ es $Base(S)=\left\{ A,B,CD,E\right\}$.}
 
-\textbf{Base de dependencias}: sea $M$ un conjunto de dependencias multivaluadas sobre $R$, y sea $X\subseteq R$. Sea $G=\left\{ Y/M\models X\twoheadrightarrow Y\right\} $La base de dependencias de $X$ con respecto a $M$ es:
-\[
-	Bdep(X)=Base\left(G\right)
-\]
+\begin{description}
+	\item[Base de dependencias] sea $M$ un conjunto de dependencias multivaluadas sobre $R$, y sea $X \subseteq R$. Sea $G = \left\{ Y/M \models X \twoheadrightarrow Y \right\}$. La base de dependencias de $X$ con respecto a $M$ es:
+	\[
+		Bdep(X)=Base\left(G\right)
+	\]
+\end{description}
 
 \emph{Ejemplo: sea $M=\left\{ A\twoheadrightarrow BC,DE\twoheadrightarrow C\right\}$ un conjunto de dependencias multivaluadas sobre $R(ABCDE)$. Entonces $G=\left\{ A,BC,DE,C,BDE,B,BCDE,CDE\right\} $y la base de $A$ es}
 \[
@@ -1836,8 +1867,10 @@ $r(R)$ que satisface $D$ y para el cual $r_{i} = \pi_{R_{i}}(r)$ para todo $i$.
 	\end{enumerate}
 \end{algorithm}
 
-\textbf{Implicación de dependencias}: dado un conjunto $M$ de dependencias multivaluadas, una dependencia multivaluada $X\twoheadrightarrow Y$ pertenece a $M^{+}$ sí y solo sí $Y$ se puede expresar como la unión
+\begin{description}
+	\item[Implicación de dependencias] dado un conjunto $M$ de dependencias multivaluadas, una dependencia multivaluada $X \twoheadrightarrow Y$ pertenece a $M^{+}$ sí y solo sí $Y$ se puede expresar como la unión
 de algunos componentes de $Bdep(X)$.
+\end{description}
 
 \emph{Ejemplo: sea $R(A,B,C,D,E,I)$, $M=\left\{ A\twoheadrightarrow EI,C\twoheadrightarrow AB\right\} $. ¿Se cumple $AC\twoheadrightarrow BI$?}
 
@@ -1862,17 +1895,20 @@ de algunos componentes de $Bdep(X)$.
 $Bdep(AC)=\{EI,B,D,A,C\}$ y entonces $AC\twoheadrightarrow BI$ no se cumple porque $BI$ no se puede expresar como la unión de componentes de $Bdep(AC)$.
 
 \section{Cuarta forma normal (4FN)}
-Un esquema de relación $R$ está en 4FN con respecto a un conjunto de dependencias funcionales y multivaluadas $M$ si, para todas las dependencias multivaluadas en $M^{+}$ de la forma $\alpha \twoheadrightarrow \beta$, donde $\alpha\subseteq R$ y $\beta\subseteq R$, se cumple alguna de las siguientes:
-\begin{itemize}
-	\item $\alpha\twoheadrightarrow\beta$ es trivial
-	\item $\alpha$ es una superclave para $R$ 
-\end{itemize}
+\begin{definicion}[0.9\textwidth]{Cuarta forma normal (4FN)}
+	Un esquema de relación $R$ está en 4FN con respecto a un conjunto de dependencias funcionales y multivaluadas $M$ si, para todas las dependencias multivaluadas en $M^{+}$ de la forma $\alpha \twoheadrightarrow \beta$, donde $\alpha \subseteq R$ y $\beta \subseteq R$, se cumple alguna de las siguientes:
+	\begin{itemize}
+		\item $\alpha \twoheadrightarrow \beta$ es trivial
+		\item $\alpha$ es una superclave para $R$ 
+	\end{itemize}
+\end{definicion}
 
-Propiedades:
-\begin{itemize}
-	\item No tiene pérdida de información
-	\item Una descomposición 4FN no garantiza la preservación de dependencias
-\end{itemize}
+\begin{propiedades}[0.9\textwidth]{Propiedades de la cuarta forma normal (4FN)}
+	\begin{itemize}
+		\item No tiene pérdida de información
+		\item Una descomposición 4FN no garantiza la preservación de dependencias
+	\end{itemize}
+\end{propiedades}
 
 \textbf{\emph{Ejemplo:}} la siguiente relación no está en 4FN. La clave es $\left\{ N \text{\textdegree}\, Vuelo, Dia\, de\, la\, semana, Tipo\, de\, avi\acute{o}n \right\}$. 
 
@@ -2020,17 +2056,20 @@ Un esquema de relación $r(R)$ satisface la dependencia de junta embebida $DJE*\
 Notar que $r$ puede no satisfacer la DJE.
 
 \section{Quinta forma normal (5FN)}
-Una relación $R$ está en 5FN con respecto a un conjunto de dependencias funcionales, multivaluadas y de junta $D$, si para todas las dependencias de junta en $D^{+}$ de la forma $*\left(R_{1},\ldots,R_{n}\right)$ donde cada $R_{i}\subseteq R$ y $R=R_{1}\cup\cdots\cup R_{n}$, al menos una de las siguientes condiciones se cumple:
-\begin{itemize}
-	\item La dependencia de junta $*\left(R_{1},\ldots,R_{n}\right)$ es trivial
-	\item Cada $R_{i}$ es una superclave de $R$
-\end{itemize}
+\begin{definicion}[0.9\textwidth]{Quinta forma normal (5FN)}
+	Una relación $R$ está en 5FN con respecto a un conjunto de dependencias funcionales, multivaluadas y de junta $D$, si para todas las dependencias de junta en $D^{+}$ de la forma $*\left( R_{1}, \ldots, R_{n} \right)$ donde cada $R_{i} \subseteq R$ y $R = R_{1} \cup \cdots \cup R_{n}$, al menos una de las siguientes condiciones se cumple:
+	\begin{itemize}
+		\item La dependencia de junta $*\left(R_{1},\ldots,R_{n}\right)$ es trivial
+		\item Cada $R_{i}$ es una superclave de $R$
+	\end{itemize}
+\end{definicion}
 
-Propiedades:
-\begin{itemize}
-	\item Toda relación que está en 5FN está en 4FN, y está en BCNF.
-	\item Una descomposición 5FN no garantiza la preservación de dependencias.
-\end{itemize}
+\begin{propiedades}[0.9\textwidth]{Propiedades de la quinta forma normal (5FN)}
+	\begin{itemize}
+		\item Toda relación que está en 5FN está en 4FN, y está en BCNF.
+		\item Una descomposición 5FN no garantiza la preservación de dependencias.
+	\end{itemize}
+\end{propiedades}
 
 \begin{algorithm}[H]
 	Entrada: una relación $R$, un conjunto de dependencias $D^{+}$
@@ -2967,7 +3006,7 @@ Una transacción llega al \textbf{punto de commit} cuando todas sus operaciones 
 
 El protocolo \textbf{WAL (\emph{Write-Ahead Logging})} indica que antes de commitear una transacción se debe guardar el log en memoria al log en disco.
 
-\section{Problemas de Concurrencia}
+\section{Problemas de concurrencia}
 \begin{enumerate}
 	\item \textbf{\emph{The Lost Update Problem}}: una \texttt{Escritura} que sobrescribe a otra.
 	\item \textbf{\emph{The Dirty Read Problem}}: una \texttt{Lectura} de un valor incorrecto.
@@ -2992,13 +3031,13 @@ El protocolo \textbf{WAL (\emph{Write-Ahead Logging})} indica que antes de commi
 	\caption{Probemas de concurrencia}
 \end{figure}
 
-\subsection{Atributos de una Transacción}
+\subsection{Atributos de una transacción}
 \begin{itemize}
 	\item Modo de acceso: \texttt{READ ONLY}, \texttt{READ WRITE}
 	\item Nivel de \emph{isolation}:
 	\begin{table}[H]
 		\begin{centering}
-			\begin{tabular}{|>{\centering}p{2cm}|>{\centering}p{3cm}|>{\centering}p{3cm}|>{\centering}p{3cm}|>{\centering}p{3cm}|}
+			\begin{tabular}{|>{\centering}p{2.5cm}|>{\centering}p{3cm}|>{\centering}p{3cm}|>{\centering}p{3cm}|>{\centering}p{3.5cm}|}
 				\hline 
 				\emph{Nivel de isolation} & \multicolumn{4}{c|}{\emph{Tipo de violación que se puede producir para dos transacciones $T$ y $S$}}\\
 				\hline 
@@ -3019,7 +3058,7 @@ El protocolo \textbf{WAL (\emph{Write-Ahead Logging})} indica que antes de commi
 	\end{table}
 \end{itemize}
 
-\section{Schedules de Transacciones}
+\section{Schedules de transacciones}
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{0.66\textwidth}
@@ -3120,11 +3159,13 @@ En la práctica, los DBMS no utilizan este algoritmo para garantizar la serializ
 \section{Protocolos de Control de Concurrencia: Protocolo de Locking}
 
 Una forma de garantizar el aislamiento de transacciones y prevenir comportamiento no serializable es mediante el uso de \emph{locks}. Notar que este mecanismo no funciona bien cuando los \emph{locks} se mantienen durante días, o cuando las decisiones humanas son parte de una transacción.
+
+\subsection{\emph{Lock}}
 \begin{description}
 	\item[\emph{Lock}] variable que se asocia a un ítem de dato. Describe el estado del ítem con respecto a las posibles operaciones que pueden aplicarse a el. Generalmente hay un \emph{lock} por item de dato.
 \end{description}
 
-Tipos de \emph{locks}:
+\subsubsection{Tipos de \emph{locks}}
 \begin{enumerate}
 	\item \textbf{Binarios}: pueden tener dos valores: \emph{locked} (1) o \emph{unlocked} (0). Un \emph{lock} binario impone la exclusión mutua en el item de dato asociado, porque solo puede haber a lo sumo una transacción con un lock para un mismo dato.
 
@@ -3156,7 +3197,7 @@ Tipos de \emph{locks}:
 	\end{enumerate}
 \end{enumerate}
 
-Problemas con el uso de \emph{locks}:
+\subsubsection{Problemas con el uso de \emph{locks}}
 \begin{enumerate}
 	\item El uso por sí solo de \emph{locks} no garantiza la serializabilidad de \emph{schedules}.
 	\begin{figure}[H]
@@ -3180,8 +3221,13 @@ Problemas con el uso de \emph{locks}:
 	\end{enumerate}
 \end{enumerate}
 
+\subsection{Lock de update}
 \begin{description}
 	\item[Lock de update] un \emph{lock} de \emph{update} le da a una transacción el privilegio para leer $X$, pero \textbf{no} para escribirlo. Sin embargo, este tipo de \emph{lock} se puede actualizar a un \emph{lock} exclusivo más tarde.
+\end{description}
+
+\subsection{Matriz de compatibilidad de locks}
+\begin{description}
 	\item[Matriz de compatibilidad de locks] se puede otorgar un \emph{lock} de tipo $C$ si y solo si, para cada fila $R$ tal que ya se otorgó a otra transacción un lock de tipo $R$, hay un ``Si'' en la columna $C$.
 \end{description}
 
@@ -3223,6 +3269,8 @@ Problemas con el uso de \emph{locks}:
 	\caption{Ejemplos de matrices de compatibilidad}
 \end{table}
 
+\newpage
+\subsection{\emph{Lock table}}
 \begin{description}
 	\item[\emph{Lock table}] tabla que utiliza el gestor de concurrencia para almacenar el estado de los \emph{locks} activos.
 
@@ -3290,7 +3338,7 @@ El protocolo de árbol garantiza un orden serial en las transacciones. El orden 
 		\item Los locks subsiguientes pueden otorgarse sólo si se posee un lock sobre el nodo padre.
 		\item Se puede ejecutar \emph{unlock} de un nodo en cualquier momento.
 		\item No se puede adquirir \emph{lock} de un nodo 2 veces, incluso cuando se tiene un \emph{lock }sobre el nodo padre.
-\end{enumerate}
+	\end{enumerate}
 	\caption{Protocolo de árbol}
 \end{algorithm}
 
@@ -3416,24 +3464,28 @@ Se describe a continuación un esquema de control simple que (a) no permite real
 \begin{itemize}
 	\item Para fallas de tipo 5 y 6, se necesita haber grabado con anterioridad un \emph{backup} de la base de datos y reconstruir la misma con el archivo de log hasta el momento de la falla.
 	\item Para fallas de tipo 1 a 4, existen dos técnicas de recuperación:
-		\begin{itemize}
-			\item \textbf{\emph{Deferred update}}
+	\begin{itemize}
+		\item \textbf{\emph{Deferred update}}
+		\item \textbf{\emph{Immediate update}}
+	\end{itemize}
+\end{itemize}
 
-			Las transacciones y el manejador de buffers obedecen 1 regla:
-			\begin{itemize}
-				\item \textbf{Write-Ahead Logging (WAL)}: se deben grabar en disco todos los registros de log sobre las actualización (incluyendo \texttt{<UPDATE T,X,Nuevo\_valor>} y \texttt{<COMMIT T>}), y luego actualizar $X$ en disco.
-			\end{itemize}
+\subsection{\emph{Deferred update}}
+Las transacciones y el manejador de buffers obedecen 1 regla:
+\begin{itemize}
+	\item \textbf{Write-Ahead Logging (WAL)}: se deben grabar en disco todos los registros de log sobre las actualización (incluyendo \texttt{<UPDATE T,X,Nuevo\_valor>} y \texttt{<COMMIT T>}), y luego actualizar $X$ en disco.
+\end{itemize}
 
-			Tipos de registros:
-			\begin{itemize}
-				\item \texttt{<START T>}
-				\item \texttt{<COMMIT T>}
-				\item \texttt{<ABORT T>}
-				\item \texttt{<UPDATE T,X,Valor\_Nuevo>}
-			\end{itemize}
+\paragraph{Tipos de registros}
+\begin{itemize}
+	\item \texttt{<START T>}
+	\item \texttt{<COMMIT T>}
+	\item \texttt{<ABORT T>}
+	\item \texttt{<UPDATE T,X,Valor\_Nuevo>}
+\end{itemize}
 
-			\begin{algorithm}[H]
-				\begin{lstlisting}
+\begin{algorithm}[H]
+	\begin{lstlisting}
 transacciones_commiteadas = identificarlas
 transacciones_incompletas = identificarlas
 
@@ -3448,12 +3500,12 @@ para cada T en ``transacciones_incompletas'':
 	escribir <ABORT T>
 
 flush_log()
-				\end{lstlisting}
-				\caption{Procedimiento de recuperación \textbf{REDO }sin checkpoints}
-			\end{algorithm}
+	\end{lstlisting}
+	\caption{Procedimiento de recuperación \textbf{REDO }sin checkpoints}
+\end{algorithm}
 
-			\begin{algorithm}[H]
-				\begin{lstlisting}
+\begin{algorithm}[H]
+	\begin{lstlisting}
 transacciones_commiteadas = identificarlas
 transacciones_incompletas = identificarlas
 
@@ -3476,35 +3528,41 @@ para cada T en transacciones_incompletas:
 	escribir <ABORT T>
 
 flush_log()
-				\end{lstlisting}
-				\caption{Procedimiento de recuperación \textbf{REDO }con checkpoints no bloqueantes}
-			\end{algorithm}
+	\end{lstlisting}
+	\caption{Procedimiento de recuperación \textbf{REDO }con checkpoints no bloqueantes}
+\end{algorithm}
 
-			El algoritmo anterior puede ser más eficiente si se ejecuta, para cada item de dato, sólo el último REDO existente (porque todos los anteriores serían sobrescritos por éste).
+El algoritmo anterior puede ser más eficiente si se ejecuta, para cada item de dato, sólo el último REDO existente (porque todos los anteriores serían sobrescritos por éste).
 
-			Este mecanismo garantiza:
-			\begin{itemize}
-				\item Que no se deban hacer \emph{rollbacks} de transacciones (porque las mismas sólo escriben en la base de datos luego de ejecutar commit)
-				\item Que no se deban hacer \emph{rollbacks} en cascada (porque los ítems tienen locks que no permiten leerlos antes de que una transacción que los escribió no ejecute commit)
-			\end{itemize}
+\paragraph{Este mecanismo garantiza}
+\begin{itemize}
+	\item Que no se deban hacer \emph{rollbacks} de transacciones (porque las mismas sólo escriben en la base de datos luego de ejecutar commit)
+	\item Que no se deban hacer \emph{rollbacks} en cascada (porque los ítems tienen locks que no permiten leerlos antes de que una transacción que los escribió no ejecute commit)
+\end{itemize}
 
-			\item \textbf{\emph{Immediate update}}: a su vez tiene dos variantes:
-			\begin{enumerate}
-				\item \textbf{UNDO/REDO}: Las transacciones y el manejador de buffer obedecen 1 regla:
-				\begin{itemize}
-					\item Si la transacción $T$ modifica el ítem de dato $X$, el registro de log \texttt{<UPDATE T,X,Valor\_Viejo,Valor\_Nuevo>} debe ser escrito al disco \textbf{antes} que el ítem $X$ sea escrito al disco.
-				\end{itemize}
+\subsection{\emph{Immediate update}}
+\textbf{\emph{Immediate update}} tiene a su vez tiene dos variantes:
+\begin{enumerate}
+	\item \textbf{UNDO/REDO}
+	\item \textbf{UNDO}
+\end{enumerate}
 
-				Tipos de registros:
-				\begin{itemize}
-					\item \texttt{<START T>}
-					\item \texttt{<COMMIT T>}
-					\item \texttt{<ABORT T>}
-					\item \texttt{<UPDATE T,X,Valor\_Viejo,Valor\_Nuevo>}
-				\end{itemize}
+\subsubsection{UNDO/REDO}
+Las transacciones y el manejador de buffer obedecen 1 regla:
+\begin{itemize}
+	\item Si la transacción $T$ modifica el ítem de dato $X$, el registro de log \texttt{<UPDATE T,X,Valor\_Viejo,Valor\_Nuevo>} debe ser escrito al disco \textbf{antes} que el ítem $X$ sea escrito al disco.
+\end{itemize}
+
+\paragraph{Tipos de registros}
+\begin{itemize}
+	\item \texttt{<START T>}
+	\item \texttt{<COMMIT T>}
+	\item \texttt{<ABORT T>}
+	\item \texttt{<UPDATE T,X,Valor\_Viejo,Valor\_Nuevo>}
+\end{itemize}
 				
-				\begin{algorithm}[H]
-					\begin{lstlisting}
+\begin{algorithm}[H]
+	\begin{lstlisting}
 mantener dos listas de transacciones:
 1) transacciones commiteadas desde el ultimo checkpoint
 2) transacciones activas
@@ -3514,26 +3572,27 @@ en el orden en que fueron escritos en el log
 
 ejecutar UNDO de todos los ESCRIBIR de las transacciones de la segunda lista, 
 en el orden inverso en que fueron escritos en el log
-					\end{lstlisting}
-					\caption{Procedimiento de recuperación \textbf{UNDO/REDO}}
-				\end{algorithm}
+	\end{lstlisting}
+	\caption{Procedimiento de recuperación \textbf{UNDO/REDO}}
+\end{algorithm}
 
-			\item \textbf{UNDO}: Las transacciones y el manejador de buffer obedecen 2 reglas:
-			\begin{enumerate}
-				\item Si la transacción $T$ modifica el ítem de dato $X$, el registro de log \texttt{<UPDATE T,X,Valor\_Viejo>} debe ser escrito al disco \textbf{antes} que el ítem $X$ sea escrito al disco.
-				\item \textbf{\emph{Force Log at Commi}}\textbf{t (FLC}): si la transacción ejecuta commit, los ítems de datos actualizados por la transacción se deben escribir en el disco, y luego el registro de log \texttt{<COMMIT T>} debe ser escrito al disco.
-			\end{enumerate}
+\subsubsection{UNDO}
+Las transacciones y el manejador de buffer obedecen 2 reglas:
+\begin{enumerate}
+	\item Si la transacción $T$ modifica el ítem de dato $X$, el registro de log \texttt{<UPDATE T,X,Valor\_Viejo>} debe ser escrito al disco \textbf{antes} que el ítem $X$ sea escrito al disco.
+	\item \textbf{\emph{Force Log at Commi}}\textbf{t (FLC}): si la transacción ejecuta commit, los ítems de datos actualizados por la transacción se deben escribir en el disco, y luego el registro de log \texttt{<COMMIT T>} debe ser escrito al disco.
+\end{enumerate}
 
-			Tipos de registros:
-			\begin{itemize}
-				\item \texttt{<START T>}
-				\item \texttt{<COMMIT T>}
-				\item \texttt{<ABORT T>}
-				\item \texttt{<UPDATE T,X,Valor\_Viejo>}
-			\end{itemize}
+\paragraph{Tipos de registros}
+\begin{itemize}
+	\item \texttt{<START T>}
+	\item \texttt{<COMMIT T>}
+	\item \texttt{<ABORT T>}
+	\item \texttt{<UPDATE T,X,Valor\_Viejo>}
+\end{itemize}
 
-			\begin{algorithm}[H]
-				\begin{lstlisting}
+\begin{algorithm}[H]
+	\begin{lstlisting}
 transacciones_completas = {}
 transacciones_incompletas = {}
 
@@ -3551,12 +3610,12 @@ para cada T en "transacciones_incompletas":
 	escribir <ABORT T>
 
 flush_log()
-				\end{lstlisting}
-				\caption{Procedimiento de recuperación \textbf{UNDO }con checkpoint bloqueante}
-			\end{algorithm}
+	\end{lstlisting}
+	\caption{Procedimiento de recuperación \textbf{UNDO }con checkpoint bloqueante}
+\end{algorithm}
 
-			\begin{algorithm}[H]
-				\begin{lstlisting}
+\begin{algorithm}[H]
+	\begin{lstlisting}
 transacciones_completas = {}
 transacciones_incompletas = {}
 
@@ -3579,13 +3638,10 @@ para cada T en "transacciones_incompletas":
 	escribir <ABORT T>
 
 flush_log()
-				\end{lstlisting}
-				\caption{Procedimiento de recuperación \textbf{UNDO }con checkpoint no bloqueante}
-			\end{algorithm}
-		\end{enumerate}
-	\end{itemize}
-\end{itemize}
-
+	\end{lstlisting}
+	\caption{Procedimiento de recuperación \textbf{UNDO }con checkpoint no bloqueante}
+\end{algorithm}
+		
 Es necesario que las operaciones de UNDO y REDO sean \textbf{idempotentes}: ejecutarlas muchas veces debe ser igual a ejecutarlas muchas veces. De hecho, todo el proceso de recuperación debe ser idempotente para garantizar que si existe una falla durante la recuperación de una falla, la misma se pueda recuperar también.
 
 Es necesario que el DBMS mantenga:
