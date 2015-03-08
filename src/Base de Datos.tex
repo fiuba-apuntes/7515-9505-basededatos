@@ -19,7 +19,6 @@
 \usepackage{multirow}
 \usepackage[normalem]{ulem}
 \usepackage{listings}
-\usepackage{listingsutf8}
 
 % Defino la ruta de los paquetes personalizados para el apunte
 \newcommand{\rutapaquetes}{./paquetes-apunte}
@@ -93,7 +92,6 @@
 
 
 \lstset{
-	inputencoding=utf8,
 	language=SQL,
 	basicstyle={\small \ttfamily},
 	keywordstyle={\color{blue}},
@@ -2952,7 +2950,6 @@ El protocolo \textbf{WAL (\emph{Write-Ahead Logging})} indica que antes de commi
 			\includegraphics[scale=0.4]{problem_dirty_read}
 		}
 	\end{centering}
-	
 	\begin{centering}
 		\subfloat[Incorrect Summary]{
 			\includegraphics[scale=0.4]{problem_incorrect_summary}
@@ -2963,167 +2960,101 @@ El protocolo \textbf{WAL (\emph{Write-Ahead Logging})} indica que antes de commi
 
 \subsection{Atributos de una Transacción}
 \begin{itemize}
-\item Modo de acceso: \texttt{READ ONLY}, \texttt{READ WRITE}
-\item Nivel de \emph{isolation}:
-
-
-\begin{table}[H]
-\noindent \begin{centering}
-\begin{tabular}{|>{\centering}p{2cm}|>{\centering}p{3cm}|>{\centering}p{3cm}|>{\centering}p{3cm}|>{\centering}p{3cm}|}
-\hline 
-\emph{Nivel de isolation} & \multicolumn{4}{c|}{\emph{Tipo de violación que se puede producir para dos transacciones
-$T$ y $S$}}\\
-\hline 
-\hline 
- & \textbf{Escritura sucia} ($T$ escribe el valor $X$ después de que
-una transacción $S$ lo escribiera, y $S$ no comitió ni abortó) & \textbf{Lectura Sucia} ($T$ lee el valor$X$ después de una transacción
-$S$ que no comitió ni abortó) & \textbf{Lectura No Repetible} ($T$ lee el valor $X$, luego $S$
-lo actualiza, luego $T$ lee $X$ y es un nuevo valor) & \textbf{\emph{Phantoms}} ($T$ lee varios datos que cumplen una condición,
-luego $S$ agrega un dato que también lo verifica. Si $T$ lee de
-nuevo, encontrará un nuevo dato que antes no estaba) \tabularnewline
-\hline 
-\emph{READ UNCOMMITTED} & No & Si & Si & Si \tabularnewline
-\hline 
-\emph{READ COMMITTED} & No & No & Si & Si \tabularnewline
-\hline 
-\emph{REPEATABLE READ} & No & No & No & Si \tabularnewline
-\hline 
-\emph{SERIALIZABLE} & No & No & No & No \tabularnewline
-\hline 
-\end{tabular}
-\par\end{centering}
-
-\protect\caption{Violaciones que se pueden producir en cada nivel}
-
-
-\end{table}
-
-
+	\item Modo de acceso: \texttt{READ ONLY}, \texttt{READ WRITE}
+	\item Nivel de \emph{isolation}:
+	\begin{table}[H]
+		\begin{centering}
+			\begin{tabular}{|>{\centering}p{2cm}|>{\centering}p{3cm}|>{\centering}p{3cm}|>{\centering}p{3cm}|>{\centering}p{3cm}|}
+				\hline 
+				\emph{Nivel de isolation} & \multicolumn{4}{c|}{\emph{Tipo de violación que se puede producir para dos transacciones $T$ y $S$}}\\
+				\hline 
+				\hline 
+				 & \textbf{Escritura sucia} ($T$ escribe el valor $X$ después de que una transacción $S$ lo escribiera, y $S$ no comitió ni abortó) & \textbf{Lectura Sucia} ($T$ lee el valor$X$ después de una transacción $S$ que no comitió ni abortó) & \textbf{Lectura No Repetible} ($T$ lee el valor $X$, luego $S$ lo actualiza, luego $T$ lee $X$ y es un nuevo valor) & \textbf{\emph{Phantoms}} ($T$ lee varios datos que cumplen una condición, luego $S$ agrega un dato que también lo verifica. Si $T$ lee de nuevo, encontrará un nuevo dato que antes no estaba) \tabularnewline
+				\hline 
+				\emph{READ UNCOMMITTED} & No & Si & Si & Si \tabularnewline
+				\hline
+				\emph{READ COMMITTED} & No & No & Si & Si \tabularnewline
+				\hline 
+				\emph{REPEATABLE READ} & No & No & No & Si \tabularnewline
+				\hline 
+				\emph{SERIALIZABLE} & No & No & No & No \tabularnewline
+				\hline 
+			\end{tabular}
+		\end{centering}
+		\caption{Violaciones que se pueden producir en cada nivel}
+	\end{table}
 \end{itemize}
 
 \section{Schedules de Transacciones}
-
 \begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.5]{schedules_equivalentes}
-\par\end{centering}
-
-\protect\caption{\emph{Schedules} equivalentes}
-
-
+	\centering
+	\includegraphics[scale=0.5]{schedules_equivalentes}
+	\caption{\emph{Schedules} equivalentes}
 \end{figure}
 \begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics{schedule_no_recuperable}
-\par\end{centering}
-
-\protect\caption{\emph{Schedule} no recuperable}
+	\centering
+	\includegraphics{schedule_no_recuperable}
+	\caption{\emph{Schedule} no recuperable}
 \end{figure}
 
 \begin{description}
-\item [{\emph{Schedule}}] ordenamiento cronológico de las operaciones de
-$n$ transacciones. Se pueden intercalar operaciones de distintas
-transacciones, pero las operaciones de una transacción se deben ejecutar
-en forma secuencial.
+	\item [{\emph{Schedule}}] ordenamiento cronológico de las operaciones de $n$ transacciones. Se pueden intercalar operaciones de distintas transacciones, pero las operaciones de una transacción se deben ejecutar en forma secuencial.
 
+	Un \emph{schedule} es \textbf{recuperable} si, para cada par de transacciones $T_{i}$ y $T_{j}$ tal que $T_{j}$ lee un ítem de dato previamente escrito por $T_{i}$, el \texttt{commit} de $T_{i}$ aparece \emph{antes} del \texttt{commit} de $T_{j}$.
 
-Un \emph{schedule} es \textbf{recuperable} si, para cada par de transacciones
-$T_{i}$ y $T_{j}$ tal que $T_{j}$ lee un ítem de dato previamente
-escrito por $T_{i}$, el \texttt{commit} de $T_{i}$ aparece \emph{antes}
-del \texttt{commit} de $T_{j}$. 
+	Un \emph{schedule} es \textbf{sin cascada} (\textbf{\emph{avoids cascading rollback}}, \textbf{AVR}) si, para cada par de transacciones $T_{i}$ y $T_{j}$ tal que $T_{j}$ lee un ítem de dato previamente escrito por $T_{i}$, el \texttt{commit} de $T_{i}$ aparece \emph{antes} del \texttt{read} de $T_{j}$. 
 
+	Un \emph{schedule} que usa \emph{locks }es \textbf{estricto} si cada transacción commitea o aborta, y luego libera todos sus \emph{locks} exclusivos.
 
-Un \emph{schedule}\textbf{ }es\textbf{ sin cascada} (\textbf{\emph{avoids
-cascading rollback}}\textbf{, AVR}) si, para cada par de transacciones
-$T_{i}$ y $T_{j}$ tal que $T_{j}$ lee un ítem de dato previamente
-escrito por $T_{i}$, el \texttt{commit} de $T_{i}$ aparece \emph{antes}
-del \texttt{read} de $T_{j}$. 
+	\begin{center}
+		estricto $\implies$ sin cascada $\implies$ recuperable
+	\end{center}
 
+	\begin{center}
+		estricto $\implies$ serializable
+	\end{center}
 
-Un \emph{schedule} que usa \emph{locks }es \textbf{estricto} si cada
-transacción commitea o aborta, y luego libera todos sus \emph{locks}
-exclusivos.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{relacion_schedules}
+		\caption{Relación de \emph{schedules}}
+	\end{figure}
 
+	\item[Conflicto] dos \emph{operaciones} en un \emph{schedule} entran en conflicto cuando se cumplen todas las condiciones siguientes:
+	\begin{enumerate}
+		\item Corresponden a distintas transacciones
+		\item Acceden al mismo ítem de dato $X$
+		\item Al menos una de esas operaciones es \texttt{escribir(X)}
+	\end{enumerate}
 
-\noindent \begin{center}
-estricto $\implies$sin cascada $\implies$recuperable
-\par\end{center}
-
-
-\noindent \begin{center}
-estricto $\implies$serializable
-\par\end{center}
-
-
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.5]{relacion_schedules}
-\par\end{centering}
-
-\protect\caption{Relación de \emph{schedules}}
-
-
-\end{figure}
-
-
-\item [{Conflicto}] dos \emph{operaciones} en un \emph{schedule} entran
-en conflicto cuando se cumplen todas las condiciones siguientes:
-
-\begin{enumerate}
-\item Corresponden a distintas transacciones
-\item Acceden al mismo ítem de dato $X$
-\item Al menos una de esas operaciones es \texttt{escribir(X)}
-\end{enumerate}
-
-Dicho de otra forma, están en conflicto cuando, si alteramos el orden
-de ejecución, cambia el resultado final de $X$.
-
+	Dicho de otra forma, están en conflicto cuando, si alteramos el orden de ejecución, cambia el resultado final de $X$.
 \end{description}
-Un schedule es \textbf{serial} cuando ejecuta primero todas las operaciones
-de $T_{1}$, luego todas las operaciones de $T_{2}$, ..., y finalmente
-todas las operaciones de $T_{n}$. Cualquier esquema serial preserva
-la consistencia de la base de datos.
 
-Un \emph{schedule} es \textbf{serializable} cuando es equivalente
-a algún \emph{schedule} serial con las mismas transacciones.
+Un schedule es \textbf{serial} cuando ejecuta primero todas las operaciones de $T_{1}$, luego todas las operaciones de $T_{2}$, ..., y finalmente todas las operaciones de $T_{n}$. Cualquier esquema serial preserva la consistencia de la base de datos.
 
-Dos \emph{schedules} son \textbf{conflicto-equivalentes} si el orden
-de las operaciones en conflicto es la misma en ambos. Es decir, si
-podemos transformar uno en el otro mediante una secuencia de \emph{swaps}
-de acciones adyacentes que no están en conflicto.
+Un \emph{schedule} es \textbf{serializable} cuando es equivalente a algún \emph{schedule} serial con las mismas transacciones.
+
+Dos \emph{schedules} son \textbf{conflicto-equivalentes} si el orden de las operaciones en conflicto es la misma en ambos. Es decir, si podemos transformar uno en el otro mediante una secuencia de \emph{swaps} de acciones adyacentes que no están en conflicto.
 
 \begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.6]{conflicto_serializable}
-\par\end{centering}
-
-\protect\caption{Convirtiendo un schedule conflicto-serializable en uno serial mediante
-\emph{swaps} de acciones adyacentes. A cada paso están subrayadas
-las acciones a punto de ser \emph{swappeadas}}
-
-
+	\centering
+	\includegraphics[scale=0.6]{conflicto_serializable}
+	\caption{Convirtiendo un schedule conflicto-serializable en uno serial mediante \emph{swaps} de acciones adyacentes. A cada paso están subrayadas las acciones a punto de ser \emph{swappeadas}}
 \end{figure}
 
-
-Un \emph{schedule} es \textbf{conflicto-serializable} si es conflicto-equivalente
-a algún \emph{schedule} serial.
-
+Un \emph{schedule} es \textbf{conflicto-serializable} si es conflicto-equivalente a algún \emph{schedule} serial.
 \[
-Conflicto\, serializable\implies Serializable
+	Conflicto\, serializable \implies Serializable
 \]
 
-
-Para verificar si un \emph{schedule $S$ }es conflicto-serializable
-se utiliza un grafo dirigido $G=(N,E)$:
+Para verificar si un \emph{schedule $S$ }es conflicto-serializable se utiliza un grafo dirigido $G=(N,E)$:
 \begin{itemize}
-\item $N$ es el conjunto de transacciones $\left\{ T_{1},T_{2},\ldots,T_{n}\right\} $
-que forman el \emph{schedule}
-\item $E$ es el conjunto de aristas de la forma $T_{i}\to T_{j}$. Cada
-arista significa que $T_{i}$ debe preceder a $T_{j}$ en cualquier
-\emph{schedule} serial equivalente a $S$
+	\item $N$ es el conjunto de transacciones $\left\{ T_{1},T_{2},\ldots,T_{n}\right\} $ que forman el \emph{schedule}
+	\item $E$ es el conjunto de aristas de la forma $T_{i}\to T_{j}$. Cada arista significa que $T_{i}$ debe preceder a $T_{j}$ en cualquier \emph{schedule} serial equivalente a $S$
 \end{itemize}
+
 \begin{algorithm}[H]
-\begin{lstlisting}
+	\begin{lstlisting}
 Entrada: schedule S
 Salida: "verdadero" si es conflicto serializable
 
@@ -3141,528 +3072,326 @@ Salida: "verdadero" si es conflicto serializable
 	si el gafo es ciclico:
 		devolver "falso"
 \end{lstlisting}
-
-
-\protect\caption{Verificación de serializabilidad de un \emph{schedule}}
+\caption{Verificación de serializabilidad de un \emph{schedule}}
 \end{algorithm}
 
+Si el grafo de precedencia es acíclico, el \emph{schedule} serial equivalente puede construirse utilizando un \textbf{orden topológico} de la siguiente forma: siempre que exista una arista $T_{i}\to T_{j}$, $T_{i}$ debe preceder a $T_{j}$ en el \emph{schedule }serial.
 
-Si el grafo de precedencia es acíclico, el \emph{schedule} serial
-equivalente puede construirse utilizando un \textbf{orden topológico
-}de la siguiente forma: siempre que exista una arista $T_{i}\to T_{j}$,
-$T_{i}$ debe preceder a $T_{j}$ en el \emph{schedule }serial.
-
-En la práctica, los DBMS no utilizan este algoritmo para garantizar
-la serializabilidad (porque habría que verificarlo para cada \emph{schedule}).
-
+En la práctica, los DBMS no utilizan este algoritmo para garantizar la serializabilidad (porque habría que verificarlo para cada \emph{schedule}).
 
 \section{Protocolos de Control de Concurrencia: Protocolo de Locking}
 
-Una forma de garantizar el aislamiento de transacciones y prevenir
-comportamiento no serializable es mediante el uso de \emph{locks}.
-Notar que este mecanismo no funciona bien cuando los \emph{locks}
-se mantienen durante días, o cuando las decisiones humanas son parte
-de una transacción.
+Una forma de garantizar el aislamiento de transacciones y prevenir comportamiento no serializable es mediante el uso de \emph{locks}. Notar que este mecanismo no funciona bien cuando los \emph{locks} se mantienen durante días, o cuando las decisiones humanas son parte de una transacción.
 \begin{description}
-\item [{\emph{Lock}}] variable que se asocia a un ítem de dato. Describe
-el estado del ítem con respecto a las posibles operaciones que pueden
-aplicarse a el. Generalmente hay un \emph{lock} por item de dato.
-
+	\item[\emph{Lock}] variable que se asocia a un ítem de dato. Describe el estado del ítem con respecto a las posibles operaciones que pueden aplicarse a el. Generalmente hay un \emph{lock} por item de dato.
+\end{description}
 
 Tipos de \emph{locks}:
 \begin{enumerate}
-\item \textbf{Binarios}: pueden tener dos valores: \emph{locked} (1) o \emph{unlocked}
-(0). Un \emph{lock} binario impone la exclusión mutua en el item de
-dato asociado, porque solo puede haber a lo sumo una transacción con
-un lock para un mismo dato.
+	\item \textbf{Binarios}: pueden tener dos valores: \emph{locked} (1) o \emph{unlocked} (0). Un \emph{lock} binario impone la exclusión mutua en el item de dato asociado, porque solo puede haber a lo sumo una transacción con un lock para un mismo dato.
 
+	El registro de este tipo de \emph{lock} tiene la forma \texttt{<Item de dato, LOCK, Transacción con lock>}
 
-El registro de este tipo de \emph{lock} tiene la forma \texttt{<Item
-de dato, LOCK, Transacción con lock>}
+	Reglas que deben aplicarse a cada transacción:
+	\begin{enumerate}
+		\item \texttt{lock(X)} antes de cualquier\texttt{ leer(X) }o\texttt{ escribir(X)}
+		\item \texttt{unlock(X)} después de \textbf{todos} los \texttt{leer(X)} y \texttt{escribir(X)}
+		\item no se permite ejecutar \texttt{lock(X)} si ya se tiene un \emph{lock} de X
+		\item no se permite ejecutar \texttt{unlock(X)} si no se tiene el \emph{lock} de X
+	\end{enumerate}
 
+	\item \textbf{Compartidos/Exclusivos (Lectura/Escritura)}: es más laxo que los \emph{locks} binarios porque permite que varias transacciones que solo van a ejecutar \texttt{leer(X)} tengan acceso a X. El \emph{lock} puede tener dos valores: \emph{read-locked} o \emph{write-locked}.
+	\begin{itemize}
+		\item \textbf{Lock exclusivo}: puede leer y escribir el dato $X$.
+		\item \textbf{Lock compartido}: puede leer pero no puede escribir $X$.
+	\end{itemize}
 
-Reglas que deben aplicarse a cada transacción:
-\begin{enumerate}
-\item \texttt{lock(X)} antes de cualquier\texttt{ leer(X) }o\texttt{ escribir(X)}
-\item \texttt{unlock(X)} después de \textbf{todos} los \texttt{leer(X)}
-y \texttt{escribir(X)}
-\item no se permite ejecutar \texttt{lock(X)} si ya se tiene un \emph{lock}
-de X
-\item no se permite ejecutar \texttt{unlock(X)} si no se tiene el \emph{lock}
-de X
-\end{enumerate}
-\item \textbf{Compartidos/Exclusivos (Lectura/Escritura)}: es más laxo que
-los \emph{locks} binarios porque permite que varias transacciones
-que solo van a ejecutar \texttt{leer(X)} tengan acceso a X. El \emph{lock}
-puede tener dos valores: \emph{read-locked }o \emph{write-locked}.
+	El registro este tipo de \emph{lock} tiene la forma \texttt{<Item de dato, LOCK, \# de lecturas, Transaccion(es) con lock>}
 
-\begin{itemize}
-\item \textbf{Lock exclusivo}: puede leer y escribir el dato $X$.
-\item \textbf{Lock compartido}: puede leer pero no puede escribir $X$.
-\end{itemize}
-
-El registro este tipo de \emph{lock} tiene la forma \texttt{<Item
-de dato, LOCK, \# de lecturas, Transaccion(es) con lock>}
-
-
-Reglas que deben aplicarse a cada transacción:
-\begin{enumerate}
-\item \texttt{read\_lock(X)} o \texttt{write\_lock(X)} antes de cualquier
-$leer(X)$
-\item \texttt{write\_lock(X)} antes de cualquier $escribir(X)$
-\item luego de todos los $leer(X)$ y $escribir(X)$, ejecutar $unlock(X)$
-\item si ya tiene un \emph{lock} (compartido o exclusivo) de $X$, no se
-puede ejecutar ni \texttt{read\_lock(X)} ni \texttt{write\_lock(X)}
-\item no se permite ejecutar $unlock(X)$ si no se tiene un \emph{lock}
-de $X$ (compartido o exclusivo)
-\end{enumerate}
+	Reglas que deben aplicarse a cada transacción:
+	\begin{enumerate}
+		\item \texttt{read\_lock(X)} o \texttt{write\_lock(X)} antes de cualquier $leer(X)$
+		\item \texttt{write\_lock(X)} antes de cualquier $escribir(X)$
+		\item luego de todos los $leer(X)$ y $escribir(X)$, ejecutar $unlock(X)$
+		\item si ya tiene un \emph{lock} (compartido o exclusivo) de $X$, no se puede ejecutar ni \texttt{read\_lock(X)} ni \texttt{write\_lock(X)}
+		\item no se permite ejecutar $unlock(X)$ si no se tiene un \emph{lock} de $X$ (compartido o exclusivo)
+	\end{enumerate}
 \end{enumerate}
 
 Problemas con el uso de \emph{locks}:
 \begin{enumerate}
-\item El uso por sí solo de \emph{locks} no garantiza la serializabilidad
-de \emph{schedules}.
+	\item El uso por sí solo de \emph{locks} no garantiza la serializabilidad de \emph{schedules}.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{lock_serializability}
+		\caption{El uso de \emph{locks} no garantiza la serializabilidad. Si se produce una actualización a $A$ entre $unlock(A)$ y $lock(B)$, \textbf{$A+B$} sería incorrecto}
+	\end{figure}
 
+	\item \textbf{\emph{Deadlock}}: ocurre cuando cada transacción en un \emph{schedule} está esperando que se libere un \emph{lock} que fue adquirido por otra transacción del \emph{schedule}.
 
-\begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.6]{lock_serializability}
-\par\end{centering}
+	Para detectar y/o prevenir un \emph{deadlock}, el gestor de concurrencia puede mantener un \textbf{grafo de espera}. Cuando una transacción $T$ está esperando a que la transacción $S$ libere un \emph{lock}, se dibuja una arista $T\to S$. Cuando $S$ libera el \emph{lock}, la arista se borra. El deadlock se detecta cuando el grafo es cíclico.
 
-\protect\caption{El uso de \emph{locks} no garantiza la serializabilidad. Si se produce
-una actualización a $A$ entre $unlock(A)$ y $lock(B)$, \textbf{$A+B$
-}sería incorrecto}
+	Cuando ocurre un \emph{deadlock}, el sistema debe ejecutar el \emph{rollback} de alguna de las dos transacciones, y liberar los \emph{locks} que ésta poseía.
 
+	También se pueden arreglar \emph{deadlocks} especificando un \emph{timeout} para cada transacción. Si se ejecutan por más tiempo que este \emph{timeout}, es abortada y sus \emph{locks} se liberan.
 
-\end{figure}
-
-
-\item \textbf{\emph{Deadlock}}: ocurre cuando cada transacción en un \emph{schedule}
-está esperando que se libere un \emph{lock} que fue adquirido por
-otra transacción del \emph{schedule.}
-
-
-Para detectar y/o prevenir un \emph{deadlock}, el gestor de concurrencia
-puede mantener un \textbf{grafo de espera}. Cuando una transacción
-$T$ está esperando a que la transacción $S$ libere un \emph{lock},
-se dibuja una arista $T\to S$. Cuando $S$ libera el \emph{lock},
-la arista se borra. El deadlock se detecta cuando el grafo es cíclico.
-
-
-Cuando ocurre un \emph{deadlock}, el sistema debe ejecutar el \emph{rollback}
-de alguna de las dos transacciones, y liberar los \emph{locks} que
-ésta poseía.
-
-
-También se pueden arreglar \emph{deadlocks} especificando un \emph{timeout}
-para cada transacción. Si se ejecutan por más tiempo que este \emph{timeout},
-es abortada y sus \emph{locks} se liberan.
-
-\item \textbf{\emph{Starvation}}: ocurre cuando una transacción se queda
-esperando indefinidamente a que se libere un \emph{lock}. Se puede
-evitar de la siguiente forma: cuando una transacción $T_{i}$ solicita
-un \emph{lock} sobre $X$ en un modo $M$, el gestor de concurrencia
-se lo provee si se verifica que:
-
-\begin{enumerate}
-\item No hay otra transacción con un \emph{lock }sobre $X$ en un modo que
-conflictúe con $M$.
-\item No hay otra transacción esperando obtener un \emph{lock }sobre $X$
-antes que $T_{i}$
+	\item \textbf{\emph{Starvation}}: ocurre cuando una transacción se queda esperando indefinidamente a que se libere un \emph{lock}. Se puede evitar de la siguiente forma: cuando una transacción $T_{i}$ solicita un \emph{lock} sobre $X$ en un modo $M$, el gestor de concurrencia se lo provee si se verifica que:
+	\begin{enumerate}
+		\item No hay otra transacción con un \emph{lock }sobre $X$ en un modo que conflictúe con $M$.
+		\item No hay otra transacción esperando obtener un \emph{lock }sobre $X$ antes que $T_{i}$
+	\end{enumerate}
 \end{enumerate}
-\end{enumerate}
-\item [{Lock~de~update}] un \emph{lock} de \emph{update} le da a una
-transacción el privilegio para leer $X$, pero \textbf{no }para escribirlo.
-Sin embargo, este tipo de \emph{lock }se puede actualizar a un \emph{lock}
-exclusivo más tarde.
-\item [{Matriz~de~compatibilidad~de~locks}] se puede otorgar un \emph{lock}
-de tipo $C$ si y solo si, para cada fila $R$ tal que ya se otorgó
-a otra transacción un lock de tipo $R$, hay un ``Si'' en la columna
-$C$.
+
+\begin{description}
+	\item[Lock de update] un \emph{lock} de \emph{update} le da a una transacción el privilegio para leer $X$, pero \textbf{no} para escribirlo. Sin embargo, este tipo de \emph{lock} se puede actualizar a un \emph{lock} exclusivo más tarde.
+	\item[Matriz de compatibilidad de locks] se puede otorgar un \emph{lock} de tipo $C$ si y solo si, para cada fila $R$ tal que ya se otorgó a otra transacción un lock de tipo $R$, hay un ``Si'' en la columna $C$.
 \end{description}
+
 \begin{table}[H]
-\subfloat[Para locks compartidos y exclusivos]{\noindent \begin{centering}
-\begin{tabular}{|l|c|c|c|}
-\cline{3-4} 
-\multicolumn{1}{l}{} &  & \multicolumn{2}{c|}{Se solicita un lock de tipo....}\\
-\cline{3-4} 
-\multicolumn{1}{l}{} &  & Exclusivo & Compartido\\
-\hline 
-\multirow{2}{*}{Se otorgó un lock de tipo...} & Exclusivo & No & No\\
-\cline{2-4} 
- & Compartido & No & Si\\
-\hline 
-\end{tabular}
-\par\end{centering}
+	\subfloat[Para locks compartidos y exclusivos]{
+		\begin{centering}
+			\begin{tabular}{|l|c|c|c|}
+				\cline{3-4} 
+				\multicolumn{1}{l}{} &  & \multicolumn{2}{c|}{Se solicita un lock de tipo....}\\
+				\cline{3-4} 
+				\multicolumn{1}{l}{} &  & Exclusivo & Compartido\\
+				\hline 
+				\multirow{2}{*}{Se otorgó un lock de tipo...} & Exclusivo & No & No\\
+				\cline{2-4} 
+				 & Compartido & No & Si\\
+				\hline 
+			\end{tabular}
+		\end{centering}
+	}
 
-}
-
-\subfloat[Para locks compartidos, exclusivos y de actualización]{\noindent \begin{centering}
-\begin{tabular}{|c|c|c|c|c|}
-\cline{3-5} 
-\multicolumn{1}{c}{} &  & \multicolumn{2}{c}{Se solicita un \emph{lock} de tipo....} & \\
-\cline{3-5} 
-\multicolumn{1}{c}{} &  & Exclusivo & Compartido & Actualización\\
-\hline 
-\multirow{3}{*}{Se otorgó un \emph{lock} de tipo...} & Exclusivo & No & No & No\\
-\cline{2-5} 
- & Compartido & No & Si & Si\\
-\cline{2-5} 
- & Actualización & No & No & No\\
-\hline 
-\end{tabular}
-\par\end{centering}
-
-}
-
-\protect\caption{Ejemplos de matrices de compatibilidad}
-
-
+	\subfloat[Para locks compartidos, exclusivos y de actualización]{
+		\begin{centering}
+			\begin{tabular}{|c|c|c|c|c|}
+				\cline{3-5} 
+				\multicolumn{1}{c}{} &  & \multicolumn{2}{c}{Se solicita un \emph{lock} de tipo....} & \\
+				\cline{3-5} 
+				\multicolumn{1}{c}{} &  & Exclusivo & Compartido & Actualización\\
+				\hline 
+				\multirow{3}{*}{Se otorgó un \emph{lock} de tipo...} & Exclusivo & No & No & No\\
+				\cline{2-5} 
+				 & Compartido & No & Si & Si\\
+				\cline{2-5} 
+				 & Actualización & No & No & No\\
+				\hline 
+			\end{tabular}
+		\end{centering}
+	}
+	\caption{Ejemplos de matrices de compatibilidad}
 \end{table}
 
 \begin{description}
-\item [{\emph{Lock~table}}] tabla que utiliza el gestor de concurrencia
-para almacenar el estado de los \emph{locks }activos.
+	\item[\emph{Lock table}] tabla que utiliza el gestor de concurrencia para almacenar el estado de los \emph{locks} activos.
 
-
-Para cada ítem de dato con \emph{locks} activos, mantiene una lista
-de transacciones que solicitaron el \emph{lock}, en el orden en que
-llegaron los pedidos. Se registra qué transacción es y qué modo de
-\emph{lock }solicitó. También se registra si el \emph{lock} le fue
-concedido.
-
+	Para cada ítem de dato con \emph{locks} activos, mantiene una lista de transacciones que solicitaron el \emph{lock}, en el orden en que llegaron los pedidos. Se registra qué transacción es y qué modo de \emph{lock} solicitó. También se registra si el \emph{lock} le fue concedido.
 \end{description}
+
 \begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.4]{lock_table}
-\par\end{centering}
-
-\protect\caption{\emph{Lock table}}
-
-
+	\centering
+	\includegraphics[scale=0.4]{lock_table}
+	\caption{\emph{Lock table}}
 \end{figure}
-
-
 
 \subsection{Protocolo de dos fases (\emph{two-phase locking)}}
+Una transacción cumple con el protocolo \textbf{\emph{two-phase locking} (2PL)} si todas las operaciones de \emph{lock} (\texttt{read\_lock}, \texttt{write\_lock}) preceden al primer \emph{unlock} de la transacción. Se dice entonces que la transacción se divide en dos fases: la creciente  (donde se adquieren los \emph{locks}) y la decreciente (donde se liberan los \emph{locks}).
 
-Una transacción cumple con el protocolo \textbf{\emph{two-phase locking}}\textbf{
-(2PL)} si todas las operaciones de \emph{lock} (\texttt{read\_lock},
-\texttt{write\_lock}) preceden al primer \emph{unlock} de la transacción.
-Se dice entonces que la transacción se divide en dos fases: la creciente
-(donde se adquieren los \emph{locks}) y la decreciente (donde se liberan
-los \emph{locks}).
+Si cada transacción de un \emph{schedule} cumple el protocolo 2PL, se garantiza que el \emph{schedule} es serializable. De hecho, las transacciones se pueden ordenar de acuerdo a sus \emph{lock points} (el punto donde termina la fase creciente).
 
-Si cada transacción de un \emph{schedule} cumple el protocolo 2PL,
-se garantiza que el \emph{schedule} es serializable. De hecho, las
-transacciones se pueden ordenar de acuerdo a sus \emph{lock points}
-(el punto donde termina la fase creciente).
-
-Este protocolo limita la cantidad de concurrencia que se permite,
-porque una transacción no puede liberar un \emph{lock} hasta que haya
-adquirido un \emph{lock} para todos los demás ítems, y entonces puede
-haber muchas otras transacciones esperando que se libere el primer
-\emph{lock}. Además, no se previene el \emph{deadlock}, ni los \emph{rollbacks}
-en cascada.
+Este protocolo limita la cantidad de concurrencia que se permite, porque una transacción no puede liberar un \emph{lock} hasta que haya adquirido un \emph{lock} para todos los demás ítems, y entonces puede haber muchas otras transacciones esperando que se libere el primer \emph{lock}. Además, no se previene el \emph{deadlock}, ni los \emph{rollbacks} en cascada.
 
 \begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.7]{2PL}
-\par\end{centering}
-
-\protect\caption{2PL}
-
-
+	\centering
+	\includegraphics[scale=0.7]{2PL}
+	\caption{2PL}
 \end{figure}
+
 \begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.7]{2pl_deadlock}
-\par\end{centering}
-
-\protect\caption{Schedule 2PL con \emph{deadlock}}
+	\centering
+	\includegraphics[scale=0.7]{2pl_deadlock}
+	\caption{Schedule 2PL con \emph{deadlock}}
 \end{figure}
+
 \begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics[scale=0.5]{2pl_cascading_rollback}
-\par\end{centering}
-
-\protect\caption{Schedule 2PL con \emph{cascading rollback }si $T_{5}$ falla al final
-de todo}
+	\centering
+	\includegraphics[scale=0.5]{2pl_cascading_rollback}
+	\caption{Schedule 2PL con \emph{cascading rollback }si $T_{5}$ falla al final de todo}
 \end{figure}
 
+Para prevenir el problema de \emph{deadlock}, este protocolo puede ampliarse y exigir que las transacciones adquieran por adelantado todos los \emph{locks} que se necesitan; si un \emph{lock} no se puede conseguir, no se adquiere ninguno. Esto limita aún más la concurrencia.
 
-Para prevenir el problema de \emph{deadlock}, este protocolo puede
-ampliarse y exigir que las transacciones adquieran por adelantado
-todos los \emph{locks} que se necesitan; si un \emph{lock} no se puede
-conseguir, no se adquiere ninguno. Esto limita aún más la concurrencia.
-
-Para prevenir el problema de \emph{rollbacks} en cascada, existe el
-protocolo\textbf{ 2PL estricto}. Este modo, además de requerir lo
-mismo que 2PL, requiere que todos los \emph{locks} exclusivos adquiridos
-por una transacción se mantengan hasta que la misma ejecute \emph{commit.}
-
+Para prevenir el problema de \emph{rollbacks} en cascada, existe el protocolo \textbf{2PL estricto}. Este modo, además de requerir lo mismo que 2PL, requiere que todos los \emph{locks} exclusivos adquiridos por una transacción se mantengan hasta que la misma ejecute \emph{commit}.
 
 \subsection{Protocolo de árbol}
 \begin{description}
-\item [{Protocolo~de~árbol}] protocolo especializado para transacciones
-que acceden a datos en forma de árbol (ejemplo: un índice B). El protocolo
-viola 2PL, pero utiliza el hecho de que acceder a elementos debe ser
-hacia abajo para garantizar serializabilidad.
+	\item[Protocolo de árbol] protocolo especializado para transacciones que acceden a datos en forma de árbol (ejemplo: un índice B). El protocolo viola 2PL, pero utiliza el hecho de que acceder a elementos debe ser hacia abajo para garantizar serializabilidad.
 \end{description}
-Si una transacción quiere insertar un registro, debería adquirir un
-\emph{lock} exclusivo de la raíz, ergo de todo el árbol, y por ende
-estaría bloqueando a todas las demás transacciones.
 
-Puede aprovecharse la estructura de árbol del índice de la siguiente
-forma:
+Si una transacción quiere insertar un registro, debería adquirir un \emph{lock} exclusivo de la raíz, ergo de todo el árbol, y por ende estaría bloqueando a todas las demás transacciones.
+
+Puede aprovecharse la estructura de árbol del índice de la siguiente forma:
 \begin{itemize}
-\item Cuando se adquiere un \emph{read\_lock} en un nodo hijo, el \emph{lock}
-del nodo padre puede liberarse porque no se usará más.
-\item Cuando se adquiere un \emph{write\_lock} en un nodo hoja (para realizar
-una inserción), se debe adquirir un \emph{lock }exclusivo en el nodo
-hoja.
+	\item Cuando se adquiere un \emph{read\_lock} en un nodo hijo, el \emph{lock} del nodo padre puede liberarse porque no se usará más.
+	\item Cuando se adquiere un \emph{write\_lock} en un nodo hoja (para realizar una inserción), se debe adquirir un \emph{lock }exclusivo en el nodo hoja.
 \end{itemize}
-Utilizar la técnica de \textbf{\emph{index locking}} soluciona el
-problema de registros \emph{phantom}.
 
-El protocolo de árbol garantiza un orden serial en las transacciones.
-El orden de precedencia se define así: si $T_{i}$ y $T_{j}$ adquieren
-un \emph{lock }sobre $X$ y $T_{i}$ adquiere el \emph{lock }primero,
-entonces $T_{i}\to T_{j}$.
+Utilizar la técnica de \textbf{\emph{index locking}} soluciona el problema de registros \emph{phantom}.
+
+El protocolo de árbol garantiza un orden serial en las transacciones. El orden de precedencia se define así: si $T_{i}$ y $T_{j}$ adquieren un \emph{lock} sobre $X$ y $T_{i}$ adquiere el \emph{lock} primero, entonces $T_{i} \to T_{j}$.
 
 \begin{algorithm}[H]
-\begin{enumerate}
-\item El primer lock de una transacción puede hacerse sobre cualquier nodo
-del árbol.
-\item Los locks subsiguientes pueden otorgarse sólo si se posee un lock
-sobre el nodo padre.
-\item Se puede ejecutar \emph{unlock} de un nodo en cualquier momento.
-\item No se puede adquirir \emph{lock} de un nodo 2 veces, incluso cuando
-se tiene un \emph{lock }sobre el nodo padre.
+	\begin{enumerate}
+		\item El primer lock de una transacción puede hacerse sobre cualquier nodo del árbol.
+		\item Los locks subsiguientes pueden otorgarse sólo si se posee un lock sobre el nodo padre.
+		\item Se puede ejecutar \emph{unlock} de un nodo en cualquier momento.
+		\item No se puede adquirir \emph{lock} de un nodo 2 veces, incluso cuando se tiene un \emph{lock }sobre el nodo padre.
 \end{enumerate}
-\protect\caption{Protocolo de árbol}
-
-
+	\caption{Protocolo de árbol}
 \end{algorithm}
 
-
-\pagebreak{}
-
-
+\newpage
 \part{Técnicas de Recuperación}
-
-
 \section{Necesidad de Recuperación}
-
 Tipos de fallas que pueden ocurrir:
 \begin{enumerate}
-\item Fallas de la computadora: por ejemplo, una desconexión en la red
-\item Fallas de transacciones: por ejemplo, una transacción que intenta
-dividir por cero
-\item Errores locales: por ejemplo, una transacción que no encuentra datos
-\item Aplicación de procedimientos de control de concurrencia: por ejemplo,
-una transacción abortada porque viola la serializabilidad o para resolver
-un estado de \emph{deadlock}
-\item Fallas del disco
-\item Catástrofes
+	\item Fallas de la computadora: por ejemplo, una desconexión en la red
+	\item Fallas de transacciones: por ejemplo, una transacción que intenta dividir por cero
+	\item Errores locales: por ejemplo, una transacción que no encuentra datos
+	\item Aplicación de procedimientos de control de concurrencia: por ejemplo, una transacción abortada porque viola la serializabilidad o para resolver un estado de \emph{deadlock}
+	\item Fallas del disco
+	\item Catástrofes
 \end{enumerate}
+
 Los algoritmos de recuperación tienen dos partes:
 \begin{enumerate}
-\item Acciones que se toman durante el procesamiento normal de transacciones,
-para asegurar que, en caso de falla, se dispone de suficiente información
-para recuperar
-\item Acciones que se toman después de una falla para devolver la base de
-datos a un estado consistente.
+	\item Acciones que se toman durante el procesamiento normal de transacciones, para asegurar que, en caso de falla, se dispone de suficiente información para recuperar
+	\item Acciones que se toman después de una falla para devolver la base de datos a un estado consistente.
 \end{enumerate}
-Idealmente, la base de datos en disco debería contener, para cada
-ítem de dato, el último valor escrito por una transacción que ejecutó
-\emph{commit}.
+
+Idealmente, la base de datos en disco debería contener, para cada ítem de dato, el último valor escrito por una transacción que ejecutó \emph{commit}.
 
 En la práctica, la base de datos podría:
 \begin{itemize}
-\item Contener valores escritos por transacciones no commiteadas
-\item No contener valores escritos por transacciones commiteadas
+	\item Contener valores escritos por transacciones no commiteadas
+	\item No contener valores escritos por transacciones commiteadas
 \end{itemize}
 
 \section{Archivo de Log}
-
-La base de datos se almacena en disco. Éste está formado por bloques.
-Como todos los bloques no caben en memoria principal, se necesita
-una forma de trabajar con la base de datos en memoria. Por ende, se
-necesita una forma de organizar los bloques en memoria y luego copiarlos
-en el disco (\emph{flush}).
+La base de datos se almacena en disco. Éste está formado por bloques. Como todos los bloques no caben en memoria principal, se necesita una forma de trabajar con la base de datos en memoria. Por ende, se necesita una forma de organizar los bloques en memoria y luego copiarlos en el disco (\emph{flush}).
 
 \begin{figure}[H]
-\noindent \begin{centering}
-\includegraphics{input_output}
-\par\end{centering}
-
-\protect\caption{Operaciones sobre bloques}
-
-
+	\centering
+	\includegraphics{input_output}
+	\caption{Operaciones sobre bloques}
 \end{figure}
 
+Para alcanzar el objetivo de transacciones atómicas, primero se debe guardar en disco información sobre las modificaciones, sin modificar la base de datos en sí. Para eso se utiliza un archivo de \emph{log}. Este archivo permite: 
+\begin{itemize}
+	\item Deshacer (\emph{undo}) cambios hechos por transacciones que deben ser abortadas
+	\item Rehacer (\emph{redo}) cambios hechos por transacciones que ejecutaron
+	\emph{commit} pero cuyos cambios no fueron almacenados en la base de datos en disco.
+\end{itemize}
 
-Para alcanzar el objetivo de transacciones atómicas, primero se debe
-guardar en disco información sobre las modificaciones, sin modificar
-la base de datos en sí. Para eso se utiliza un archivo de \emph{log}.
-Este archivo permite: 
-\begin{itemize}
-\item Deshacer (\emph{undo}) cambios hechos por transacciones que deben
-ser abortadas
-\item Rehacer (\emph{redo}) cambios hechos por transacciones que ejecutaron
-\emph{commit} pero cuyos cambios no fueron almacenados en la base
-de datos en disco.\end{itemize}
 \begin{description}
-\item [{Log}] archivo secuencial al que solo se le pueden agregar registros.
+	\item[Log] archivo secuencial al que solo se le pueden agregar registros.
 \end{description}
-Decimos que una transacción ejecutó \textbf{commit} cuando su registro
-\texttt{{[}commit,T{]} }fue almacenado en disco. Si hay una falla
-luego de esto, se ejecuta un \textbf{redo}. Si hay una falla antes
-de esto, se hace \textbf{\emph{undo.}}
+
+Decimos que una transacción ejecutó \textbf{commit} cuando su registro \texttt{[commit,T]} fue almacenado en disco. Si hay una falla luego de esto, se ejecuta un \textbf{redo}. Si hay una falla antes de esto, se hace \textbf{\emph{undo}}.
 \begin{itemize}
-\item \textbf{Redo} debe hacerse en el orden en el que los cambios fueron
-hechos originalmente.
-\item \textbf{Undo }escribe registros especiales llamados ``redo-only'',
-que no tienen el valor viejo del item de dato. Al finalizar las escrituras,
-se escribe un registro \texttt{<abort,T> }para indicar que el \emph{undo
-}finalizó.
+	\item \textbf{Redo} debe hacerse en el orden en el que los cambios fueron hechos originalmente.
+	\item \textbf{Undo} escribe registros especiales llamados ``redo-only'', que no tienen el valor viejo del item de dato. Al finalizar las escrituras, se escribe un registro \texttt{<abort,T>} para indicar que el \emph{undo} finalizó.
 \end{itemize}
 
 \subsection{Checkpoints}
-
-Cuando se produce una caída del sistema, hay que consultar el \emph{log}
-para determinar aquellas transacciones que deben rehacerse o deshacerse.
-En principio, habría que buscar en todo el \emph{log} para determinar
-esta información. Hay dos grandes dificultades con este enfoque: 
+Cuando se produce una caída del sistema, hay que consultar el \emph{log} para determinar aquellas transacciones que deben rehacerse o deshacerse. En principio, habría que buscar en todo el \emph{log} para determinar esta información. Hay dos grandes dificultades con este enfoque: 
 \begin{enumerate}
-\item El proceso de búsqueda lleva mucho tiempo. 
-\item La mayor parte de las transacciones ya han escrito sus actualizaciones
-en la base de datos. 
+	\item El proceso de búsqueda lleva mucho tiempo. 
+	\item La mayor parte de las transacciones ya han escrito sus actualizaciones en la base de datos. 
 \end{enumerate}
-Para reducir este tipo de gastos generales, se usan los \textbf{\emph{checkpoints}}.
-La periodicidad con que se ejecutan \emph{checkpoints} la decide el
-administrador de base de datos.
 
+Para reducir este tipo de gastos generales, se usan los \textbf{\emph{checkpoints}}. La periodicidad con que se ejecutan \emph{checkpoints} la decide el administrador de base de datos.
 
 \subsubsection{Checkpoints bloqueantes}
-
-Se describe a continuación un esquema de control simple que (a) no
-permite realizar ningún cambio mientras la operación está en curso,
-y (b) se escriben en disco todos los \emph{buffers} en memoria modificados. 
+Se describe a continuación un esquema de control simple que (a) no permite realizar ningún cambio mientras la operación está en curso, y (b) se escriben en disco todos los \emph{buffers} en memoria modificados. 
 
 \begin{algorithm}[H]
-\emph{1. Stop accepting new transactions.}
+	\emph{1. Stop accepting new transactions.}
 
-\emph{2. Wait until all currently active transactions commit or abort
-and have written a }\texttt{\emph{COMMIT}}\emph{ or }\texttt{\emph{ABORT}}\emph{
-record on the log. }
+	\emph{2. Wait until all currently active transactions commit or abort and have written a \texttt{COMMIT} or \texttt{ABORT} record on the log.}
 
-\emph{3. Flush the log to disk. }
+	\emph{3. Flush the log to disk.}
 
-\emph{4. Write a log record }\texttt{\emph{<CHECKPOINT>}}\emph{, and
-flush the log again. }
+	\emph{4. Write a log record \texttt{<CHECKPOINT>}, and flush the log again.}
 
-\emph{5. Resume accepting transactions.}
-
-\protect\caption{Checkpoint bloqueante en un log UNDO}
-
-
+	\emph{5. Resume accepting transactions.}
+	\caption{Checkpoint bloqueante en un log UNDO}
 \end{algorithm}
-
-
 
 \subsubsection{Checkpoints no bloqueantes}
-
 \begin{algorithm}[H]
-\emph{1. Write a log record }\texttt{\emph{<START CHECKPOINT (T1,
-... , Tk)>}}\emph{. Here, $T_{1},\ldots,T_{k}$ are the identifiers
-for all the active transactions (i.e., transactions that have not
-yet committed and written their changes to disk). }
+	\emph{1. Write a log record \texttt{<START CHECKPOINT (T1, ... , Tk)>}. Here, $T_{1},\ldots,T_{k}$ are the identifiers for all the active transactions (i.e., transactions that have not yet committed and written their changes to disk).}
 
-\emph{2. Flush the log.}
+	\emph{2. Flush the log.}
 
-\emph{3. Wait until all of $T_{1},\ldots,T_{k}$ commit or abort,
-but do not prohibit other transactions from starting. }
+	\emph{3. Wait until all of $T_{1},\ldots,T_{k}$ commit or abort, but do not prohibit other transactions from starting.}
 
-\emph{4. When all of $T_{1},\ldots,T_{k}$ have completed, write a
-log record }\texttt{\emph{<END CHECKPOINT>}}\emph{. }
+	\emph{4. When all of $T_{1}, \ldots, T_{k}$ have completed, write a log record \texttt{<END CHECKPOINT>}.}
 
-\emph{5. Flush the log.}
-
-\protect\caption{Checkpoint no bloqueante en un log UNDO}
+	\emph{5. Flush the log.}
+	\caption{Checkpoint no bloqueante en un log UNDO}
 \end{algorithm}
 
-
 \begin{algorithm}[H]
-\emph{1. Write a log record }\texttt{\emph{<START CHECKPOINT (T1,
-... , Tk)>}}\emph{. Here, $T_{1},\ldots,T_{k}$ are the identifiers
-for all the active transactions (i.e., transactions that have not
-yet committed). }
+	\emph{1. Write a log record \texttt{<START CHECKPOINT (T1, ... , Tk)>}. Here, $T_{1}, \ldots, T_{k}$ are the identifiers for all the active transactions (i.e., transactions that have not yet committed).}
 
-\emph{2. Flush the log.}
+	\emph{2. Flush the log.}
 
-\emph{3. Write to disk all database elements that were written to
-buffers but not yet to disk by transactions that had already committed
-when the <START CHECKPOINT> record was written to the log.}
+	\emph{3. Write to disk all database elements that were written to buffers but not yet to disk by transactions that had already committed when the <START CHECKPOINT> record was written to the log.}
 
-\emph{4. Write a log record }\texttt{\emph{<END CHECKPOINT>}}\emph{. }
+	\emph{4. Write a log record \texttt{<END CHECKPOINT>}.}
 
-\emph{5. Flush the log.}
-
-\protect\caption{Checkpoint no bloqueante en un log REDO}
+	\emph{5. Flush the log.}
+	\caption{Checkpoint no bloqueante en un log REDO}
 \end{algorithm}
 
-
 \begin{algorithm}[H]
-\emph{1. Write a log record }\texttt{\emph{<START CHECKPOINT (T1,
-... , Tk)>}}\emph{. Here, $T_{1},\ldots,T_{k}$ are the identifiers
-for all the active transactions (i.e., transactions that have not
-yet committed). }
+	\emph{1. Write a log record \texttt{<START CHECKPOINT (T1, ... , Tk)>}. Here, $T_{1}, \ldots, T_{k}$ are the identifiers for all the active transactions (i.e., transactions that have not yet committed).}
 
-\emph{2. Flush the log.}
+	\emph{2. Flush the log.}
 
-\emph{3. Write to disk }\textbf{\emph{all}}\emph{ buffers that are
-dirty (not just those written by committed transactions)}
+	\emph{3. Write to disk \textbf{all} buffers that are dirty (not just those written by committed transactions).}
 
-\emph{4. Write a log record }\texttt{\emph{<END CHECKPOINT>}}\emph{. }
+	\emph{4. Write a log record \texttt{<END CHECKPOINT>}.}
 
-\emph{5. Flush the log.}
-
-\protect\caption{Checkpoint no bloqueante en un log UNDO/REDO}
+	\emph{5. Flush the log.}
+	\caption{Checkpoint no bloqueante en un log UNDO/REDO}
 \end{algorithm}
-
-
 
 \section{Protocolos de Recuperación}
 \begin{itemize}
-\item Para fallas de tipo 5 y 6, se necesita haber grabado con anterioridad
-un \emph{backup} de la base de datos y reconstruir la misma con el
-archivo de log hasta el momento de la falla.
-\item Para fallas de tipo 1 a 4, existen dos técnicas de recuperación:
+	\item Para fallas de tipo 5 y 6, se necesita haber grabado con anterioridad un \emph{backup} de la base de datos y reconstruir la misma con el archivo de log hasta el momento de la falla.
+	\item Para fallas de tipo 1 a 4, existen dos técnicas de recuperación:
+		\begin{itemize}
+			\item \textbf{\emph{Deferred update}}
 
-\begin{itemize}
-\item \textbf{\emph{Deferred update}}
+			Las transacciones y el manejador de buffers obedecen 1 regla:
+			\begin{itemize}
+				\item \textbf{Write-Ahead Logging (WAL)}: se deben grabar en disco todos los registros de log sobre las actualización (incluyendo \texttt{<UPDATE T,X,Nuevo\_valor>} y \texttt{<COMMIT T>}), y luego actualizar $X$ en disco.
+			\end{itemize}
 
+			Tipos de registros:
+			\begin{itemize}
+				\item \texttt{<START T>}
+				\item \texttt{<COMMIT T>}
+				\item \texttt{<ABORT T>}
+				\item \texttt{<UPDATE T,X,Valor\_Nuevo>}
+			\end{itemize}
 
-Las transacciones y el manejador de buffers obedecen 1 regla:
-\begin{itemize}
-\item \textbf{Write-Ahead Logging (WAL)}:\textbf{ }se deben grabar en disco
-todos los registros de log sobre las actualización (incluyendo \texttt{<UPDATE
-T,X,Nuevo\_valor>} y \texttt{<COMMIT T>}), y luego actualizar $X$
-en disco.
-\end{itemize}
-
-Tipos de registros:
-\begin{itemize}
-\item \texttt{<START T>}
-\item \texttt{<COMMIT T>}
-\item \texttt{<ABORT T>}
-\item \texttt{<UPDATE T,X,Valor\_Nuevo>}
-\end{itemize}
-
-\begin{algorithm}[H]
-\begin{lstlisting}
+			\begin{algorithm}[H]
+				\begin{lstlisting}
 transacciones_commiteadas = identificarlas
 transacciones_incompletas = identificarlas
 
@@ -3677,16 +3406,12 @@ para cada T en ``transacciones_incompletas'':
 	escribir <ABORT T>
 
 flush_log()
-\end{lstlisting}
+				\end{lstlisting}
+				\caption{Procedimiento de recuperación \textbf{REDO }sin checkpoints}
+			\end{algorithm}
 
-
-\protect\caption{Procedimiento de recuperación \textbf{REDO }sin checkpoints}
-\end{algorithm}
-
-
-
-\begin{algorithm}[H]
-\begin{lstlisting}
+			\begin{algorithm}[H]
+				\begin{lstlisting}
 transacciones_commiteadas = identificarlas
 transacciones_incompletas = identificarlas
 
@@ -3709,49 +3434,35 @@ para cada T en transacciones_incompletas:
 	escribir <ABORT T>
 
 flush_log()
-\end{lstlisting}
+				\end{lstlisting}
+				\caption{Procedimiento de recuperación \textbf{REDO }con checkpoints no bloqueantes}
+			\end{algorithm}
 
+			El algoritmo anterior puede ser más eficiente si se ejecuta, para cada item de dato, sólo el último REDO existente (porque todos los anteriores serían sobrescritos por éste).
 
-\protect\caption{Procedimiento de recuperación \textbf{REDO }con checkpoints no bloqueantes}
-\end{algorithm}
+			Este mecanismo garantiza:
+			\begin{itemize}
+				\item Que no se deban hacer \emph{rollbacks} de transacciones (porque las mismas sólo escriben en la base de datos luego de ejecutar commit)
+				\item Que no se deban hacer \emph{rollbacks} en cascada (porque los ítems tienen locks que no permiten leerlos antes de que una transacción que los escribió no ejecute commit)
+			\end{itemize}
 
+			\item \textbf{\emph{Immediate update}}: a su vez tiene dos variantes:
+			\begin{enumerate}
+				\item \textbf{UNDO/REDO}: Las transacciones y el manejador de buffer obedecen 1 regla:
+				\begin{itemize}
+					\item Si la transacción $T$ modifica el ítem de dato $X$, el registro de log \texttt{<UPDATE T,X,Valor\_Viejo,Valor\_Nuevo>} debe ser escrito al disco \textbf{antes} que el ítem $X$ sea escrito al disco.
+				\end{itemize}
 
-
-El algoritmo anterior puede ser más eficiente si se ejecuta, para
-cada item de dato, sólo el último REDO existente (porque todos los
-anteriores serían sobrescritos por éste).
-
-
-Este mecanismo garantiza:
-\begin{itemize}
-\item Que no se deban hacer \emph{rollbacks} de transacciones (porque las
-mismas sólo escriben en la base de datos luego de ejecutar commit)
-\item Que no se deban hacer \emph{rollbacks} en cascada (porque los ítems
-tienen locks que no permiten leerlos antes de que una transacción
-que los escribió no ejecute commit)
-\end{itemize}
-\item \textbf{\emph{Immediate update}}: a su vez tiene dos variantes:
-
-\begin{enumerate}
-\item \textbf{UNDO/REDO}: Las transacciones y el manejador de buffer obedecen
-1 regla:
-
-\begin{itemize}
-\item Si la transacción $T$ modifica el ítem de dato $X$, el registro
-de log \texttt{<UPDATE T,X,Valor\_Viejo,Valor\_Nuevo>} debe ser escrito
-al disco \textbf{antes} que el ítem $X$ sea escrito al disco.
-\end{itemize}
-
-Tipos de registros:
-\begin{itemize}
-\item \texttt{<START T>}
-\item \texttt{<COMMIT T>}
-\item \texttt{<ABORT T>}
-\item \texttt{<UPDATE T,X,Valor\_Viejo,Valor\_Nuevo>}
-\end{itemize}
-
-\begin{algorithm}[H]
-\begin{lstlisting}
+				Tipos de registros:
+				\begin{itemize}
+					\item \texttt{<START T>}
+					\item \texttt{<COMMIT T>}
+					\item \texttt{<ABORT T>}
+					\item \texttt{<UPDATE T,X,Valor\_Viejo,Valor\_Nuevo>}
+				\end{itemize}
+				
+				\begin{algorithm}[H]
+					\begin{lstlisting}
 mantener dos listas de transacciones:
 1) transacciones commiteadas desde el ultimo checkpoint
 2) transacciones activas
@@ -3761,36 +3472,26 @@ en el orden en que fueron escritos en el log
 
 ejecutar UNDO de todos los ESCRIBIR de las transacciones de la segunda lista, 
 en el orden inverso en que fueron escritos en el log
-\end{lstlisting}
+					\end{lstlisting}
+					\caption{Procedimiento de recuperación \textbf{UNDO/REDO}}
+				\end{algorithm}
 
+			\item \textbf{UNDO}: Las transacciones y el manejador de buffer obedecen 2 reglas:
+			\begin{enumerate}
+				\item Si la transacción $T$ modifica el ítem de dato $X$, el registro de log \texttt{<UPDATE T,X,Valor\_Viejo>} debe ser escrito al disco \textbf{antes} que el ítem $X$ sea escrito al disco.
+				\item \textbf{\emph{Force Log at Commi}}\textbf{t (FLC}): si la transacción ejecuta commit, los ítems de datos actualizados por la transacción se deben escribir en el disco, y luego el registro de log \texttt{<COMMIT T>} debe ser escrito al disco.
+			\end{enumerate}
 
-\protect\caption{Procedimiento de recuperación \textbf{UNDO/REDO}}
-\end{algorithm}
+			Tipos de registros:
+			\begin{itemize}
+				\item \texttt{<START T>}
+				\item \texttt{<COMMIT T>}
+				\item \texttt{<ABORT T>}
+				\item \texttt{<UPDATE T,X,Valor\_Viejo>}
+			\end{itemize}
 
-
-\item \textbf{UNDO}: Las transacciones y el manejador de buffer obedecen
-2 reglas:
-
-\begin{enumerate}
-\item Si la transacción $T$ modifica el ítem de dato $X$, el registro
-de log \texttt{<UPDATE T,X,Valor\_Viejo>} debe ser escrito al disco
-\textbf{antes} que el ítem $X$ sea escrito al disco.
-\item \textbf{\emph{Force Log at Commi}}\textbf{t (FLC}): si la transacción
-ejecuta commit, los ítems de datos actualizados por la transacción
-se deben escribir en el disco, y luego el registro de log \texttt{<COMMIT
-T>} debe ser escrito al disco.
-\end{enumerate}
-
-Tipos de registros:
-\begin{itemize}
-\item \texttt{<START T>}
-\item \texttt{<COMMIT T>}
-\item \texttt{<ABORT T>}
-\item \texttt{<UPDATE T,X,Valor\_Viejo>}
-\end{itemize}
-
-\begin{algorithm}[H]
-\begin{lstlisting}
+			\begin{algorithm}[H]
+				\begin{lstlisting}
 transacciones_completas = {}
 transacciones_incompletas = {}
 
@@ -3808,16 +3509,12 @@ para cada T en "transacciones_incompletas":
 	escribir <ABORT T>
 
 flush_log()
-\end{lstlisting}
+				\end{lstlisting}
+				\caption{Procedimiento de recuperación \textbf{UNDO }con checkpoint bloqueante}
+			\end{algorithm}
 
-
-\protect\caption{Procedimiento de recuperación \textbf{UNDO }con checkpoint bloqueante}
-\end{algorithm}
-
-
-
-\begin{algorithm}[H]
-\begin{lstlisting}
+			\begin{algorithm}[H]
+				\begin{lstlisting}
 transacciones_completas = {}
 transacciones_incompletas = {}
 
@@ -3840,57 +3537,48 @@ para cada T en "transacciones_incompletas":
 	escribir <ABORT T>
 
 flush_log()
-\end{lstlisting}
-
-
-\protect\caption{Procedimiento de recuperación \textbf{UNDO }con checkpoint no bloqueante}
-\end{algorithm}
-
-
-\end{enumerate}
+				\end{lstlisting}
+				\caption{Procedimiento de recuperación \textbf{UNDO }con checkpoint no bloqueante}
+			\end{algorithm}
+		\end{enumerate}
+	\end{itemize}
 \end{itemize}
-\end{itemize}
-Es necesario que las operaciones de UNDO y REDO sean \textbf{idempotentes}:
-ejecutarlas muchas veces debe ser igual a ejecutarlas muchas veces.
-De hecho, todo el proceso de recuperación debe ser idempotente para
-garantizar que si existe una falla durante la recuperación de una
-falla, la misma se pueda recuperar también.
+
+Es necesario que las operaciones de UNDO y REDO sean \textbf{idempotentes}: ejecutarlas muchas veces debe ser igual a ejecutarlas muchas veces. De hecho, todo el proceso de recuperación debe ser idempotente para garantizar que si existe una falla durante la recuperación de una falla, la misma se pueda recuperar también.
 
 Es necesario que el DBMS mantenga:
 \begin{itemize}
-\item Lista de transacciones activas
-\item Lista de transacciones que ejecutaron commit
-\item Lista de transacciones abortadas desde el último checkpoint
+	\item Lista de transacciones activas
+	\item Lista de transacciones que ejecutaron commit
+	\item Lista de transacciones abortadas desde el último checkpoint
 \end{itemize}
+
 \begin{figure}[H]
-\subfloat[Log UNDO]{\includegraphics[scale=0.5]{undo_logging}
+	\subfloat[Log UNDO]{
+		\includegraphics[scale=0.5]{undo_logging}
+	}
+	\subfloat[Log REDO]{
+		\includegraphics[scale=0.5]{redo_logging}
+	}
 
-
-
-}\subfloat[Log REDO]{\includegraphics[scale=0.5]{redo_logging}
-
-}
-
-\subfloat[Log UNDO/REDO]{\includegraphics[scale=0.5]{undo_redo_logging}
-
-}\protect\caption{Ejemplos de logs}
-
-
+	\subfloat[Log UNDO/REDO]{
+		\includegraphics[scale=0.5]{undo_redo_logging}
+	}
+	\caption{Ejemplos de logs}
 \end{figure}
 
-
-\noindent \begin{center}
-\begin{tabular}{|c|c|c|}
-\hline 
-\texttt{\textbf{UNDO}} & \texttt{\textbf{REDO}} & \texttt{\textbf{UNDO/REDO}}\\
-\hline 
-\hline 
-$Logs\, X\implies Bd\, X\implies Commit\, al\, log$ & $Logs\, X\,\&\, Commit\, al\, log\implies Bd\, X$ & $Log\, X\implies Bd\, X$\\
-\hline 
-\emph{Immediate update} & \emph{Deferred update} & \emph{Immediate update}\\
-\hline 
-\end{tabular}
-\par\end{center}
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+		\hline 
+		\texttt{\textbf{UNDO}} & \texttt{\textbf{REDO}} & \texttt{\textbf{UNDO/REDO}}\\
+		\hline 
+		\hline 
+		$Logs\, X\implies Bd\, X\implies Commit\, al\, log$ & $Logs\, X\,\&\, Commit\, al\, log\implies Bd\, X$ & $Log\, X\implies Bd\, X$\\
+		\hline 
+		\emph{Immediate update} & \emph{Deferred update} & \emph{Immediate update}\\
+		\hline 
+	\end{tabular}
+\end{center}
 
 % Bibliografía utilizada en el apunte
 %\newpage
