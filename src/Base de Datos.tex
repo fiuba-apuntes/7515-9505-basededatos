@@ -13,6 +13,7 @@
 \usepackage{amsmath} % Comandos para la escritura de fórmulas matemáticas de mayor complejidad
 \usepackage{amsfonts} % Proporciona fuentes matemáticas
 \usepackage{amssymb} % Proporciona símbolos matemáticos de la American Mathematical Society
+\usepackage{subcaption}
 \usepackage{color}
 \usepackage{array}
 \usepackage{textcomp}
@@ -75,21 +76,12 @@
 \floatname{algorithm}{\protect\algorithmname}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
-\usepackage{titlesec}
 
 \def\ojoin{\setbox0=\hbox{$\bowtie$}%
   \rule[-.02ex]{.25em}{.4pt}\llap{\rule[\ht0]{.25em}{.4pt}}}
 \def\leftouterjoin{\mathbin{\ojoin\mkern-5.8mu\bowtie}}
 \def\rightouterjoin{\mathbin{\bowtie\mkern-5.8mu\ojoin}}
 \def\fullouterjoin{\mathbin{\ojoin\mkern-5.8mu\bowtie\mkern-5.8mu\ojoin}}
-
-\makeatletter
-
-\@ifundefined{showcaptionsetup}{}{%
- \PassOptionsToPackage{caption=false}{subfig}}
-\usepackage{subfig}
-\makeatother
-
 
 \lstset{
 	language=SQL,
@@ -124,9 +116,8 @@ Un fenómeno o idea usualmente refiere a un objeto y a algún aspecto del objeto
 \end{description}
 
 \begin{figure}[H]
-	\noindent
 	\centering
-	\includegraphics[scale=0.6]{datos_info_con}
+	\includegraphics[width=0.6\textwidth]{datos_info_con}
 	\caption{Datos, información y conocimiento}
 \end{figure}
 
@@ -194,10 +185,16 @@ La pieza más elemental de información es el \textbf{dato}. Un dato solo es de 
 \end{description}
 
 \begin{figure}[H]
-	\subfloat[Los datos se almacenan en una base de datos, que es administrada por un sistema de gestión de bases de datos]
-	{\includegraphics[width=0.5\textwidth]{bd_sgbd}}
-	\subfloat[Estructura general de un sistema de base de datos]
-	{\includegraphics[width=0.5\textwidth]{estructura_bd}}
+	\centering
+	\begin{subfigure}{0.45\textwidth}
+		\includegraphics[width=\textwidth]{bd_sgbd}
+		\caption{Los datos se almacenan en una base de datos, que es administrada por un sistema de gestión de bases de datos}
+	\end{subfigure}
+	\begin{subfigure}{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.7\textwidth]{estructura_bd}
+		\caption{Estructura general de un sistema de base de datos}
+	\end{subfigure}	
 	\caption{SGBD}
 \end{figure}
 
@@ -215,7 +212,7 @@ La pieza más elemental de información es el \textbf{dato}. Un dato solo es de 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.65]{esquema_bd}
+	\includegraphics[width=0.65\textwidth]{esquema_bd}
 	\caption{Base de datos}
 \end{figure}
 
@@ -233,7 +230,7 @@ Desventajas de usar un sistema de archivo:
 \subsection{Diseño de una base de datos}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.55]{diseno_bd}
+	\includegraphics[width=0.7\textwidth]{diseno_bd}
 	\caption{Metodología de diseño de una base de datos}
 \end{figure}
 
@@ -335,7 +332,7 @@ El modelo entidad-interrelación se basa en la idea de que el mundo real está c
 \begin{description}
 	\item[Interrelación] asociación entre dos o más conjuntos de entidades.
 
-	\item[Conjunto de interrelaciones / tipo de interrelación] conjunto de interrelaciones del mismo tipo. Si $E_{1},E_{2},\ldots,E_{n}$ son conjuntos de entidades, entonces el conjunto de interrelaciones $R$ es un subconjunto del producto cartesiano
+	\item[Conjunto de interrelaciones / tipo de interrelación] conjunto de interrelaciones del mismo tipo. Si $E_{1}, E_{2}, \ldots, E_{n}$ son conjuntos de entidades, entonces el conjunto de interrelaciones $R$ es un subconjunto del producto cartesiano
 	\[
 		\left\{ \left(e_{1},e_{2},\ldots,e_{n}\right)/e_{1}\in E_{1},e_{2}\in E_{2},\ldots,e_{n}\in E_{n}\right\} 
 	\]
@@ -343,7 +340,7 @@ El modelo entidad-interrelación se basa en la idea de que el mundo real está c
 	donde la tupla $\left(e_{1},e_{2},\ldots,e_{n}\right)$ es una interrelación.
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.5]{er_model}
+		\includegraphics[width=0.5\textwidth]{er_model}
 		\caption{``Tenencia'' es una interrelación entre dos entidades}
 	\end{figure}
 
@@ -354,7 +351,7 @@ El modelo entidad-interrelación se basa en la idea de que el mundo real está c
 		\item[Grado de una interrelación] cantidad de tipos de entidades que participan en la relación.
 		\begin{figure}[H]
 			\centering
-			\includegraphics[scale=0.6]{grados_interrelacion}
+			\includegraphics[width=0.65\textwidth]{grados_interrelacion}
 			\caption{Grado de una interrelación}
 		\end{figure}
 
@@ -375,7 +372,7 @@ La estructura de la clave primaria de una interrelación $R$ depende de las rest
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.24]{interrelacion}
+	\includegraphics[width=0.55\textwidth]{interrelacion}
 \end{figure}
 
 \subsubsection{Tipos de interrelaciones}
@@ -447,7 +444,7 @@ Para una interrelación \emph{ternaria} $R$ entre tres tipos de entidades $A,B$ 
 	\item N:N:N
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.5]{ternaria_nnn}
+		\includegraphics[width=0.5\textwidth]{ternaria_nnn}
 		\caption{Las fábricas le compran insumos a proveedores.}
 	\end{figure}
 
@@ -456,7 +453,7 @@ Para una interrelación \emph{ternaria} $R$ entre tres tipos de entidades $A,B$ 
 	\item N:N:1
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.5]{ternaria_nn1}
+		\includegraphics[width=0.5\textwidth]{ternaria_nn1}
 		\caption{Las fábricas le compran insumos a proveedores. Una fábrica no puede comprar el mismo insumo a más de un proveedor.}
 	\end{figure}
 
@@ -465,7 +462,7 @@ Para una interrelación \emph{ternaria} $R$ entre tres tipos de entidades $A,B$ 
 	\item N:1:1
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.5]{ternaria_n11}
+		\includegraphics[width=0.5\textwidth]{ternaria_n11}
 		\caption{Las fábricas le compran insumos a proveedores. Una fábrica no puede comprar el mismo insumo a más de un proveedor. Un proveedor no puede venderle el mismo insumo a más de una fabrica.}
 	\end{figure}
 
@@ -474,7 +471,7 @@ Para una interrelación \emph{ternaria} $R$ entre tres tipos de entidades $A,B$ 
 	\item 1:1:1
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.7]{ternaria_111}
+		\includegraphics[width=0.5\textwidth]{ternaria_111}
 		\caption{Las fábricas le compran insumos a proveedores. Una fábrica no puede comprar el mismo insumo a más de un proveedor. Un proveedor no puede venderle el mismo insumo a más de una fabrica. Una fábrica no puede comprarle más de un insumo a cada proveedor.}
 	\end{figure}
 
@@ -518,13 +515,13 @@ Si la existencia de la entidad $S$ depende de la existencia de la entidad $D$, e
 \subsection{Diagramas E-R}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{simbologia_er}
+	\includegraphics[width=0.7\textwidth]{simbologia_er}
 	\caption{Simbología en los diagramas E-R}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{simbologia_er_2}
+	\includegraphics[width=0.6\textwidth]{simbologia_er_2}
 	\caption{Simbología en los diagramas E-R para entidades fuertes (\emph{cuenta}) y débiles (\emph{transacción}). La clave primaria de la entidad fuerte se identifica con el atributo subrayado (\emph{nro. cuenta}). La dependencia a la entidad fuerte se identifica con arcos dobles. El discriminador de la entidad débil se identifica con el atributo subrayado a medias (\emph{nro. transacción}). El identificador de la entidad débil es la suma de su discriminador y de la clave primaria de la entidad fuerte (\emph{nro. cuenta + nro. transacción})}
 \end{figure}
 
@@ -604,7 +601,7 @@ El modelo relacional es un ejemplo de modelo basado en registros. Usa un grupo d
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{tablas}
+	\includegraphics[width=0.85\textwidth]{tablas}
 	\caption{Tablas}
 \end{figure}
 
@@ -733,7 +730,7 @@ el predicado $P$.
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.7]{join_natural}
+		\includegraphics[width=0.8\textwidth]{join_natural}
 		\caption{Junta natural}
 	\end{figure}
 
@@ -746,7 +743,7 @@ el predicado $P$.
 
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.7]{division}
+		\includegraphics[width=0.7\textwidth]{division}
 		\caption{División}
 	\end{figure}
 
@@ -814,7 +811,7 @@ avg
 		\item \emph{Full outer join} (\textbf{$r_{1}$ $\fullouterjoin\, r_{2}$}): combina las dos operaciones anteriores.
 		\begin{figure}[H]
 			\centering
-			\includegraphics[scale=0.5]{fullouterjoin}
+			\includegraphics[width=0.8\textwidth]{fullouterjoin}
 			\caption{Ejemplo de \emph{full outer join}}
 		\end{figure}
 	\end{enumerate}
@@ -1676,7 +1673,7 @@ Sean los conjuntos de atributos \emph{disjuntos} $A$ y $B$ de la relación $R(A,
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.8]{multivalued_dependency}
+	\includegraphics[width=0.45\textwidth]{multivalued_dependency}
 	\caption{Dependencia multivaluada $\alpha \twoheadrightarrow \beta$}
 \end{figure}
 
@@ -2049,12 +2046,12 @@ Utilizar el algoritmo Chase Tableau.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{chase_tableau_dmv_1}
+	\includegraphics[width=0.7\textwidth]{chase_tableau_dmv_1}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{chase_tableau_dmv_2}
+	\includegraphics[width=0.7\textwidth]{chase_tableau_dmv_2}
 \end{figure}
 
 \newpage
@@ -2357,7 +2354,7 @@ SET atributo = CASE
 \part{Procesamiento de Consultas}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{proc_consultas}
+	\includegraphics[width=0.65\textwidth]{proc_consultas}
 	\caption{Pasos en el procesamiento de consultas}
 \end{figure}
 
@@ -2382,7 +2379,7 @@ Metadatos que se almacenan para cada base de datos:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{info_db}
+	\includegraphics[width=0.7\textwidth]{info_db}
 	\caption{Estadísticas que se almacenan de la base de datos}
 \end{figure}
 
@@ -2432,12 +2429,15 @@ Tipos de índices:
 \end{center}
 
 \begin{figure}[H]
-	\subfloat[Índice denso]{
-		\includegraphics[scale=0.4]{dense_index}
-	}
-	\subfloat[Índice esparcido]{
-		\includegraphics[scale=0.4]{sparse_index}
-	}
+	\centering
+	\begin{subfigure}{0.48\textwidth}
+		\includegraphics[width=\textwidth]{dense_index}
+		\caption{Índice denso}
+	\end{subfigure}
+	\begin{subfigure}{0.48\textwidth}
+		\includegraphics[width=\textwidth]{sparse_index}
+		\caption{Índice esparcido}
+	\end{subfigure}	
 	\caption{Índices densos y esparcidos}
 \end{figure}
 
@@ -2868,8 +2868,8 @@ WHERE Enero.temp = Julio.temp
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{transaction_manager}
-	\includegraphics[scale=0.8]{scheduler}
+	\includegraphics[width=0.45\textwidth]{transaction_manager}
+	\includegraphics[width=0.45\textwidth]{scheduler}
 	\caption{El manejador de transacciones (a) le emite órdenes al manejador del log, (b) se asegura que transacciones concurrentes no interfieran entre ellas. El scheduler permite o bloquea transacciones}
 \end{figure}
 
@@ -2919,7 +2919,7 @@ Estados posibles de una transacción:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.8]{state_diagram_transaction}
+	\includegraphics[width=0.8\textwidth]{state_diagram_transaction}
 	\caption{Diagrama de estados de una transacción}
 \end{figure}
 
@@ -2940,21 +2940,19 @@ El protocolo \textbf{WAL (\emph{Write-Ahead Logging})} indica que antes de commi
 \end{enumerate}
 
 \begin{figure}[H]
-	\begin{centering}
-		\subfloat[Lost Update]{
-			\includegraphics[scale=0.4]{problem_lost_update}
-		}
-	\end{centering}
-	\begin{centering}
-		\subfloat[Dirty Read]{
-			\includegraphics[scale=0.4]{problem_dirty_read}
-		}
-	\end{centering}
-	\begin{centering}
-		\subfloat[Incorrect Summary]{
-			\includegraphics[scale=0.4]{problem_incorrect_summary}
-		}
-	\end{centering}
+	\centering
+	\begin{subfigure}{0.48\textwidth}
+		\includegraphics[width=\textwidth]{problem_lost_update}
+		\caption{Lost Update}
+	\end{subfigure}
+	\begin{subfigure}{0.48\textwidth}
+		\includegraphics[width=\textwidth]{problem_dirty_read}
+		\caption{Dirty Read}
+	\end{subfigure}
+	\begin{subfigure}{0.48\textwidth}
+		\includegraphics[width=\textwidth]{problem_incorrect_summary}
+		\caption{Incorrect Summary}
+	\end{subfigure}	
 	\caption{Probemas de concurrencia}
 \end{figure}
 
@@ -2988,13 +2986,17 @@ El protocolo \textbf{WAL (\emph{Write-Ahead Logging})} indica que antes de commi
 \section{Schedules de Transacciones}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{schedules_equivalentes}
-	\caption{\emph{Schedules} equivalentes}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics{schedule_no_recuperable}
-	\caption{\emph{Schedule} no recuperable}
+	\begin{subfigure}{0.66\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{schedules_equivalentes}
+		\caption{\emph{Schedules} equivalentes}
+	\end{subfigure}
+	\begin{subfigure}{0.32\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{schedule_no_recuperable}
+		\caption{\emph{Schedule} no recuperable}
+	\end{subfigure}
+	\caption{Schedules de Transacciones}
 \end{figure}
 
 \begin{description}
@@ -3016,7 +3018,7 @@ El protocolo \textbf{WAL (\emph{Write-Ahead Logging})} indica que antes de commi
 
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.5]{relacion_schedules}
+		\includegraphics[width=0.6\textwidth]{relacion_schedules}
 		\caption{Relación de \emph{schedules}}
 	\end{figure}
 
@@ -3038,7 +3040,7 @@ Dos \emph{schedules} son \textbf{conflicto-equivalentes} si el orden de las oper
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{conflicto_serializable}
+	\includegraphics[width=0.55\textwidth]{conflicto_serializable}
 	\caption{Convirtiendo un schedule conflicto-serializable en uno serial mediante \emph{swaps} de acciones adyacentes. A cada paso están subrayadas las acciones a punto de ser \emph{swappeadas}}
 \end{figure}
 
@@ -3123,7 +3125,7 @@ Problemas con el uso de \emph{locks}:
 	\item El uso por sí solo de \emph{locks} no garantiza la serializabilidad de \emph{schedules}.
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.6]{lock_serializability}
+		\includegraphics[width=0.2\textwidth]{lock_serializability}
 		\caption{El uso de \emph{locks} no garantiza la serializabilidad. Si se produce una actualización a $A$ entre $unlock(A)$ y $lock(B)$, \textbf{$A+B$} sería incorrecto}
 	\end{figure}
 
@@ -3148,39 +3150,40 @@ Problemas con el uso de \emph{locks}:
 \end{description}
 
 \begin{table}[H]
-	\subfloat[Para locks compartidos y exclusivos]{
-		\begin{centering}
-			\begin{tabular}{|l|c|c|c|}
-				\cline{3-4} 
-				\multicolumn{1}{l}{} &  & \multicolumn{2}{c|}{Se solicita un lock de tipo....}\\
-				\cline{3-4} 
-				\multicolumn{1}{l}{} &  & Exclusivo & Compartido\\
-				\hline 
-				\multirow{2}{*}{Se otorgó un lock de tipo...} & Exclusivo & No & No\\
-				\cline{2-4} 
-				 & Compartido & No & Si\\
-				\hline 
-			\end{tabular}
-		\end{centering}
-	}
+	\centering
+	\begin{subtable}{0.9\textwidth}
+		\centering
+		\begin{tabular}{|l|c|c|c|}
+			\cline{3-4} 
+			\multicolumn{1}{l}{} &  & \multicolumn{2}{c|}{Se solicita un lock de tipo....}\\
+			\cline{3-4} 
+			\multicolumn{1}{l}{} &  & Exclusivo & Compartido\\
+			\hline 
+			\multirow{2}{*}{Se otorgó un lock de tipo...} & Exclusivo & No & No\\
+			\cline{2-4} 
+			 & Compartido & No & Si\\
+			\hline 
+		\end{tabular}
+		\caption{Para locks compartidos y exclusivos}
+	\end{subtable}
 
-	\subfloat[Para locks compartidos, exclusivos y de actualización]{
-		\begin{centering}
-			\begin{tabular}{|c|c|c|c|c|}
-				\cline{3-5} 
-				\multicolumn{1}{c}{} &  & \multicolumn{2}{c}{Se solicita un \emph{lock} de tipo....} & \\
-				\cline{3-5} 
-				\multicolumn{1}{c}{} &  & Exclusivo & Compartido & Actualización\\
-				\hline 
-				\multirow{3}{*}{Se otorgó un \emph{lock} de tipo...} & Exclusivo & No & No & No\\
-				\cline{2-5} 
-				 & Compartido & No & Si & Si\\
-				\cline{2-5} 
-				 & Actualización & No & No & No\\
-				\hline 
-			\end{tabular}
-		\end{centering}
-	}
+	\begin{subtable}{0.9\textwidth}
+		\centering
+		\begin{tabular}{|c|c|c|c|c|}
+			\cline{3-5} 
+			\multicolumn{1}{c}{} &  & \multicolumn{2}{c}{Se solicita un \emph{lock} de tipo....} & \\
+			\cline{3-5} 
+			\multicolumn{1}{c}{} &  & Exclusivo & Compartido & Actualización\\
+			\hline 
+			\multirow{3}{*}{Se otorgó un \emph{lock} de tipo...} & Exclusivo & No & No & No\\
+			\cline{2-5} 
+			 & Compartido & No & Si & Si\\
+			\cline{2-5} 
+			 & Actualización & No & No & No\\
+			\hline 
+		\end{tabular}
+		\caption{Para locks compartidos, exclusivos y de actualización}
+	\end{subtable}
 	\caption{Ejemplos de matrices de compatibilidad}
 \end{table}
 
@@ -3192,7 +3195,7 @@ Problemas con el uso de \emph{locks}:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{lock_table}
+	\includegraphics[width=0.25\textwidth]{lock_table}
 	\caption{\emph{Lock table}}
 \end{figure}
 
@@ -3205,20 +3208,23 @@ Este protocolo limita la cantidad de concurrencia que se permite, porque una tra
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{2PL}
+	\includegraphics[width=0.45\textwidth]{2PL}
 	\caption{2PL}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{2pl_deadlock}
-	\caption{Schedule 2PL con \emph{deadlock}}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{2pl_cascading_rollback}
-	\caption{Schedule 2PL con \emph{cascading rollback }si $T_{5}$ falla al final de todo}
+	\begin{subfigure}{0.48\textwidth}
+		\centering
+		\includegraphics[height=6cm]{2pl_deadlock}
+		\caption{Schedule 2PL con \emph{deadlock}}	
+	\end{subfigure}
+	\begin{subfigure}{0.48\textwidth}
+		\centering
+		\includegraphics[height=6cm]{2pl_cascading_rollback}
+		\caption{Schedule 2PL con \emph{cascading rollback }si $T_{5}$ falla al final de todo}
+	\end{subfigure}
+	\caption{Schedule 2PL}
 \end{figure}
 
 Para prevenir el problema de \emph{deadlock}, este protocolo puede ampliarse y exigir que las transacciones adquieran por adelantado todos los \emph{locks} que se necesitan; si un \emph{lock} no se puede conseguir, no se adquiere ninguno. Esto limita aún más la concurrencia.
@@ -3554,16 +3560,19 @@ Es necesario que el DBMS mantenga:
 \end{itemize}
 
 \begin{figure}[H]
-	\subfloat[Log UNDO]{
-		\includegraphics[scale=0.5]{undo_logging}
-	}
-	\subfloat[Log REDO]{
-		\includegraphics[scale=0.5]{redo_logging}
-	}
-
-	\subfloat[Log UNDO/REDO]{
-		\includegraphics[scale=0.5]{undo_redo_logging}
-	}
+	\centering
+	\begin{subfigure}{0.48\textwidth}
+		\includegraphics[width=\textwidth]{undo_logging}
+		\caption{Log UNDO}
+	\end{subfigure}
+	\begin{subfigure}{0.48\textwidth}
+		\includegraphics[width=\textwidth]{redo_logging}
+		\caption{Log REDO}
+	\end{subfigure}
+	\begin{subfigure}{0.48\textwidth}
+		\includegraphics[width=\textwidth]{undo_redo_logging}
+		\caption{Log UNDO/REDO}
+	\end{subfigure}
 	\caption{Ejemplos de logs}
 \end{figure}
 
