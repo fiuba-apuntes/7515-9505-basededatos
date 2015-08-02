@@ -3309,7 +3309,7 @@ Las transacciones y el manejador de buffer obedecen 2 reglas:
 	\caption{Procedimiento de recuperación \textbf{UNDO} con checkpoints no bloqueantes}
 \end{algorithm}
 		
-Es necesario que las operaciones de UNDO y REDO sean \textbf{idempotentes}: ejecutarlas muchas veces debe ser igual a ejecutarlas muchas veces. De hecho, todo el proceso de recuperación debe ser idempotente para garantizar que si existe una falla durante la recuperación de una falla, la misma se pueda recuperar también.
+Es necesario que las operaciones de UNDO y REDO sean \textbf{idempotentes}: ejecutarlas una vez debe ser igual a ejecutarlas muchas veces. De hecho, todo el proceso de recuperación debe ser idempotente para garantizar que si existe una falla durante la recuperación de una falla, la misma se pueda recuperar también.
 
 Es necesario que el DBMS mantenga:
 \begin{itemize}
