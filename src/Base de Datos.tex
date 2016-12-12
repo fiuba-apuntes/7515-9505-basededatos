@@ -1044,7 +1044,9 @@ decir, $F^{+}$ de un conjunto $F$.
 	\[
 		F^{+}=\left\{ \alpha\to\beta/F\vDash\alpha\to\beta\right\} 
 	\]
+
 \end{description}
+
 
 \begin{algorithm}[H]
 	Entrada: relación $R$, conjunto de dependencias funcionales $F$
@@ -1110,16 +1112,15 @@ Para un esquema $R$ con $n$ atributos, hay $2^{n+1}$ posibles dependencias funci
 	\item Es una forma alternativa de calcular $F^{+}$
 \end{enumerate}
 
-\paragraph{Definición de Clave y Superclave:}
-
-Dado un esquema $R(A_{1},\dots,A_{n})$ y un conjunto de dfs $F$ asociado, se dice que $X \subseteq R $ es una \textbf{clave} para el esquema $R$ si se cumple:
-
-\begin{enumerate}
-	\item $F$ implica que  $X \to A_{1} \dots A_{n}$ o abreviadamente $X \to R$.
-	\item No existe ningun $Z \subseteq X / F $ implica $Z \to R $ (condición de minimalidad).
-\end{enumerate}
-
-$Y$ es \textbf{superclave} para $R$ si solo cumple la condición 1, otra manera de decirlo es que $Y$ es \textbf{superclave} si es superconjunto de una \textbf{clave}.
+\paragraph{Clave y Superclave}
+\begin{itemize}
+	\item \textbf{Dado un esquema $R(A_{1},\dots,A_{n})$ y un conjunto de dfs $F$ asociado, se dice que $X \subseteq R$ es una \textbf{clave} para el esquema $R$ si se cumple:}
+	\begin{enumerate}
+		\item $F$ implica que  $X \to A_{1} \dots A_{n}$ o abreviadamente $X \to R$.
+		\item No existe ningun $Z \subseteq X / F $ implica $Z \to R $ (condición de minimalidad).
+	\end{enumerate}
+	\item $Y$ es \textbf{superclave} para $R$ si solo cumple la condición 1, otra manera de decirlo es 	que $Y$ es \textbf{superclave} si es superconjunto de una \textbf{clave}.
+\end{itemize}
 
 
 \begin{algorithm}[H]
