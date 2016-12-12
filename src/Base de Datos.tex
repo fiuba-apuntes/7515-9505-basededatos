@@ -1010,7 +1010,7 @@ decir, $F^{+}$ de un conjunto $F$.
 
 		Si $\alpha$ es un conjunto de atributos y $\beta\subseteq\alpha,$ entonces $(\alpha\to\beta)\in F^{+}$
 
-		\item Regla de augmentación
+		\item Regla de argumentación
 
 		Si $\alpha \to \beta$ es una dependencia funcional y $\gamma$ es un conjunto de atributos, entonces $(\gamma \alpha \to \gamma \beta) \in F^{+}$
 
@@ -1110,6 +1110,18 @@ Para un esquema $R$ con $n$ atributos, hay $2^{n+1}$ posibles dependencias funci
 	\item Es una forma alternativa de calcular $F^{+}$
 \end{enumerate}
 
+\paragraph{Definición de Clave y Superclave:}
+
+Dado un esquema $R(A_{1},\dots,A_{n})$ y un conjunto de dfs $F$ asociado, se dice que $X \subseteq R $ es una \textbf{clave} para el esquema $R$ si se cumple:
+
+\begin{enumerate}
+	\item $F$ implica que  $X \to A_{1} \dots A_{n}$ o abreviadamente $X \to R$.
+	\item No existe ningun $Z \subseteq X / F $ implica $Z \to R $ (condición de minimalidad).
+\end{enumerate}
+
+$Y$ es \textbf{superclave} para $R$ si solo cumple la condición 1, otra manera de decirlo es que $Y$ es \textbf{superclave} si es superconjunto de una \textbf{clave}.
+
+
 \begin{algorithm}[H]
 	Entrada: relación $R$, conjunto de dependencias funcionales $F$
 
@@ -1129,6 +1141,8 @@ Para un esquema $R$ con $n$ atributos, hay $2^{n+1}$ posibles dependencias funci
 	\end{enumerate}
 	\caption{Cálculo de claves candidatas mediante un grafo}
 \end{algorithm}
+
+
 
 \subsection{Cubrimiento minimal}
 \begin{description}
@@ -2071,7 +2085,16 @@ Notar que $r$ puede no satisfacer la DJE.
 \end{itemize}
 
 \subsection{Implicación de dependencias}
-Utilizar el algoritmo Chase Tableau.
+Utilizar el algoritmo Chase Tableau
+
+\begin{definicion}[0.9\textwidth]{Aclaración del Ejemplo}
+	\begin{itemize}
+		\item Convertir $A \to\to C$ en $|x| (AC , ABD)$
+		\item La primer fila representa $AC$ y la segunda $ABD$
+		\item Aplicar las dependencias
+	\end{itemize}
+\end{definicion}
+
 
 \begin{figure}[H]
 	\centering
