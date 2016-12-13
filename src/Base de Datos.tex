@@ -2492,7 +2492,7 @@ $R(X,Y)\bowtie S(Y,Z)$, donde $R$ es la relación más pequeña. Suponemos que l
 
 	\item Método Simple de Junta Hash: utiliza una función de hash $h$. Requiere que la relación $R$ entre en memoria. $h\to[0,M-1]$.
 	\begin{itemize}
-		\item Costo: $2\left(b_{r}+b_{s}\right)$
+		\item Costo: $\left(b_{r}+b_{s}\right)$
 	\end{itemize}
 
 	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/junta-hash-simple}
@@ -2513,7 +2513,7 @@ $R(X,Y)\bowtie S(Y,Z)$, donde $R$ es la relación más pequeña. Suponemos que l
 		
 		\subsubitem{-} Se calcula $h_{2}$ para cada tupla de $S_{i}$ y se verifica si en $TH$ existe alguna tupla juntable, si es así se emite una tupla de resultado y se continua con la siguiente tupla de $S_{i}$.
 	\begin{itemize}
-		\item Costo: $3\left(b_{s}+b_{r}\right)$
+		\item Costo: $2\left(b_{s}+b_{r}\right)$
 	\end{itemize}
 
 	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/junta-hash-grace}
