@@ -2499,13 +2499,19 @@ $R(X,Y)\bowtie S(Y,Z)$, donde $R$ es la relación más pequeña. Suponemos que l
 
 	\item Método GRACE:
 
-	El método de junta Hash versión GRACE se usa para calcular la junta $R \bowtie_{R.A=S.A}S$ cuando ninguna de las tablas entran en memoria. Lo que se hace es generar 2 conjuntos de $M$ particiones. Se utilizan dos funciones de hash: una para generar las particiones $h:A\to[0,M-1]$, y otra para calcular qué tuplas hacen \emph{join}.
+	El método de junta Hash versión GRACE se usa para calcular la junta $R \bowtie_{R.A=S.A}S$ cuando ninguna de las tablas entran en memoria. Lo que se hace es generar 2 conjuntos de $M$ particiones. Se utilizan dos funciones de hash: una para generar las buffers $h:A\to[0,M-1]$, y otra para calcular qué tuplas hacen \emph{join}.
 
-	En una primera etapa, por cada tupla $t$ de cada bloque de $R$ se aplica la función de hashing $h(t)$ para saber a cuál partición enviar la tupla. Se envía cada tupla a esa partición (un archivo) en disco. Al finalizar la etapa, se tienen $M$ archivos.
+	\subitem{Etapa 1: Particionamiento}
+		\subsubitem{-} Por cada tupla $t$ de $R$ se aplica la función de hashing $h(t)$ para saber a qué buffer enviar la tupla, sí el buffer se completa se graba en disco. Al finalizar la etapa, se graban los $M$ buffers a disco.
 
-	En una segunda etapa, se hace lo mismo con $S$, pero con otros $M$ archivos. La clave está en que si dos tuplas hacen \emph{join}, entonces necesariamente deben estar en el mismo número de partición. 
+		\subsubitem{-} Se hace lo mismo con $S$, pero con otros $M$ archivos. La clave está en que si dos tuplas hacen \emph{join}, entonces necesariamente deben estar en el mismo número de partición. 
+		
+\textit{De este modo R queda particionada en $R_{i}$ subconjuntos con $0 \leq i \leq M-1$, del mismo modo que $S$ queda particionada en $S_{i}$ subconjuntos.}
 
-	Finalmente, se leen las $i$ particiones. A cada tupla leída de la partición $i$ de $R$ se le aplica la función de hash $h_{2}$ para saber dónde guardarla en una tabla de hash en memoria. Luego, se calcula $h_{2}$ para cada tupla de la partición $i$ de $S$. Este valor nos dirá la posición en la tabla de hash donde están las tuplas de $R$ que hacen \emph{join} con dicha tupla. De esta forma se obtienen las tuplas que hacen \emph{join}, y se las graba en disco.
+	\subitem{Etapa 2: Junta} 
+		\subsubitem{-} Se leen las $R_{i}$ particiones. A cada tupla leída se le aplica la función de hash $h_{2}$ para saber dónde guardarla en una tabla de hash en memoria ($TH$). 
+		
+		\subsubitem{-} Se calcula $h_{2}$ para cada tupla de $S_{i}$ y se verifica si en $TH$ existe alguna tupla juntable, si es así se emite una tupla de resultado y se continua con la siguiente tupla de $S_{i}$.
 	\begin{itemize}
 		\item Costo: $3\left(b_{s}+b_{r}\right)$
 	\end{itemize}
