@@ -1,12 +1,12 @@
 TH = {} // en memoria
 
-// fase constructiva
+// fase constructiva. Costo: bR
 para cada bloque de R:
 	para cada tupla r del bloque:
 		calcular h(r[Y])
 		guardar TH[Y] = r
 
-// fase exploratoria
+// fase exploratoria. Costo: bS
 para cada bloque de S:
 	para cada tupla s del bloque:
 		calcular h(s[Y])

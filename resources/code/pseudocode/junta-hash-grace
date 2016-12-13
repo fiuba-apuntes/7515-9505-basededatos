@@ -1,10 +1,10 @@
-// particionamiento de R. Costo: 2*bR
+// particionamiento de R. Costo: bR
 para cada tupla r de R:
 	num buffer = calcular h1(r[Y])
 	guardar "r" en el buffer
 	si (buffer completo)
 		guardarlo en disco Ri
-// particionamiento de S. Costo: 2*bS
+// particionamiento de S. Costo: bS
 para cada tupla s de S:
 	num buffer = calcular h1(s[Y])
 	guardar "s" en el buffer

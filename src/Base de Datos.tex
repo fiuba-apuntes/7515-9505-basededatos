@@ -2508,10 +2508,10 @@ $R(X,Y)\bowtie S(Y,Z)$, donde $R$ es la relación más pequeña. Suponemos que l
 		
 \textit{De este modo R queda particionada en $R_{i}$ subconjuntos con $0 \leq i \leq M-1$, del mismo modo que $S$ queda particionada en $S_{i}$ subconjuntos.}
 
-	\subitem{Etapa 2: Junta} 
-		\subsubitem{-} Se leen las $R_{i}$ particiones. A cada tupla leída se le aplica la función de hash $h_{2}$ para saber dónde guardarla en una tabla de hash en memoria ($TH$). 
+	\subitem{Etapa 2: Junta (para cada $i$)} 
+		\subsubitem{-} Para cada tupla de un $R_{i}$ se le aplica la función de hash $h_{2}$ para saber dónde guardarla en una tabla de hash en memoria ($TH$). 
 		
-		\subsubitem{-} Se calcula $h_{2}$ para cada tupla de $S_{i}$ y se verifica si en $TH$ existe alguna tupla juntable, si es así se emite una tupla de resultado y se continua con la siguiente tupla de $S_{i}$.
+		\subsubitem{-} Se calcula $h_{2}$ para cada tupla de un $S_{i}$ y se verifica si en $TH$ existe alguna tupla juntable, si es así se emite una tupla de resultado y se continua con la siguiente tupla de $S_{i}$.
 	\begin{itemize}
 		\item Costo: $2\left(b_{s}+b_{r}\right)$
 	\end{itemize}
