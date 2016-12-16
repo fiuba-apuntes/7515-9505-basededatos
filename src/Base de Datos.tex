@@ -1010,7 +1010,7 @@ decir, $F^{+}$ de un conjunto $F$.
 
 		Si $\alpha$ es un conjunto de atributos y $\beta\subseteq\alpha,$ entonces $(\alpha\to\beta)\in F^{+}$
 
-		\item Regla de argumentación
+		\item Regla de aumento
 
 		Si $\alpha \to \beta$ es una dependencia funcional y $\gamma$ es un conjunto de atributos, entonces $(\gamma \alpha \to \gamma \beta) \in F^{+}$
 
@@ -2499,10 +2499,10 @@ $R(X,Y)\bowtie S(Y,Z)$, donde $R$ es la relación más pequeña. Suponemos que l
 
 	\item Método GRACE:
 
-	El método de junta Hash versión GRACE se usa para calcular la junta $R \bowtie_{R.A=S.A}S$ cuando ninguna de las tablas entran en memoria. Lo que se hace es generar 2 conjuntos de $M$ particiones. Se utilizan dos funciones de hash: una para generar las buffers $h:A\to[0,M-1]$, y otra para calcular qué tuplas hacen \emph{join}.
+	El método de junta Hash versión GRACE se usa para calcular la junta $R \bowtie_{R.A=S.A}S$ cuando ninguna de las tablas entran en memoria. Lo que se hace es generar 2 conjuntos de $M$ particiones. Se utilizan dos funciones de hash: una para generar las particiones $h:A\to[0,M-1]$, y otra para calcular qué tuplas hacen \emph{join}.
 
 	\subitem{Etapa 1: Particionamiento}
-		\subsubitem{-} Por cada tupla $t$ de $R$ se aplica la función de hashing $h(t)$ para saber a qué buffer enviar la tupla, sí el buffer se completa se graba en disco. Al finalizar la etapa, se graban los $M$ buffers a disco.
+		\subsubitem{-} Por cada tupla $t$ de $R$ se aplica la función de hashing $h(t)$ para saber a qué partición enviar la tupla, sí la partición se completa se graba en disco. Al finalizar la etapa, se graban las $M$ particiones a disco.
 
 		\subsubitem{-} Se hace lo mismo con $S$, pero con otros $M$ archivos. La clave está en que si dos tuplas hacen \emph{join}, entonces necesariamente deben estar en el mismo número de partición. 
 		
