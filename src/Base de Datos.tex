@@ -1010,7 +1010,7 @@ decir, $F^{+}$ de un conjunto $F$.
 
 		Si $\alpha$ es un conjunto de atributos y $\beta\subseteq\alpha,$ entonces $(\alpha\to\beta)\in F^{+}$
 
-		\item Regla de augmentación
+		\item Regla de aumento
 
 		Si $\alpha \to \beta$ es una dependencia funcional y $\gamma$ es un conjunto de atributos, entonces $(\gamma \alpha \to \gamma \beta) \in F^{+}$
 
@@ -1109,6 +1109,17 @@ Para un esquema $R$ con $n$ atributos, hay $2^{n+1}$ posibles dependencias funci
 	\item Para determinar si la dependencia funcional $\alpha\to\beta\in F^{+}$: debe cumplirse que $\beta\subseteq\alpha^{+}$.
 	\item Es una forma alternativa de calcular $F^{+}$
 \end{enumerate}
+
+\paragraph{Clave y Superclave}
+\begin{itemize}
+	\item \textbf{Dado un esquema $R(A_{1},\dots,A_{n})$ y un conjunto de dfs $F$ asociado, se dice que $X \subseteq R$ es una \textbf{clave} para el esquema $R$ si se cumple:}
+	\begin{enumerate}
+		\item $F$ implica que  $X \to A_{1} \dots A_{n}$ o abreviadamente $X \to R$.
+		\item No existe ningun $Z \subseteq X / F $ implica $Z \to R $ (condición de minimalidad).
+	\end{enumerate}
+	\item $Y$ es \textbf{superclave} para $R$ si solo cumple la condición 1, otra manera de decirlo es 	que $Y$ es \textbf{superclave} si es superconjunto de una \textbf{clave}.
+\end{itemize}
+
 
 \begin{algorithm}[H]
 	Entrada: relación $R$, conjunto de dependencias funcionales $F$
@@ -2071,7 +2082,16 @@ Notar que $r$ puede no satisfacer la DJE.
 \end{itemize}
 
 \subsection{Implicación de dependencias}
-Utilizar el algoritmo Chase Tableau.
+Utilizar el algoritmo Chase Tableau
+
+\begin{definicion}[0.9\textwidth]{Aclaración del Ejemplo}
+	\begin{itemize}
+		\item Convertir $A \to\to C$ en $|x| (AC , ABD)$
+		\item La primer fila representa $AC$ y la segunda $ABD$
+		\item Aplicar las dependencias
+	\end{itemize}
+\end{definicion}
+
 
 \begin{figure}[H]
 	\centering
@@ -2472,7 +2492,7 @@ $R(X,Y)\bowtie S(Y,Z)$, donde $R$ es la relación más pequeña. Suponemos que l
 
 	\item Método Simple de Junta Hash: utiliza una función de hash $h$. Requiere que la relación $R$ entre en memoria. $h\to[0,M-1]$.
 	\begin{itemize}
-		\item Costo: $2\left(b_{r}+b_{s}\right)$
+		\item Costo: $b_{r}+b_{s}$
 	\end{itemize}
 
 	\lstinputlisting[style=numberingpseudocodestyle]{\codedir/pseudocode/junta-hash-simple}
@@ -2481,11 +2501,17 @@ $R(X,Y)\bowtie S(Y,Z)$, donde $R$ es la relación más pequeña. Suponemos que l
 
 	El método de junta Hash versión GRACE se usa para calcular la junta $R \bowtie_{R.A=S.A}S$ cuando ninguna de las tablas entran en memoria. Lo que se hace es generar 2 conjuntos de $M$ particiones. Se utilizan dos funciones de hash: una para generar las particiones $h:A\to[0,M-1]$, y otra para calcular qué tuplas hacen \emph{join}.
 
-	En una primera etapa, por cada tupla $t$ de cada bloque de $R$ se aplica la función de hashing $h(t)$ para saber a cuál partición enviar la tupla. Se envía cada tupla a esa partición (un archivo) en disco. Al finalizar la etapa, se tienen $M$ archivos.
+	\subitem{Etapa 1: Particionamiento}
+		\subsubitem{-} Por cada tupla $t$ de $R$ se aplica la función de hashing $h(t)$ para saber a qué partición enviar la tupla, sí la partición se completa se graba en disco. Al finalizar la etapa, se graban las $M$ particiones a disco.
 
-	En una segunda etapa, se hace lo mismo con $S$, pero con otros $M$ archivos. La clave está en que si dos tuplas hacen \emph{join}, entonces necesariamente deben estar en el mismo número de partición. 
+		\subsubitem{-} Se hace lo mismo con $S$, pero con otros $M$ archivos. La clave está en que si dos tuplas hacen \emph{join}, entonces necesariamente deben estar en el mismo número de partición. 
+		
+\textit{De este modo R queda particionada en $R_{i}$ subconjuntos con $0 \leq i \leq M-1$, del mismo modo que $S$ queda particionada en $S_{i}$ subconjuntos.}
 
-	Finalmente, se leen las $i$ particiones. A cada tupla leída de la partición $i$ de $R$ se le aplica la función de hash $h_{2}$ para saber dónde guardarla en una tabla de hash en memoria. Luego, se calcula $h_{2}$ para cada tupla de la partición $i$ de $S$. Este valor nos dirá la posición en la tabla de hash donde están las tuplas de $R$ que hacen \emph{join} con dicha tupla. De esta forma se obtienen las tuplas que hacen \emph{join}, y se las graba en disco.
+	\subitem{Etapa 2: Junta (para cada $i$)} 
+		\subsubitem{-} Para cada tupla de un $R_{i}$ se le aplica la función de hash $h_{2}$ para saber dónde guardarla en una tabla de hash en memoria ($TH$). 
+		
+		\subsubitem{-} Se calcula $h_{2}$ para cada tupla de un $S_{i}$ y se verifica si en $TH$ existe alguna tupla juntable, si es así se emite una tupla de resultado y se continua con la siguiente tupla de $S_{i}$.
 	\begin{itemize}
 		\item Costo: $3\left(b_{s}+b_{r}\right)$
 	\end{itemize}
